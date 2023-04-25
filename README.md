@@ -1,2 +1,2 @@
-# rango
+# SafeEat
 Allergenic App
