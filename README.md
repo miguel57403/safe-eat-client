@@ -1,2 +1,0 @@
-# SafeEat
-Allergenic App
