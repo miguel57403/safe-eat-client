@@ -20,4 +20,7 @@
     <string name="register_submit">Sign Up</string>
     <string name="register_with_account">Already have an account?</string>
     <string name="login_link">Login</string>
+    <string name="button_allergy_description">Allergy button</string>
+    <string name="allergy_title">Do you have any kind of food restrictions?</string>
+    <string name="allergy_submit">Continue</string>
 </resources>
