@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SafEat</string>
+    <string name="app_name">SafeEat</string>
     <string name="input_email_hint">Email</string>
     <string name="input_password_hint">*********</string>
     <string name="button_sing_in_text">Login</string>
