@@ -11,11 +11,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
 
-        val textViewWithoutAccount = findViewById<TextView>(R.id.textViewWithoutAccount)
-        val textViewSignUp = findViewById<TextView>(R.id.textViewSignUp)
+        val withoutAccount = findViewById<TextView>(R.id.login_without_account)
+        val signUp = findViewById<TextView>(R.id.login_sign_up)
 
-        textViewWithoutAccount.setOnClickListener { navigateToRegister() }
-        textViewSignUp.setOnClickListener { navigateToRegister() }
+        withoutAccount.setOnClickListener { navigateToRegister() }
+        signUp.setOnClickListener { navigateToRegister() }
     }
 
     private fun navigateToRegister() {

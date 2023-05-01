@@ -8,4 +8,16 @@
     <string name="image_logo_description">SafeEat logo</string>
     <string name="text_email_label_text">Email</string>
     <string name="text_password_label_text">Password</string>
+    <string name="register_title">Sign up</string>
+    <string name="name_label">Name</string>
+    <string name="name_input_hint">Enter your name</string>
+    <string name="address_label">Address</string>
+    <string name="address_input_hint">Enter your address</string>
+    <string name="cell_phone_label">Cell phone</string>
+    <string name="ddd_input_hint">DDD</string>
+    <string name="cell_phone_input_hint">Enter your cell phone</string>
+    <string name="confirm_password_label">Confirm password</string>
+    <string name="register_submit">Sign Up</string>
+    <string name="register_with_account">Already have an account?</string>
+    <string name="login_link">Login</string>
 </resources>
