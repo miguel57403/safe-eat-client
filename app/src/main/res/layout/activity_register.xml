@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="30dp"
     tools:context=".RegisterActivity">
 
     <TextView
@@ -32,7 +33,7 @@
 
     <EditText
         android:id="@+id/register_name_input"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="122dp"
         android:autofillHints="name"
@@ -60,7 +61,7 @@
 
     <EditText
         android:id="@+id/register_email_input"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:autofillHints="emailAddress"
@@ -89,7 +90,7 @@
 
     <EditText
         android:id="@+id/register_address_input"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:autofillHints="postalAddress"
@@ -134,7 +135,7 @@
 
     <EditText
         android:id="@+id/register_cell_phone_input"
-        android:layout_width="250dp"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="28dp"
@@ -162,7 +163,7 @@
 
     <EditText
         android:id="@+id/register_password_input"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:autofillHints="password"
@@ -190,7 +191,7 @@
 
     <EditText
         android:id="@+id/register_confirm_password_input"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:autofillHints="password"
@@ -207,9 +208,8 @@
 
     <Button
         android:id="@+id/register_submit"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="96dp"
         android:text="@string/register_submit"
         app:layout_constraintBottom_toBottomOf="parent"

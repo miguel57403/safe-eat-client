@@ -2,7 +2,6 @@ package mb.safeEat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,9 +58,8 @@ class AllergyActivity : AllergyListener, AppCompatActivity() {
     }
 
     override fun onClickAllergy(allergy: Allergy, position: Int) {
-        allergyList[position] = Allergy(allergy.value, !allergy.selected)
-        updateAllergies()
-        Log.d("Click", "$allergy")
+        allergyList[position] = allergy.copy(selected = !allergy.selected)
+        (allergiesButtons.adapter as AllergyAdapter).updateItem(position, allergyList[position])
     }
 }
 
@@ -80,6 +78,11 @@ class AllergyAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateItem(position: Int, allergy: Allergy) {
+        data[position] = allergy
+        notifyItemChanged(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllergyViewHolder {
         return AllergyViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.button_allergy, parent, false)
@@ -91,8 +94,7 @@ class AllergyAdapter(
     }
 
     override fun onBindViewHolder(holder: AllergyViewHolder, position: Int) {
-        val item = data.getOrNull(position)
-        if (item != null) {
+        data.getOrNull(position)?.also { item ->
             holder.bind(item)
             holder.button.setOnClickListener { listener.onClickAllergy(item, position) }
         }
