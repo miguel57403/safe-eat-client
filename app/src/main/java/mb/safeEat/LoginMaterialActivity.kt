@@ -17,7 +17,7 @@ class LoginMaterialActivity : AppCompatActivity() {
     }
 
     private fun navigateToRegister() {
-        val intent = Intent(this, RegisterActivity::class.java)
+        val intent = Intent(this, RegisterMaterialActivity::class.java)
         startActivity(intent)
     }
 }
