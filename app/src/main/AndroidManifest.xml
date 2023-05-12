@@ -30,7 +30,7 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressRegisterActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".AddressActivity"
@@ -75,7 +75,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".AddressRegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
