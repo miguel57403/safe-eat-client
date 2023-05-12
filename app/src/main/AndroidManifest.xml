@@ -33,7 +33,7 @@
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentOptionActivity"
@@ -75,7 +75,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".AddressActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
