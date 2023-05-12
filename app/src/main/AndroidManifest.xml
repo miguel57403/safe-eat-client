@@ -54,7 +54,7 @@
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -75,7 +75,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".SearchCategoryActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
