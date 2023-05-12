@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">SafEat</string>
+    <string name="app_name">SafeEat</string>
+    <string name="input_email_hint">Enter your email</string>
+    <string name="input_password_hint">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="without_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="logo_description">SafeEat logo</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="register_title">Sign up</string>
+    <string name="name_label">Name</string>
+    <string name="name_input_hint">Enter your name</string>
+    <string name="address_label">Address</string>
+    <string name="address_input_hint">Enter your address</string>
+    <string name="cellphone_label">Cellphone</string>
+    <string name="ddd_input_hint">DDD</string>
+    <string name="cell_phone_input_hint">Enter your cell phone</string>
+    <string name="confirm_password_label">Confirm password</string>
+    <string name="register_submit">Sign Up</string>
+    <string name="with_account">Already have an account?</string>
+    <string name="button_allergy_description">Allergy button</string>
+    <string name="allergy_title">Do you have any kind of food restrictions?</string>
+    <string name="allergy_submit">Continue</string>
 </resources>

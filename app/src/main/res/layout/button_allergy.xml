@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/button_allergy"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/button_allergy_description"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/orange_50"
+        android:clickable="true"
+        android:textStyle="bold"
+        android:foreground="?attr/selectableItemBackground"
+        android:foregroundTint="@color/orange_500"
+        app:strokeColor="@color/button_allergy"
+        app:strokeWidth="2dp" />
+
+</FrameLayout>
