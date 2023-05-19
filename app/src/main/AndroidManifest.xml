@@ -18,7 +18,7 @@
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".OrderDetailActivity"
@@ -78,7 +78,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".NotificationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
