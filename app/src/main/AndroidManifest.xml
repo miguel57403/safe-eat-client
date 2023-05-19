@@ -60,7 +60,7 @@
             android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterMaterialActivity"
@@ -78,7 +78,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".PaymentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
