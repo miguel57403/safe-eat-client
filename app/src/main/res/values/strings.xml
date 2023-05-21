@@ -22,4 +22,7 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="ok">OK</string>
+    <string name="product_added_text">Your product has been added to the cart!</string>
+    <string name="cart_icon_description">cart icon</string>
 </resources>
