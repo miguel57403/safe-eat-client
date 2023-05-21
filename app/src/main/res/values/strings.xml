@@ -22,4 +22,16 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="name_profile">Rosalinda Silva M.</string>
+    <string name="content_description_profile">name</string>
+    <string name="button_profile">Address</string>
+    <string name="title_profile">Rosalinda Silva M.</string>
+    <string name="restrictions">Restrictions</string>
+    <string name="orders">Orders\n</string>
+    <string name="payment">Payment methods</string>
+    <string name="settings">Settings</string>
+    <string name="about">About us</string>
+    <string name="order">Orders</string>
+    <string name="profile_description">Profile Description\t</string>
+    <string name="description_image_profile">Description image profile</string>
 </resources>

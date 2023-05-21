@@ -218,21 +218,34 @@
             tools:ignore="MissingConstraints,RtlHardcoded" />
     </LinearLayout>
 
-    <ImageView
-        android:adjustViewBounds="true"
-        android:scaleType="center"
-        android:clipToOutline="true"
-        android:cropToPadding="true"
-        android:background="@drawable/circular_border_100"
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/photo"
-        android:contentDescription="@string/description_image_profile" />
+        app:layout_constraintTop_toTopOf="@+id/materialToolbar"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imvCircularWithStroke"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="128dp"
+            android:padding="5dp"
+            android:src="@drawable/photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imvCircular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:shapeAppearanceOverlay="@style/Circular"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp"
+            tools:ignore="UnknownId" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
