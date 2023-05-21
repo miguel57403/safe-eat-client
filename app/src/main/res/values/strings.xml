@@ -22,4 +22,8 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="search_label">Search</string>
+    <string name="categories">Categories</string>
+    <string name="any_category">Category image</string>
+    <string name="search_category_text">[Category]</string>
 </resources>
