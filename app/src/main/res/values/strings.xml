@@ -23,7 +23,6 @@
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
     <string name="new_address">New address</string>
-    <string name="description_address">Description address</string>
     <string name="name_address">Name\n</string>
     <string name="street_address">Street</string>
     <string name="complement_address">Complement</string>
