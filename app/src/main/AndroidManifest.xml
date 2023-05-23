@@ -12,6 +12,9 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
@@ -21,7 +24,7 @@
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
@@ -39,7 +42,7 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".CartActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".LoginMaterialActivity"
@@ -54,7 +57,7 @@
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -75,6 +78,15 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".OrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductDetailsActivity"
             android:exported="true">
             <intent-filter>
@@ -84,5 +96,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
