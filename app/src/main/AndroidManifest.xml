@@ -42,7 +42,7 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".CartActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".ProductDetailsActivity"
@@ -57,7 +57,7 @@
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -78,6 +78,12 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".SearchCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrdersActivity"
             android:exported="true">
             <intent-filter>
@@ -87,5 +93,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
