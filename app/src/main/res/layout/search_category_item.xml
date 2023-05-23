@@ -13,7 +13,7 @@
         android:id="@+id/search_category_image"
         android:layout_width="match_parent"
         android:layout_height="84dp"
-        android:contentDescription="@string/any_category"
+        android:contentDescription="@string/d_image_category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:id="@+id/search_category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_category_text"
+        android:text="@string/k_category"
         android:textColor="@color/orange_500"
         android:textSize="20sp"
         android:textStyle="bold"
