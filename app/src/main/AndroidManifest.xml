@@ -12,6 +12,9 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
+            android:name=".LoginMaterialActivity"
+            android:exported="false" />
+        <activity
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
@@ -21,28 +24,13 @@
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileEditActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".AddressActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentOptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
@@ -52,9 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".SearchRestaurantActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -76,6 +61,24 @@
             android:exported="false" />
         <activity
             android:name=".AddressRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileEditActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,5 +87,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
