@@ -29,11 +29,11 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun createList(): ArrayList<Product> {
-        val list = ArrayList<Product>()
-        list.add(Product(product = "Pizza acebolada", quantifyItem = 3, priceItem = 14.99F, warn = true))
-        list.add(Product(product = "Pizza 4 queijos", quantifyItem = 1, priceItem = 2.99F, warn = false))
-        list.add(Product(product = "Pizza de achova", quantifyItem = 2, priceItem = 2.99F, warn = false))
-        return list
+        return arrayListOf(
+            Product(product = "Pizza acebolada", quantifyItem = 3, priceItem = 14.99F, warn = true),
+            Product(product = "Pizza 4 queijos", quantifyItem = 1, priceItem = 2.99F, warn = false),
+            Product(product = "Pizza de achova", quantifyItem = 2, priceItem = 2.99F, warn = false)
+        )
     }
 }
 

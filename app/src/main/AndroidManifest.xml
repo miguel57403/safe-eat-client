@@ -45,7 +45,7 @@
             android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
@@ -78,13 +78,16 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".OrdersActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
+            android:name=".ProductDetailsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

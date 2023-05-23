@@ -22,6 +22,7 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="product_details_title">Product Details</string>
     <string name="search_label">Search</string>
     <string name="categories">Categories</string>
     <string name="any_category">Category image</string>
@@ -48,4 +49,13 @@
     <string name="orders">Orders</string>
     <string name="d_restaurant_image">Restaurant image</string>
     <string name="d_status_icon">Status icon</string>
+    <string name="product_details">Product Details</string>
+    <string name="k_product">[Product]</string>
+    <string name="k_product_description">[Product Description]</string>
+    <string name="k_ingredient">[Ingredient]</string>
+    <string name="d_lunch_icon">Lunch icon</string>
+    <string name="d_product_image">Product image</string>
+    <string name="warning_message">This product contains some ingredients that are in its restriction.</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>
