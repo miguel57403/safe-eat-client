@@ -5,10 +5,4 @@
     <stroke
         android:width="10dp"
         android:color="@android:color/white" />
-
-    <padding
-        android:bottom="6dp"
-        android:left="6dp"
-        android:right="6dp"
-        android:top="6dp" />
 </shape>
