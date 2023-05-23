@@ -26,4 +26,17 @@
     <string name="categories">Categories</string>
     <string name="any_category">Category image</string>
     <string name="search_category_text">[Category]</string>
+    <string name="product_image_description">Product image</string>
+    <string name="k_cart_item_name">[Product Name]</string>
+    <string name="k_product_price">[Product Price]</string>
+    <string name="k_cart_item_quantity">[0]</string>
+    <string name="products">Products</string>
+    <string name="k_cart_products_count">[1]</string>
+    <string name="payment">Payment</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="k_cart_products_price">[30,00]</string>
+    <string name="d_icon_minus">Icon minus</string>
+    <string name="d_icon_plus">Icon plus</string>
+    <string name="d_icon_warning">Icon warning</string>
+    <string name="d_icon_delete">Icon delete</string>
 </resources>
