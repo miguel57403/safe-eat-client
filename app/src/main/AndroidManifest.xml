@@ -72,9 +72,6 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
-            android:exported="false" />
-        <activity
             android:name=".CartActivity"
             android:exported="false" />
         <activity
