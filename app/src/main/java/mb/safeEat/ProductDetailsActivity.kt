@@ -19,15 +19,17 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        val adapter = ProductDetailAdapter(
-            arrayListOf(
-                ProductDetail("Carne moida bovina", false),
-                ProductDetail("Pimenta", true),
-            )
-        )
+        val adapter = ProductDetailAdapter(createList())
         val items = findViewById<RecyclerView>(R.id.product_detail_items)
         items.layoutManager = LinearLayoutManager(this)
         items.adapter = adapter
+    }
+
+    private fun createList(): java.util.ArrayList<ProductDetail> {
+        return arrayListOf(
+            ProductDetail("Carne moida bovina", false),
+            ProductDetail("Pimenta", true),
+        )
     }
 }
 
@@ -51,12 +53,12 @@ class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val content = itemView.findViewById<TextView>(R.id.product_details_item_content)
-        val image = itemView.findViewById<ImageView>(R.id.product_details_item_image)
+        private val content = itemView.findViewById<TextView>(R.id.product_details_item_content)
+        private val image = itemView.findViewById<ImageView>(R.id.product_details_item_image)
 
         fun bind(item: ProductDetail) {
             content.text = item.name
-            if(item.isRestrict) {
+            if (item.isRestrict) {
                 val color = ContextCompat.getColor(itemView.context, R.color.red)
                 content.setTextColor(color)
                 image.setColorFilter(color)

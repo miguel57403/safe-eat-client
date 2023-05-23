@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductDetailsActivity"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
-    >
+    tools:context=".ProductDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/orders_header"
@@ -21,25 +20,25 @@
             android:id="@+id/product_details_image"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:contentDescription="@string/d_back_button"
+            android:src="@drawable/baseline_arrow_back_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/orange_500"
-            android:src="@drawable/baseline_arrow_back_24"/>
+            app:tint="@color/orange_500" />
 
         <TextView
             android:id="@+id/product_details_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/product_details"
             android:textColor="@color/orange_500"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Product Details" />
-
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
@@ -52,8 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orders_header" />
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/product_details_content_card"
         android:layout_width="match_parent"
@@ -61,62 +58,56 @@
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toTopOf="@+id/orders_divider">
 
+        <ImageView
+            android:id="@+id/product_details_content_card_image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:contentDescription="@string/d_product_image"
+            android:src="@drawable/detail_product_pizza"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-            <ImageView
-                android:id="@+id/product_details_content_card_image"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/detail_product_pizza"/>
-
-            <TextView
-                android:id="@+id/product_details_content_card_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/orange_500"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="Product Details" />
+        <TextView
+            android:id="@+id/product_details_content_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/k_product"
+            android:textColor="@color/orange_500"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/product_details_content_card_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:justificationMode="inter_word"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
-            app:layout_constraintTop_toBottomOf="@+id/product_details_content_card_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/product_details_content_card_price"
-            android:textColor="@color/black"
-            android:maxLines="3"
             android:ellipsize="end"
+            android:justificationMode="inter_word"
+            android:maxLines="3"
+            android:text="@string/k_product_description"
+            android:textColor="@color/black"
             android:textSize="12sp"
-
-            android:text="Loremiait, velit" />
-
+            app:layout_constraintBottom_toTopOf="@+id/product_details_content_card_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_details_content_card_title" />
 
         <TextView
             android:id="@+id/product_details_content_card_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
-            app:layout_constraintTop_toBottomOf="@+id/product_details_content_card_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/k_product_price"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="14sp"
-            android:text="R$2,99" />
-
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_details_content_card_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/product_details_content_alert"
@@ -130,66 +121,55 @@
             android:id="@+id/product_details_content_alert_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:contentDescription="@string/d_icon_warning"
+            android:src="@drawable/baseline_error_outline_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/baseline_error_outline_24"
             app:tint="@color/red" />
-
 
         <TextView
             android:id="@+id/product_details_content_alert_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/warning_message"
             android:textColor="@color/red"
-            android:textStyle="bold"
             android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_details_content_alert_image"
-            android:text="This product contains some ingredients that are in its restriction. " />
-
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <TextView
         android:id="@+id/product_details_content_ingredients"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ingredients"
         android:textColor="@color/orange_500"
-        android:textStyle="bold"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_details_content_alert"
-        android:text="Ingredients" />
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/product_details_content_alert" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_detail_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginVertical="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/product_details_content_ingredients"
         app:layout_constraintBottom_toTopOf="@+id/product_detail_button"
-        />
-
+        app:layout_constraintTop_toBottomOf="@+id/product_details_content_ingredients" />
 
     <Button
         android:id="@+id/product_detail_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to Cart"
+        android:text="@string/add_to_cart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,4 +52,10 @@
     <string name="product_details">Product Details</string>
     <string name="k_product">[Product]</string>
     <string name="k_product_description">[Product Description]</string>
+    <string name="k_ingredient">[Ingredient]</string>
+    <string name="d_lunch_icon">Lunch icon</string>
+    <string name="d_product_image">Product image</string>
+    <string name="warning_message">This product contains some ingredients that are in its restriction.</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>
