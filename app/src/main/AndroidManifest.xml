@@ -12,7 +12,7 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".FeedbackActivity"
@@ -78,6 +78,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
@@ -87,7 +90,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".ExperimentalActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

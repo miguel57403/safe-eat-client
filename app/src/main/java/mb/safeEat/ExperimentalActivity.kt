@@ -13,7 +13,7 @@ class ExperimentalActivity : AppCompatActivity() {
 
         val openDialog = findViewById<Button>(R.id.open_dialog)
         openDialog.setOnClickListener {
-            val dialog = RestrictionAlertDialogFragment()
+            val dialog = ProductAddedDialogFragment()
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }
