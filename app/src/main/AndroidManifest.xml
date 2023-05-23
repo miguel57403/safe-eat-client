@@ -24,7 +24,7 @@
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
@@ -82,6 +82,9 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrdersActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -90,5 +93,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -39,4 +39,13 @@
     <string name="d_icon_plus">Icon plus</string>
     <string name="d_icon_warning">Icon warning</string>
     <string name="d_icon_delete">Icon delete</string>
+    <string name="k_status">[Status]</string>
+    <string name="k_order_item_products_count">[0]</string>
+    <string name="k_date_time">[01–01–2023]</string>
+    <string name="k_restaurant">[Restaurant]</string>
+    <string name="k_restaurant_image">Restaurant image</string>
+    <string name="d_back_button">Back button</string>
+    <string name="orders">Orders</string>
+    <string name="d_restaurant_image">Restaurant image</string>
+    <string name="d_status_icon">Status icon</string>
 </resources>
