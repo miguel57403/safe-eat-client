@@ -24,7 +24,7 @@
     <string name="allergy_submit">Continue</string>
     <string name="ok">OK</string>
     <string name="product_added_text">Your product has been added to the cart!</string>
-    <string name="cart_icon_description">cart icon</string>
+    <string name="d_cart_icon">Icon cart</string>
     <string name="product_details_title">Product Details</string>
     <string name="search_label">Search</string>
     <string name="categories">Categories</string>
