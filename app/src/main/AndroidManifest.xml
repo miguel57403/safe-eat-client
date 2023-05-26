@@ -12,7 +12,10 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".FeedbackActivity"
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentActivity"
             android:exported="false" />
         <activity
             android:name=".NotificationActivity"
@@ -39,7 +42,10 @@
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentActivity"
+            android:name=".SearchCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterMaterialActivity"
@@ -63,22 +69,16 @@
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
-            android:exported="false" />
-        <activity
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".FeedbackActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

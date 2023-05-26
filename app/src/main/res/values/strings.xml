@@ -19,14 +19,20 @@
     <string name="h_input_email">Enter your email</string>
     <string name="h_input_password">Enter your password</string>
     <string name="h_name_input">Enter your name</string>
+    <string name="k_address">[Full Address]</string>
+    <string name="k_card_option">[Card Option]</string>
     <string name="k_cart_item_name">[Product Name]</string>
     <string name="k_cart_item_quantity">[0]</string>
     <string name="k_cart_products_count">[1]</string>
     <string name="k_cart_products_price">[30,00]</string>
     <string name="k_category">[Category]</string>
     <string name="k_date_time">[01–01–2023]</string>
+    <string name="k_delivery_range_time">[99 – 99 min]</string>
     <string name="k_ingredient">[Ingredient]</string>
+    <string name="k_location">[Location]</string>
     <string name="k_order_item_products_count">[0]</string>
+    <string name="k_payment_products_count">[0]</string>
+    <string name="k_price">[€0,00]</string>
     <string name="k_product">[Product]</string>
     <string name="k_product_description">[Product Description]</string>
     <string name="k_product_price">[Product Price]</string>
@@ -45,9 +51,11 @@
     <string name="t_categories">Categories</string>
     <string name="t_cellphone">Cellphone</string>
     <string name="t_complement">Complement</string>
+    <string name="t_confirm">Confirm</string>
     <string name="t_confirm_password">Confirm password</string>
     <string name="t_continue">Continue</string>
     <string name="t_ddd">DDD</string>
+    <string name="t_delivery_option">Delivery Option</string>
     <string name="t_email">Email</string>
     <string name="t_ingredients">Ingredients</string>
     <string name="t_login">Login</string>
@@ -69,4 +77,10 @@
     <string name="t_sign_up">Sign Up</string>
     <string name="t_street">Street</string>
     <string name="t_subtotal">Subtotal</string>
+    <string name="t_total">Total</string>
+    <string name="t_feedback">Feedback</string>
+    <string name="k_how_was_the_restaurant">How was the [Retaurant]?</string>
+    <string name="t_observations">Observations</string>
+    <string name="t_submit">Submit</string>
+    <string name="d_feedback_star">Feedback star</string>
 </resources>
