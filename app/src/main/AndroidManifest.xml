@@ -12,9 +12,6 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
@@ -22,15 +19,6 @@
             android:exported="false" />
         <activity
             android:name=".OrderDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
@@ -42,22 +30,13 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".SearchProductActivity"
             android:exported="false" />
         <activity
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".SearchRestaurantActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -97,6 +76,9 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"

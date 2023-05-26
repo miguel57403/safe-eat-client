@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars"
-            android:contentDescription="@string/d_restaurant_image" />
+            android:contentDescription="@string/d_image_restaurant" />
 
         <TextView
             android:id="@+id/order_item_restaurant"
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/orange_500"
-            android:contentDescription="@string/d_status_icon" />
+            android:contentDescription="@string/d_icon_status" />
 
         <TextView
             android:id="@+id/order_item_status_text"
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/products"
+            android:text="@string/t_products"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
