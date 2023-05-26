@@ -21,28 +21,13 @@
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".AddressActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentOptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
@@ -75,6 +60,24 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".AddressRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="true">
             <intent-filter>
@@ -84,5 +87,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
