@@ -78,10 +78,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchProductActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
