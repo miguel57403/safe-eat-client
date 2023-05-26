@@ -12,7 +12,7 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:text="@string/allergy_title"
+        android:text="@string/m_allergy_title"
         android:textAlignment="center"
         android:textColor="@color/orange_500"
         android:textSize="24sp"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
-        android:text="@string/allergy_submit"
+        android:text="@string/t_continue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
