@@ -27,7 +27,7 @@
     <string name="k_cart_products_price">[30,00]</string>
     <string name="k_category">[Category]</string>
     <string name="k_date_time">[01–01–2023]</string>
-    <string name="k_delivery_range_time">[99 - 99 min]</string>
+    <string name="k_delivery_range_time">[99 – 99 min]</string>
     <string name="k_ingredient">[Ingredient]</string>
     <string name="k_location">[Location]</string>
     <string name="k_order_item_products_count">[0]</string>
@@ -78,4 +78,9 @@
     <string name="t_street">Street</string>
     <string name="t_subtotal">Subtotal</string>
     <string name="t_total">Total</string>
+    <string name="t_feedback">Feedback</string>
+    <string name="k_how_was_the_restaurant">How was the [Retaurant]?</string>
+    <string name="t_observations">Observations</string>
+    <string name="t_submit">Submit</string>
+    <string name="d_feedback_star">Feedback star</string>
 </resources>
