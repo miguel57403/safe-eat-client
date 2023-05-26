@@ -3,46 +3,53 @@ package mb.safeEat
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class SearchProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_product)
         initAdapter()
+
+        val searchLayout = findViewById<TextInputLayout>(R.id.search_product_search_layout)
+        val searchInput = findViewById<TextInputEditText>(R.id.search_product_search_input)
+
+        searchLayout.setEndIconOnClickListener { submit(searchInput.text.toString()) }
+        searchInput.setOnEditorActionListener { _, actionId, _ ->
+            val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
+            if (enterClicked) submit(searchInput.text.toString())
+            enterClicked
+        }
+    }
+
+    private fun submit(data: String) {
+        Log.d("Submit", data)
     }
 
     private fun initAdapter() {
-        val adapter = SearchProductAdapter(
-            arrayListOf(
-                SearchProduct(
-                    searchProductImage,
-                    "Product Name 1",
-                    "€2,99",
-                ),
-                SearchProduct(
-                    searchProductImage,
-                    "Product Name 2",
-                    "€2,99",
-                ),
-                SearchProduct(
-                    searchProductImage,
-                    "Product Name 3",
-                    "€2,99",
-                )
-            )
-        )
-        val listItems = findViewById<RecyclerView>(R.id.searchProduct_list)
+        val adapter = SearchProductAdapter(createList())
+        val listItems = findViewById<RecyclerView>(R.id.search_product_list)
         listItems.layoutManager = LinearLayoutManager(this)
         listItems.adapter = adapter
+    }
+
+    private fun createList(): ArrayList<SearchProduct> {
+        return arrayListOf(
+            SearchProduct(searchProductImage, "Product Name 1", "€2,99"),
+            SearchProduct(searchProductImage, "Product Name 2", "€2,99"),
+            SearchProduct(searchProductImage, "Product Name 3", "€2,99")
+        )
     }
 }
 
@@ -65,9 +72,9 @@ class SearchProductAdapter(private var data: ArrayList<SearchProduct>) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val image = itemView.findViewById<ImageView>(R.id.searchProduct_item_image)
-        val name = itemView.findViewById<TextView>(R.id.searchProduct_item_product)
-        val price = itemView.findViewById<TextView>(R.id.searchProduct_item_price)
+        private val image = itemView.findViewById<ImageView>(R.id.search_product_item_image)
+        private val name = itemView.findViewById<TextView>(R.id.search_product_item_product)
+        private val price = itemView.findViewById<TextView>(R.id.search_product_item_price)
 
         fun bind(product: SearchProduct) {
             name.text = product.name
