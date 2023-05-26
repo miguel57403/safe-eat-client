@@ -33,7 +33,7 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchProductActivity"
+            android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
             android:name=".RestaurantActivity"
@@ -63,6 +63,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
@@ -75,10 +78,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FeedbackActivity"
+            android:name=".SearchProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
