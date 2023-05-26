@@ -24,15 +24,6 @@
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
@@ -42,22 +33,10 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".SearchRestaurantActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
