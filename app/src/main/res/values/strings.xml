@@ -22,4 +22,18 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="d_back_button">Back button</string>
+    <string name="t_payment">Payment</string>
+    <string name="t_delivery_option">Delivery Option</string>
+    <string name="t_address">Address</string>
+    <string name="k_price">[€0,00]</string>
+    <string name="k_delivery_range_time">[99 - 99 min]</string>
+    <string name="t_products">Products</string>
+    <string name="k_payment_products_count">[0]</string>
+    <string name="t_subtotal">Subtotal</string>
+    <string name="t_total">Total</string>
+    <string name="t_confirm">Confirm</string>
+    <string name="k_address">[Full Address]</string>
+    <string name="k_location">[Location]</string>
+    <string name="k_card_option">[Card Option]</string>
 </resources>
