@@ -12,12 +12,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 class OrdersActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orders)
         initAdapter()
+        initHeader()
+    }
+
+    private fun initHeader() {
+        val title = findViewById<TextView>(R.id.header_title)
+        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = resources.getString(R.string.t_orders)
+        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun initAdapter() {

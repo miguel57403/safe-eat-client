@@ -4,53 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="24dp"
+    android:padding="16dp"
     tools:context=".OrdersActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/orders_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/orders_image"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/baseline_arrow_back_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/orange_500"
-            android:contentDescription="@string/d_back_button" />
-
-        <TextView
-            android:id="@+id/orders_restaurant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/orders"
-            android:textColor="@color/orange_500"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/orders_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/orange_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orders_header" />
+    <include layout="@layout/fragment_header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orders_items"
@@ -59,6 +16,6 @@
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orders_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/header_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

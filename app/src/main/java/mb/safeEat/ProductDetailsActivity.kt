@@ -10,12 +10,21 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 class ProductDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
         initAdapter()
+        initHeader()
+    }
+
+    private fun initHeader() {
+        val title = findViewById<TextView>(R.id.header_title)
+        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = resources.getString(R.string.t_product_details)
+        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun initAdapter() {

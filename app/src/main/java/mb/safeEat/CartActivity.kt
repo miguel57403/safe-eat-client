@@ -41,7 +41,7 @@ class CartAdapter(private var data: ArrayList<Product>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
         )
     }
 

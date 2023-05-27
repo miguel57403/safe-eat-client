@@ -2,4 +2,5 @@
 <resources>
     <dimen name="initial_pages_px">30dp</dimen>
     <dimen name="corners_sm">8dp</dimen>
+    <dimen name="text_lg">18sp</dimen>
 </resources>
