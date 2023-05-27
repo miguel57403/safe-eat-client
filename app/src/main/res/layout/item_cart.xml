@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cart_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,13 +11,13 @@
 
     <ImageView
         android:id="@+id/cart_item_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:contentDescription="@string/d_image_product"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/item_cart" />
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/cart_item_name"
@@ -57,8 +58,8 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/d_icon_minus"
-                android:textColor="@color/orange_500"
-                app:srcCompat="@drawable/minus" />
+                android:src="@drawable/minus"
+                android:textColor="@color/orange_500" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -88,8 +89,8 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/d_icon_plus"
-                android:textColor="@color/black"
-                app:srcCompat="@drawable/plus" />
+                android:src="@drawable/plus"
+                android:textColor="@color/black" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,10 +109,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/d_icon_warning"
+        android:src="@drawable/baseline_error_outline_24"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_error_outline_24" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/cart_item_button_delete"
@@ -120,7 +121,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/d_icon_delete"
+        android:src="@drawable/baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_delete_24" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

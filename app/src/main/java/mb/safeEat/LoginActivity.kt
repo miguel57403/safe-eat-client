@@ -8,7 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_material)
+        setContentView(R.layout.activity_login)
 
         val withoutAccountContainer = findViewById<ConstraintLayout>(R.id.login_material_without_account_container)
 

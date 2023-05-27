@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_material)
+        setContentView(R.layout.activity_register)
 
         val withAccountContainer = findViewById<ConstraintLayout>(R.id.register_material_with_account_container)
         val submit = findViewById<Button>(R.id.register_material_submit)

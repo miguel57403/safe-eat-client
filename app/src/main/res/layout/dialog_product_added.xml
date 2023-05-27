@@ -16,15 +16,15 @@
 
         <ImageView
             android:id="@+id/product_added_icon"
-            android:layout_width="88dp"
-            android:layout_height="67dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/d_icon_cart"
+            android:src="@drawable/baseline_shopping_cart_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.808"
-            app:srcCompat="@drawable/baseline_shopping_cart_24"
             app:tint="@color/orange_500" />
 
         <TextView

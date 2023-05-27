@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/restaurant_product_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/d_image_product"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pizza" />
+                tools:src="@tools:sample/avatars" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView

@@ -57,7 +57,7 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".RestaurantActivity"
+            android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -72,7 +72,7 @@
             android:name=".SearchProductActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".RestaurantActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

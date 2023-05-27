@@ -16,10 +16,10 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/d_restaurant_poster"
             android:scaleType="centerCrop"
-            android:src="@drawable/burger"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/d_image_restaurant"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/thai_foods" />
+                    tools:src="@tools:sample/avatars" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
