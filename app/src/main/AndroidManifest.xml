@@ -36,7 +36,7 @@
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SearchRestaurantActivity"
@@ -45,7 +45,7 @@
             android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterMaterialActivity"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".AllergyActivity"

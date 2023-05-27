@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 
-class RegisterMaterialActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_material)
-        supportActionBar?.hide()
 
         val withAccountContainer = findViewById<ConstraintLayout>(R.id.register_material_with_account_container)
         val submit = findViewById<Button>(R.id.register_material_submit)
@@ -20,7 +19,7 @@ class RegisterMaterialActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        val intent = Intent(this, LoginMaterialActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
 
