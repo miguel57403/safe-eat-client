@@ -13,7 +13,8 @@ class ExperimentalActivity : AppCompatActivity() {
 
         val openDialog = findViewById<Button>(R.id.open_dialog)
         openDialog.setOnClickListener {
-            val dialog = RestrictionAlertDialogFragment()
+            val dialog = PictureDialogFragment()
+            dialog.imageResource = R.drawable.pizza
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }
