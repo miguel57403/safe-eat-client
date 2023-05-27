@@ -63,7 +63,7 @@
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
+            android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
             android:name=".CartActivity"
@@ -72,7 +72,7 @@
             android:name=".SearchProductActivity"
             android:exported="false" />
         <activity
-            android:name=".FeedbackActivity"
+            android:name=".OrdersActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
