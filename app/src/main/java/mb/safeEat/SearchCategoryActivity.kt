@@ -47,7 +47,7 @@ class SearchCategoryAdapter(private val context: Context, private val itemList: 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(context).inflate(R.layout.search_category_item, parent, false)
+            LayoutInflater.from(context).inflate(R.layout.item_search_category, parent, false)
         return ViewHolder(view)
     }
 
