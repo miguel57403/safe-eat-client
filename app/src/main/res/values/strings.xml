@@ -79,4 +79,5 @@
     <string name="warning_message">This product contains some ingredients that are in its restriction.</string>
     <string name="ingredients">Ingredients</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="d_button_close">Close button</string>
 </resources>
