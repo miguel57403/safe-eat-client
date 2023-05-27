@@ -22,4 +22,5 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="t_new_address">New Address</string>
 </resources>
