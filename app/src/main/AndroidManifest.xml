@@ -48,12 +48,6 @@
             android:name=".RegisterMaterialActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
             android:name=".AllergyActivity"
             android:exported="false" />
         <activity
