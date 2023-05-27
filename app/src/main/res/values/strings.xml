@@ -2,6 +2,7 @@
     <string name="app_name">SafeEat</string>
     <string name="d_button_allergy">Allergy button</string>
     <string name="d_button_back">Back button</string>
+    <string name="d_button_search">Search button</string>
     <string name="d_icon_cart">Icon cart</string>
     <string name="d_icon_delete">Icon delete</string>
     <string name="d_icon_lunch">Icon lunch</string>
@@ -14,11 +15,11 @@
     <string name="d_image_product">Product image</string>
     <string name="d_image_profile">Profile image</string>
     <string name="d_image_restaurant">Restaurant image</string>
-    <string name="h_address_input">Enter your address</string>
-    <string name="h_cellphone">Enter your cell phone</string>
+    <string name="h_input_address">Enter your address</string>
+    <string name="h_input_cellphone">Enter your cell phone</string>
     <string name="h_input_email">Enter your email</string>
     <string name="h_input_password">Enter your password</string>
-    <string name="h_name_input">Enter your name</string>
+    <string name="h_input_name">Enter your name</string>
     <string name="k_address">[Full Address]</string>
     <string name="k_card_option">[Card Option]</string>
     <string name="k_cart_item_name">[Product Name]</string>
@@ -84,4 +85,6 @@
     <string name="t_submit">Submit</string>
     <string name="d_feedback_star">Feedback star</string>
     <string name="d_search_input">Button Search Input</string>
+    <string name="k_delivery_price">Delivery [€0,00]</string>
+    <string name="d_restaurant_poster">Restaurant poster</string>
 </resources>
