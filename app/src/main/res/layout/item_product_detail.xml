@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/black"
-        android:contentDescription="@string/d_lunch_icon" />
+        android:contentDescription="@string/d_icon_lunch" />
 
     <TextView
         android:id="@+id/product_details_item_content"
