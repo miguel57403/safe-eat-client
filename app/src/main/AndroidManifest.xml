@@ -15,7 +15,7 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".OrderDetailActivity"
@@ -60,6 +60,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
@@ -72,7 +75,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".NotificationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
