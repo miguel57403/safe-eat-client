@@ -22,4 +22,8 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="k_restaurant">[Restaurant]</string>
+    <string name="k_time_ago">[0 units ago]</string>
+    <string name="k_order_status">Your order has [status]</string>
+    <string name="d_image_restaurant">Restaurant image</string>
 </resources>
