@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/restaurant_product_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:clickable="true"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/red"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/restaurant_product_image_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/restaurant_product_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/d_image_product"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pizza" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/restaurant_product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/k_product"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/restaurant_product_image_container" />
+
+        <TextView
+            android:id="@+id/restaurant_product_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/k_price"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/restaurant_product_warning"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/restaurant_product_name" />
+
+        <ImageView
+            android:id="@+id/restaurant_product_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/d_icon_warning"
+            android:src="@drawable/baseline_error_outline_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/red" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

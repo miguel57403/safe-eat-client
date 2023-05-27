@@ -36,16 +36,13 @@
             android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".RestaurantActivity"
+            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".SearchCategoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginMaterialActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterMaterialActivity"
@@ -79,6 +76,9 @@
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RestaurantActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
