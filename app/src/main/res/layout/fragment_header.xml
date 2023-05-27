@@ -39,7 +39,7 @@
         android:gravity="center"
         android:text="@string/k_title"
         android:textColor="@color/orange_500"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_lg"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/header_back_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,5 +56,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_back_button" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

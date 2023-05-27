@@ -25,7 +25,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/t_address"
             android:textColor="@color/orange_500"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_lg"
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
@@ -48,8 +48,8 @@
                     android:id="@+id/payment_location_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_location_on_24"
                     android:contentDescription="@string/d_icon_location"
+                    android:src="@drawable/baseline_location_on_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -84,8 +84,8 @@
                     android:id="@+id/payment_location_next"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_navigate_next_24"
                     android:contentDescription="@string/d_icon_navigate"
+                    android:src="@drawable/baseline_navigate_next_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -99,7 +99,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/t_delivery_option"
             android:textColor="@color/orange_500"
-            android:textSize="@dimen/sub_title"
+            android:textSize="@dimen/text_lg"
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
@@ -122,8 +122,8 @@
                     android:id="@+id/payment_delivery_option_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_delivery_dining_24"
                     android:contentDescription="@string/d_icon_delivery"
+                    android:src="@drawable/baseline_delivery_dining_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -162,9 +162,9 @@
                     android:id="@+id/payment_delivery_option_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:lines="2"
                     android:text="@string/k_price"
-                    android:layout_marginEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/payment_delivery_option_next"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -173,8 +173,8 @@
                     android:id="@+id/payment_delivery_option_next"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_navigate_next_24"
                     android:contentDescription="@string/d_icon_navigate"
+                    android:src="@drawable/baseline_navigate_next_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -188,7 +188,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/t_payment"
             android:textColor="@color/orange_500"
-            android:textSize="@dimen/sub_title"
+            android:textSize="@dimen/text_lg"
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
@@ -211,8 +211,8 @@
                     android:id="@+id/payment_kind_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_credit_card_24"
                     android:contentDescription="@string/d_icon_credit_card"
+                    android:src="@drawable/baseline_credit_card_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -234,8 +234,8 @@
                     android:id="@+id/payment_kind_next"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/baseline_navigate_next_24"
                     android:contentDescription="@string/d_icon_navigate"
+                    android:src="@drawable/baseline_navigate_next_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

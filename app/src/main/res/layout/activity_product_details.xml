@@ -32,7 +32,7 @@
             android:layout_marginStart="16dp"
             android:text="@string/k_product"
             android:textColor="@color/orange_500"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_lg"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/product_details_content_card_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -109,7 +109,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/t_ingredients"
         android:textColor="@color/orange_500"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_lg"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_details_content_alert" />

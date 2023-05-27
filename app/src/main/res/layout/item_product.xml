@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/k_product"
                     android:textColor="@color/orange_500"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/text_lg" />
 
                 <TextView
                     android:id="@+id/search_product_item_price"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/k_price"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/text_lg" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

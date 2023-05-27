@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/k_category"
-        android:textSize="@dimen/sub_title"
+        android:textSize="@dimen/text_lg"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
