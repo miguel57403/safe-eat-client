@@ -27,6 +27,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/modal_product_added.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_product_added.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/modal_restriction_alert.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_restriction_alert.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mb/safeEat/OrdersActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mb/safeEat/OrdersActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +79,16 @@
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/danie/AndroidStudioProjects/safe-eat/app/src/main/res/drawable&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/danie/AndroidStudioProjects/safe-eat/app/src/main/res/color&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/danie/AndroidStudioProjects/safe-eat/app/src/main/res/drawable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/migue/OneDrive/Documentos/RestApiDemo-master/RestApiDemo-master&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>

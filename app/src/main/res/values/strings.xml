@@ -22,4 +22,7 @@
     <string name="button_allergy_description">Allergy button</string>
     <string name="allergy_title">Do you have any kind of food restrictions?</string>
     <string name="allergy_submit">Continue</string>
+    <string name="t_total">Total</string>
+    <string name="k_price">[0,00]</string>
+    <string name="t_subtotal">Subtotal</string>
 </resources>
