@@ -4,9 +4,13 @@
     <string name="d_button_back">Back button</string>
     <string name="d_button_search">Search button</string>
     <string name="d_icon_cart">Icon cart</string>
+    <string name="d_icon_credit_card">Icon credit card</string>
     <string name="d_icon_delete">Icon delete</string>
+    <string name="d_icon_delivery">Icon delivery</string>
+    <string name="d_icon_location">Icon location</string>
     <string name="d_icon_lunch">Icon lunch</string>
     <string name="d_icon_minus">Icon minus</string>
+    <string name="d_icon_navigate">Icon navigate</string>
     <string name="d_icon_plus">Icon plus</string>
     <string name="d_icon_status">Icon status</string>
     <string name="d_icon_warning">Icon warning</string>
@@ -90,4 +94,5 @@
     <string name="d_restaurant_poster">Restaurant poster</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="k_delivery_option">[Standard]</string>
 </resources>

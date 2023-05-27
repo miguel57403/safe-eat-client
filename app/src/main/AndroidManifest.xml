@@ -15,7 +15,7 @@
             android:name=".ExperimentalActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentActivity"
+            android:name=".OrdersActivity"
             android:exported="false" />
         <activity
             android:name=".NotificationActivity"
@@ -72,7 +72,7 @@
             android:name=".SearchProductActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
+            android:name=".PaymentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
