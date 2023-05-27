@@ -15,16 +15,16 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
             android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressActivity"
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentOptionActivity"
@@ -34,9 +34,6 @@
             android:exported="false" />
         <activity
             android:name=".RestaurantActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -60,10 +57,10 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ExperimentalActivity"
             android:exported="false" />
         <activity
             android:name=".ProductDetailsActivity"
@@ -75,7 +72,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".AddressActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
