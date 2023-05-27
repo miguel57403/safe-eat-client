@@ -45,6 +45,7 @@
     <string name="k_ingredient">[Ingredient]</string>
     <string name="k_location">[Location]</string>
     <string name="k_order_item_products_count">[0]</string>
+    <string name="k_order_status">Your order has [status]</string>
     <string name="k_payment_products_count">[0]</string>
     <string name="k_price">[€0,00]</string>
     <string name="k_product">[Product]</string>
@@ -54,6 +55,7 @@
     <string name="k_profile_name">[Name]</string>
     <string name="k_restaurant">[Restaurant]</string>
     <string name="k_status">[Status]</string>
+    <string name="k_time_ago">[0 units ago]</string>
     <string name="k_title">[Title]</string>
     <string name="m_allergy_title">Do you have any kind of food restrictions?</string>
     <string name="m_product_added">Your product has been added to the cart!</string>
