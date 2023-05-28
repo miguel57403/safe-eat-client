@@ -63,7 +63,7 @@
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".AllergyEditActivity"
             android:exported="false" />
         <activity
             android:name=".ProductDetailsActivity"
@@ -75,7 +75,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".AllergyEditActivity"
+            android:name=".ExperimentalActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
