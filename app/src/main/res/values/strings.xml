@@ -39,6 +39,7 @@
     <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
     <string name="m_with_account">Already have an account?</string>
     <string name="m_without_account">Don\'t have an account?</string>
+    <string name="m_order_restricted">Your order has product marked as restricted. Do you want to continue?</string>
     <string name="t_about">About us</string>
     <string name="t_add_to_cart">Add to Cart</string>
     <string name="t_address">Address</string>
@@ -69,4 +70,6 @@
     <string name="t_sign_up">Sign Up</string>
     <string name="t_street">Street</string>
     <string name="t_subtotal">Subtotal</string>
+    <string name="t_yes">Yes</string>
+    <string name="t_no">No</string>
 </resources>
