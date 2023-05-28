@@ -109,6 +109,11 @@
     <string name="t_street">Street</string>
     <string name="t_submit">Submit</string>
     <string name="t_subtotal">Subtotal</string>
+    <string name="t_home">Home</string>
+    <string name="t_cart">Cart</string>
+    <string name="t_user">User</string>
+    <string name="t_notifications">Notifications</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="t_total">Total</string>
     <string name="t_transporting">Transporting</string>
     <string name="t_yes">Yes</string>
