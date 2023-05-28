@@ -60,6 +60,9 @@
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
+            android:name=".AllergyEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
@@ -67,9 +70,6 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AllergyEditActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"

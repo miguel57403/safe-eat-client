@@ -6,6 +6,7 @@
     <string name="d_button_search">Search button</string>
     <string name="d_feedback_star">Feedback star</string>
     <string name="d_icon_cart">Icon cart</string>
+    <string name="d_icon_confirmation_handshake">Icon confirmation handshake</string>
     <string name="d_icon_credit_card">Icon credit card</string>
     <string name="d_icon_delete">Icon delete</string>
     <string name="d_icon_delivery">Icon delivery</string>
@@ -64,6 +65,7 @@
     <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
     <string name="m_with_account">Already have an account?</string>
     <string name="m_without_account">Don\'t have an account?</string>
+    <string name="m_confirmation_order">Your order completed succesfull</string>
     <string name="t_about">About us</string>
     <string name="t_add_to_cart">Add to Cart</string>
     <string name="t_address">Address</string>
