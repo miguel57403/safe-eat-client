@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".`SearchRestaurantActivity.kt`">
+    android:padding="16dp"
+    tools:context=".SearchRestaurantActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_product_header"
@@ -32,7 +33,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="0dp"
             android:hint="@string/t_search"
             app:boxBackgroundColor="@color/white"
             app:endIconContentDescription="@string/d_search_input"
