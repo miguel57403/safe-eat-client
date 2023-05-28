@@ -6,24 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class CartFragment : Fragment() {
+class SearchCategoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_cart, container, false)
+        val view = inflater.inflate(R.layout.fragment_search_category, container, false)
         onInit()
         return view
     }
 
     private fun onInit() {
-        navigateTo(CartInitialFragment())
+        navigateTo(SearchCategoryActivity())
     }
 
     private fun navigateTo(fragment: Fragment) {
         childFragmentManager
             .beginTransaction()
-            .add(R.id.cart_container, fragment)
+            .replace(R.id.search_container, fragment)
             .commit()
     }
 }

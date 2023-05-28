@@ -1,6 +1,5 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,20 +7,28 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.ArrayList
 
-class CartActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
-        initAdapter()
+class CartInitialFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_cart_initial, container, false)
+        if (view != null) onInit(view)
+        return view
     }
 
-    private fun initAdapter() {
-        val items = findViewById<RecyclerView>(R.id.cart_items)
-        items.layoutManager = LinearLayoutManager(this)
+    private fun onInit(view: View) {
+        initAdapter(view)
+    }
+
+    private fun initAdapter(view: View) {
+        val items = view.findViewById<RecyclerView>(R.id.cart_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = CartAdapter(createList())
     }
 
