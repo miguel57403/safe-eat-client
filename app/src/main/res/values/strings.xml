@@ -10,6 +10,7 @@
     <string name="d_icon_credit_card">Icon credit card</string>
     <string name="d_icon_delete">Icon delete</string>
     <string name="d_icon_delivery">Icon delivery</string>
+    <string name="d_icon_edit">Icon edit</string>
     <string name="d_icon_location">Icon location</string>
     <string name="d_icon_lunch">Icon lunch</string>
     <string name="d_icon_minus">Icon minus</string>

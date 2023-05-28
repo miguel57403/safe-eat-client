@@ -28,7 +28,7 @@ class ProfileInitialFragment(private val listener: NavigationListener) : Fragmen
         addressButton.setOnClickListener { listener.navigateTo(AddressActivity(listener))  }
         restrictionsButton.setOnClickListener { listener.navigateTo(AllergyEditActivity(listener))  }
         ordersButton.setOnClickListener { listener.navigateTo(OrdersActivity(listener)) }
-        paymentButton.setOnClickListener { /* listener.navigateTo(PaymentOptionActivity(listener)) */  }
+        paymentButton.setOnClickListener { listener.navigateTo(PaymentOptionActivity(listener))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
     }
