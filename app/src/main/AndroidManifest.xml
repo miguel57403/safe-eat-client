@@ -12,19 +12,16 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".FeedbackActivity"
+            android:name=".AllergyActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderDetailActivity"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddressActivity"
+            android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentOptionActivity"
@@ -36,46 +33,46 @@
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AllergyActivity"
+            android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressRegisterActivity"
+            android:name=".AddressActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".NotificationActivity"
             android:exported="false" />
         <activity
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchCategoryActivity"
+            android:name=".FeedbackActivity"
             android:exported="false" />
         <activity
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".AllergyEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
             android:name=".ExperimentalActivity"

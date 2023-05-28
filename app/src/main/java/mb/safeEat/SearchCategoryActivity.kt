@@ -1,6 +1,5 @@
 package mb.safeEat
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,12 +14,13 @@ class SearchCategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_category)
+        initAdapter()
+     }
 
-        val recycleView = findViewById<RecyclerView>(R.id.search_categories_items)
-        val adapter = SearchCategoryAdapter(this, getItemList())
-
-        recycleView.layoutManager = GridLayoutManager(this, 2)
-        recycleView.adapter = adapter
+    private fun initAdapter() {
+        val items = findViewById<RecyclerView>(R.id.search_categories_items)
+        items.layoutManager = GridLayoutManager(this, 2)
+        items.adapter = SearchCategoryAdapter(getItemList())
     }
 
     private fun getItemList(): List<Category> {
@@ -42,31 +41,24 @@ class SearchCategoryActivity : AppCompatActivity() {
     }
 }
 
-class SearchCategoryAdapter(private val context: Context, private val itemList: List<Category>) :
+class SearchCategoryAdapter(private val data: List<Category>) :
     RecyclerView.Adapter<SearchCategoryAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.search_category_item, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_search_category, parent, false)
+    )
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(context, itemList[position])
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
+    override fun getItemCount(): Int = data.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemName: TextView = itemView.findViewById(R.id.search_category_name)
         private val itemImage: ImageView = itemView.findViewById(R.id.search_category_image)
 
-        fun bind(context: Context, category: Category) {
-            val imageDrawable = ContextCompat.getDrawable(context, category.imageId)
+        fun bind(category: Category) {
             itemName.text = category.name
-            itemImage.background = imageDrawable
+            itemImage.setBackgroundResource(category.imageId)
         }
     }
 }
