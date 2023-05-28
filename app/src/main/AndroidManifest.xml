@@ -60,9 +60,6 @@
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
@@ -76,6 +73,9 @@
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperimentalActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

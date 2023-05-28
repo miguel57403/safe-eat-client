@@ -13,8 +13,7 @@ class ExperimentalActivity : AppCompatActivity() {
 
         val openDialog = findViewById<Button>(R.id.open_dialog)
         openDialog.setOnClickListener {
-            val dialog = PictureDialogFragment()
-            dialog.imageResource = R.drawable.pizza
+            val dialog = ProductAddedDialogFragment()
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }

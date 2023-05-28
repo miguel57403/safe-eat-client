@@ -59,6 +59,7 @@
     <string name="k_times">[0x]</string>
     <string name="k_title">[Title]</string>
     <string name="m_allergy_title">Do you have any kind of food restrictions?</string>
+    <string name="m_order_restricted">Your order has product marked as restricted. Do you want to continue?</string>
     <string name="m_product_added">Your product has been added to the cart!</string>
     <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
     <string name="m_with_account">Already have an account?</string>
@@ -85,6 +86,7 @@
     <string name="t_login">Login</string>
     <string name="t_name">Name</string>
     <string name="t_new_address">New address</string>
+    <string name="t_no">No</string>
     <string name="t_number">Number</string>
     <string name="t_observations">Observations</string>
     <string name="t_ok">OK</string>
@@ -107,4 +109,5 @@
     <string name="t_subtotal">Subtotal</string>
     <string name="t_total">Total</string>
     <string name="t_transporting">Transporting</string>
+    <string name="t_yes">Yes</string>
 </resources>
