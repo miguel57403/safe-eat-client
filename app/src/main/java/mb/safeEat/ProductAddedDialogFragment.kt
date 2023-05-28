@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
 import androidx.fragment.app.DialogFragment
 
 class ProductAddedDialogFragment : DialogFragment() {
@@ -22,5 +23,7 @@ class ProductAddedDialogFragment : DialogFragment() {
             WindowManager.LayoutParams.MATCH_PARENT, // width
             WindowManager.LayoutParams.WRAP_CONTENT // height
         )
+        val button = dialog?.window?.findViewById<Button>(R.id.product_added_button_ok)
+        button?.setOnClickListener { dismiss() }
     }
 }

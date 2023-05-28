@@ -4,20 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        supportActionBar?.hide()
 
-        val withAccount = findViewById<TextView>(R.id.register_with_account)
-        val loginLink = findViewById<TextView>(R.id.register_login_link)
-        val submit = findViewById<Button>(R.id.register_submit)
+        val withAccountContainer = findViewById<ConstraintLayout>(R.id.register_material_with_account_container)
+        val submit = findViewById<Button>(R.id.register_material_submit)
 
-        withAccount.setOnClickListener { navigateToLogin() }
-        loginLink.setOnClickListener { navigateToLogin() }
+        withAccountContainer.setOnClickListener { navigateToLogin() }
         submit.setOnClickListener { navigateToAllergies() }
     }
 

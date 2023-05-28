@@ -12,19 +12,10 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".ExperimentalActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FeedbackActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NotificationActivity"
+            android:name=".OrdersActivity"
             android:exported="false" />
         <activity
             android:name=".LoginMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OrdersActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
@@ -36,16 +27,7 @@
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressActivity"
-            android:exported="false" />
-        <activity
             android:name=".PaymentOptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
@@ -54,19 +36,16 @@
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchRestaurantActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchCategoryActivity"
+            android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".SearchCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
@@ -78,6 +57,24 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperimentalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrderDetailActivity"
             android:exported="true">
             <intent-filter>
@@ -87,5 +84,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
