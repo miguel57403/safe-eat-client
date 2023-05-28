@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.fragment.app.FragmentActivity
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.Serializable
+import java.text.DecimalFormat
 import java.util.ArrayList
 
 class HomeInitialFragment : Fragment() {
@@ -79,7 +82,7 @@ class HomeInitialFragment : Fragment() {
 class HomeAdapter(
     private var data: ArrayList<HomeItem>,
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_home, parent, false)
     )
 
@@ -90,33 +93,74 @@ class HomeAdapter(
     class ViewHolder(
         itemView: View,
     ) : RecyclerView.ViewHolder(itemView) {
-        private val container = itemView.findViewById<FrameLayout>(R.id.home_item_container)
-        fun bind(item: HomeItem) {
-            HomeItemFragment
-            when (item.kind) {
-                HomeKind.Advertisement -> bindAdvertisement(item.advertisement!!)
-                HomeKind.RestaurantList -> bindRestaurantList(item.restaurantList!!)
-            }
+        private val advertisement =
+            itemView.findViewById<ConstraintLayout>(R.id.home_item_advertisement)
+        private val advertisementTitle =
+            itemView.findViewById<TextView>(R.id.home_item_advertisement_title)
+        private val advertisementImage =
+            itemView.findViewById<ImageView>(R.id.home_item_advertisement_image)
+
+        private val restaurantList =
+            itemView.findViewById<LinearLayoutCompat>(R.id.home_item_restaurant_list)
+        private val restaurantListTitle =
+            itemView.findViewById<TextView>(R.id.home_item_restaurant_list_title)
+        private val restaurantListItems =
+            itemView.findViewById<RecyclerView>(R.id.home_item_restaurant_list_items)
+
+        fun bind(item: HomeItem) = when (item.kind) {
+            HomeKind.Advertisement -> bindAdvertisement(item.advertisement!!)
+            HomeKind.RestaurantList -> bindRestaurantList(item.restaurantList!!)
         }
 
         private fun bindAdvertisement(item: HomeAdvertisement) {
-            val fragmentManager = (itemView.context as FragmentActivity).supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(container.id, HomeAdvertisementFragment.newInstance(item))
-                .commit()
+            advertisement.visibility = LinearLayoutCompat.VISIBLE
+            advertisementTitle.text = item.title
+            advertisementImage.setImageResource(item.imageId)
         }
 
         private fun bindRestaurantList(item: HomeRestaurantList) {
-            val fragmentManager = (itemView.context as FragmentActivity).supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(container.id, HomeRestaurantListFragment.newInstance(item))
-                .commit()
+            restaurantList.visibility = LinearLayoutCompat.VISIBLE
+            restaurantListTitle.text = item.title
+            initAdapter(item)
+        }
+
+        private fun initAdapter(item: HomeRestaurantList) {
+            val items = restaurantListItems
+            items.layoutManager = LinearLayoutManager(itemView.context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
+            items.adapter = HomeRestaurantAdapter(item.restaurants)
+        }
+    }
+}
+
+class HomeRestaurantAdapter(private val data: List<Restaurant>) :
+    RecyclerView.Adapter<HomeRestaurantAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_home_restaurant_list, parent, false)
+    )
+
+    override fun getItemCount() = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val image = itemView.findViewById<ImageView>(R.id.restaurant_list_item_image)
+        private val restaurant =
+            itemView.findViewById<TextView>(R.id.restaurant_list_item_restaurant)
+        private val score = itemView.findViewById<TextView>(R.id.restaurant_list_item_score)
+
+        fun bind(item: Restaurant) {
+            image.setImageResource(item.image)
+            restaurant.text = item.name
+            score.text = DecimalFormat("0.0").format(item.score)
         }
     }
 }
 
 data class HomeAdvertisement(
-    val restaurant: String,
+    val title: String,
     val imageId: Int,
 ) : Serializable
 
