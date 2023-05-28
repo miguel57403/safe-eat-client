@@ -24,7 +24,7 @@
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentOptionActivity"
+            android:name=".ExperimentalActivity"
             android:exported="false" />
         <activity
             android:name=".RestaurantActivity"
@@ -40,9 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".OrderDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddressActivity"
             android:exported="false" />
         <activity
             android:name=".NotificationInitialFragment"
@@ -63,16 +60,13 @@
             android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
-            android:exported="false"/>
-        <activity
             android:name=".SearchProductActivity"
             android:exported="false"/>
         <activity
             android:name=".HomeActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchRestaurantActivity"
+            android:name=".PaymentOptionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
