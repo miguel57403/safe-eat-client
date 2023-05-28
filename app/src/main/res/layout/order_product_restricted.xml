@@ -36,23 +36,23 @@
         app:layout_constraintTop_toBottomOf="@+id/product_added_text">
 
         <Button
-            android:id="@+id/order_product_yes"
+            android:id="@+id/order_product_no"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/t_yes"
+            android:text="@string/t_no"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/order_product_no"
+            app:layout_constraintEnd_toStartOf="@+id/order_product_yes"
             app:layout_constraintTop_toTopOf="parent"
         />
 
         <Button
-            android:id="@+id/order_product_no"
+            android:id="@+id/order_product_yes"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/order_product_yes"
+            app:layout_constraintStart_toEndOf="@+id/order_product_no"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/t_no"
+            android:text="@string/t_yes"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
