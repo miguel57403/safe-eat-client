@@ -95,6 +95,7 @@
     <string name="t_password">Password</string>
     <string name="t_payment">Payment</string>
     <string name="t_payment_methods">Payment methods</string>
+    <string name="t_payment_options">Payment Options</string>
     <string name="t_postal_code">Postal code</string>
     <string name="t_preparing">Preparing</string>
     <string name="t_product_details">Product Details</string>

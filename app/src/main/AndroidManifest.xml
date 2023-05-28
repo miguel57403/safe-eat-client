@@ -24,7 +24,7 @@
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentOptionActivity"
+            android:name=".ExperimentalActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
@@ -75,7 +75,7 @@
             android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".PaymentOptionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
