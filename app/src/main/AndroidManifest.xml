@@ -12,10 +12,10 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".OrdersActivity"
+            android:name=".AllergyActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMaterialActivity"
+            android:name=".OrdersActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileEditActivity"
@@ -51,7 +51,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AllergyActivity"
+            android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -75,7 +75,7 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderDetailActivity"
+            android:name=".AllergyEditActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

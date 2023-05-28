@@ -74,6 +74,7 @@
     <string name="t_continue">Continue</string>
     <string name="t_ddd">DDD</string>
     <string name="t_delivery_option">Delivery Option</string>
+    <string name="t_edit_allergies">Edit Allergies</string>
     <string name="t_email">Email</string>
     <string name="t_feedback">Feedback</string>
     <string name="t_ingredients">Ingredients</string>
