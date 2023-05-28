@@ -1,6 +1,5 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,21 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class NotificationActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification)
-        initAdapter()
+class NotificationInitialFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_notification_initial, container, false)
+        if (view != null) onInit(view)
+        return view
     }
 
-    private fun initAdapter() {
+    private fun onInit(view: View) {
+        initAdapter(view)
+    }
+
+    private fun initAdapter(view: View) {
         val adapter = NotificationAdapter(createList())
-        val items = findViewById<RecyclerView>(R.id.notification_items)
-        items.layoutManager = LinearLayoutManager(this)
+        val items = view.findViewById<RecyclerView>(R.id.notification_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = adapter
     }
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,29 +15,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/search_restaurant_back_button"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/d_button_back"
-            android:src="@drawable/arrow_back_48px"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/orange_500" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/d_button_back"
+                    android:src="@drawable/arrow_back_48px"
+                    app:tint="@color/orange_500" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_restaurant_search_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:hint="@string/t_search"
             app:boxBackgroundColor="@color/white"
             app:endIconContentDescription="@string/d_search_input"
             app:endIconDrawable="@drawable/baseline_search_24"
-            app:endIconTint="@color/orange_500"
             app:endIconMode="custom"
+            app:endIconTint="@color/orange_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/search_restaurant_back_button"
@@ -46,12 +62,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_restaurant_search_input"
-                android:layout_width="348dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:ellipsize="none"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:lines="1"/>
+                android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -66,7 +83,9 @@
         android:textColor="@color/orange_500"
         android:textSize="@dimen/text_lg"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/search_product_header"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_product_header" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_restaurant_list"
         android:layout_width="match_parent"
