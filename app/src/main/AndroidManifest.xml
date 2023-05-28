@@ -18,9 +18,6 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileEditActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
@@ -73,6 +70,9 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
             android:name=".ExperimentalActivity"
