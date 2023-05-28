@@ -4,52 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="24dp"
+    android:padding="16dp"
     tools:context=".AddressRegisterActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/address_register_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/address_image"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/d_back_button"
-            android:src="@drawable/arrow_back_48px"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/orange_500" />
-
-        <TextView
-            android:id="@+id/address_register_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/new_address"
-            android:textColor="@color/orange_500"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/address_register_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/orange_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_register_header" />
+    <include layout="@layout/fragment_header" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -59,7 +17,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/address_register_divider">
+        app:layout_constraintTop_toBottomOf="@+id/header_container">
 
         <TextView
             android:id="@+id/new_address_name_label"
@@ -67,7 +25,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="0dp"
             android:layout_marginBottom="2dp"
-            android:text="@string/name_address"
+            android:text="@string/t_name"
             android:textAlignment="textStart"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/new_address_name_input"
@@ -97,7 +55,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="2dp"
-            android:text="@string/street_address"
+            android:text="@string/t_street"
             android:textAlignment="textStart"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/new_address_street_input"
@@ -140,7 +98,7 @@
                     android:id="@+id/address_register_number_label"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
-                    android:text="@string/number_address"
+                    android:text="@string/t_number"
                     android:textAlignment="textStart"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="0dp"
@@ -172,7 +130,7 @@
                     android:id="@+id/new_address_postal_code_label"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
-                    android:text="@string/postal_code_address"
+                    android:text="@string/t_postal_code"
                     android:textAlignment="textStart"
                     android:textStyle="bold" />
 
@@ -196,7 +154,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="2dp"
-            android:text="@string/complement_address"
+            android:text="@string/t_complement"
             android:textAlignment="textStart"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/new_address_street_input"
@@ -225,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="@string/save_text"
+        android:text="@string/t_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
