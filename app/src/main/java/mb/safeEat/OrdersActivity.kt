@@ -2,7 +2,6 @@ package mb.safeEat
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
@@ -11,29 +10,37 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class OrdersActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_orders)
-        initAdapter()
-        initHeader()
+class OrdersActivity(private val listener: NavigationListener) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_orders, container, false)
+        if (view != null) onInit(view)
+        return view
     }
 
-    private fun initHeader() {
-        val title = findViewById<TextView>(R.id.header_title)
-        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_orders)
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+    private fun onInit(view: View) {
+        initAdapter(view)
+        initHeader(view)
     }
 
-    private fun initAdapter() {
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = view.resources.getString(R.string.t_orders)
+        backButton.setOnClickListener { listener.onBackPressed() }
+    }
+
+    private fun initAdapter(view: View) {
         val adapter = OrdersAdapter(createList())
-        val items = findViewById<RecyclerView>(R.id.orders_items)
-        items.layoutManager = LinearLayoutManager(this)
+        val items = view.findViewById<RecyclerView>(R.id.orders_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = adapter
     }
 
