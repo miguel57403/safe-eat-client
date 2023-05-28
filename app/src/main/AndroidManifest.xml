@@ -27,16 +27,10 @@
             android:name=".PaymentOptionActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchProductActivity"
-            android:exported="false" />
-        <activity
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchRestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
@@ -70,9 +64,15 @@
             android:exported="false" />
         <activity
             android:name=".ExperimentalActivity"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".SearchProductActivity"
+            android:exported="false"/>
         <activity
             android:name=".HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SearchRestaurantActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
