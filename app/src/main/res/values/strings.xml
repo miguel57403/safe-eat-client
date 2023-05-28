@@ -66,8 +66,10 @@
     <string name="t_about">About us</string>
     <string name="t_add_to_cart">Add to Cart</string>
     <string name="t_address">Address</string>
+    <string name="t_cancel">Cancel</string>
     <string name="t_categories">Categories</string>
     <string name="t_cellphone">Cellphone</string>
+    <string name="t_change_photo">Change Photo</string>
     <string name="t_complement">Complement</string>
     <string name="t_confirm">Confirm</string>
     <string name="t_confirm_password">Confirm password</string>
@@ -76,6 +78,7 @@
     <string name="t_delivered">Delivered</string>
     <string name="t_delivery_option">Delivery Option</string>
     <string name="t_edit_allergies">Edit Allergies</string>
+    <string name="t_edit_profile">Edit Profile</string>
     <string name="t_email">Email</string>
     <string name="t_feedback">Feedback</string>
     <string name="t_ingredients">Ingredients</string>
