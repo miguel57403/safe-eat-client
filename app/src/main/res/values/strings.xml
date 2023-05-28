@@ -117,4 +117,6 @@
     <string name="t_total">Total</string>
     <string name="t_transporting">Transporting</string>
     <string name="t_yes">Yes</string>
+    <string name="t_advertisement">Advertisement</string>
+    <string name="k_score">[0.0]</string>
 </resources>
