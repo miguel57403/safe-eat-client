@@ -73,6 +73,7 @@
     <string name="t_confirm_password">Confirm password</string>
     <string name="t_continue">Continue</string>
     <string name="t_ddd">DDD</string>
+    <string name="t_delivered">Delivered</string>
     <string name="t_delivery_option">Delivery Option</string>
     <string name="t_edit_allergies">Edit Allergies</string>
     <string name="t_email">Email</string>
@@ -90,6 +91,7 @@
     <string name="t_payment">Payment</string>
     <string name="t_payment_methods">Payment methods</string>
     <string name="t_postal_code">Postal code</string>
+    <string name="t_preparing">Preparing</string>
     <string name="t_product_details">Product Details</string>
     <string name="t_products">Products</string>
     <string name="t_restrictions">Restrictions</string>
@@ -101,7 +103,5 @@
     <string name="t_submit">Submit</string>
     <string name="t_subtotal">Subtotal</string>
     <string name="t_total">Total</string>
-    <string name="v_preparing">Status: Preparing</string>
-    <string name="v_delivering">Status: Delivering</string>
-    <string name="v_complete">Status: Complete</string>
+    <string name="t_transporting">Transporting</string>
 </resources>

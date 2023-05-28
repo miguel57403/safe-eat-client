@@ -29,14 +29,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_product_search_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="0dp"
             android:hint="@string/t_search"
+            app:boxBackgroundColor="@color/white"
             app:endIconContentDescription="@string/d_search_input"
             app:endIconDrawable="@drawable/baseline_search_24"
+            app:endIconTint="@color/orange_500"
             app:endIconMode="custom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

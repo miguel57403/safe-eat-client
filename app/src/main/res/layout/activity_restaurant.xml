@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/restaurant_poster_image"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:adjustViewBounds="true"
@@ -22,6 +23,7 @@
             tools:src="@tools:sample/avatars" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/restaurant_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -48,6 +50,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/restaurant_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -92,6 +95,7 @@
                 app:strokeWidth="4dp">
 
                 <ImageView
+                    android:id="@+id/restaurant_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
@@ -101,6 +105,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                android:id="@+id/restaurant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -110,12 +115,14 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/restaurant_delivery_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/k_delivery_price" />
 
             <TextView
+                android:id="@+id/restaurant_delivery_interval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/k_delivery_range_time" />

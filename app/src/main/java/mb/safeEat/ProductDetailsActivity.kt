@@ -28,10 +28,9 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        val adapter = ProductDetailAdapter(createList())
         val items = findViewById<RecyclerView>(R.id.product_detail_items)
         items.layoutManager = LinearLayoutManager(this)
-        items.adapter = adapter
+        items.adapter = ProductDetailAdapter(createList())
     }
 
     private fun createList(): java.util.ArrayList<ProductDetail> {
@@ -42,24 +41,16 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 }
 
-
 class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
     RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_product_detail, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_product_detail, parent, false)
+    )
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        holder.bind(item)
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val content = itemView.findViewById<TextView>(R.id.product_details_item_content)

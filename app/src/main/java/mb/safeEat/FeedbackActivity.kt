@@ -44,8 +44,7 @@ class FeedbackActivity : AppCompatActivity() {
         }
 
         for (i in stars.indices) {
-            val star = stars[i]
-            star.setOnClickListener { updateScoreUI(i + 1) }
+            stars[i].setOnClickListener { updateScoreUI(i + 1) }
         }
 
         updateScoreUI(3)

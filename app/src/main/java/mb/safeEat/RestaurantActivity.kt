@@ -3,6 +3,7 @@ package mb.safeEat
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +20,33 @@ class RestaurantActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant)
         initAdapter()
+
+        // TODO: Receive values by arguments
+        val restaurantNameArg = "Sabor Brasileiro"
+        val deliveryPriceArg = "Delivery €2,99"
+        val deliveryIntervalArg = "20 - 30 min"
+
+        val posterImage = findViewById<ImageView>(R.id.restaurant_poster_image)
+        val deliveryInterval = findViewById<TextView>(R.id.restaurant_delivery_interval)
+        val deliveryPrice = findViewById<TextView>(R.id.restaurant_delivery_price)
+        val restaurantName = findViewById<TextView>(R.id.restaurant_name)
+        val restaurantImage = findViewById<ImageView>(R.id.restaurant_image)
+        val searchButton = findViewById<MaterialCardView>(R.id.restaurant_search_button)
+        val backButton = findViewById<MaterialCardView>(R.id.restaurant_back_button)
+
+        posterImage.setImageResource(R.drawable.sandwich)
+        deliveryInterval.text = deliveryIntervalArg
+        deliveryPrice.text = deliveryPriceArg
+        restaurantName.text = restaurantNameArg
+        restaurantImage.setImageResource(R.drawable.restaurant)
+        searchButton.setOnClickListener { Log.d("Click", "Search button") }
+        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun initAdapter() {
-        val adapter = RestaurantCategoryAdapter(createList())
         val items = findViewById<RecyclerView>(R.id.restaurant_items)
         items.layoutManager = LinearLayoutManager(this)
-        items.adapter = adapter
+        items.adapter = RestaurantCategoryAdapter(createList())
     }
 
     private fun createList(): ArrayList<RestaurantCategory> {
@@ -57,12 +78,10 @@ class RestaurantActivity : AppCompatActivity() {
 
 class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>) :
     RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            parent.context,
-            LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        parent.context,
+        LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant, parent, false)
+    )
 
     override fun getItemCount(): Int = data.size
 
@@ -88,12 +107,10 @@ class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>)
 
 class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
     RecyclerView.Adapter<RestaurantProductAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_restaurant_product, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_restaurant_product, parent, false)
+    )
 
     override fun getItemCount(): Int = data.size
 
@@ -106,6 +123,7 @@ class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
         private val price = itemView.findViewById<TextView>(R.id.restaurant_product_price)
         private val image = itemView.findViewById<ImageView>(R.id.restaurant_product_image)
         private val warning = itemView.findViewById<ImageView>(R.id.restaurant_product_warning)
+
         fun bind(item: RestaurantProduct) {
             product.text = item.name
             price.text = item.price
@@ -141,5 +159,6 @@ data class RestaurantProduct(
 )
 
 data class RestaurantCategory(
-    val name: String, val products: ArrayList<RestaurantProduct>
+    val name: String,
+    val products: ArrayList<RestaurantProduct>
 )

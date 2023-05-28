@@ -1,6 +1,7 @@
 package mb.safeEat
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +26,7 @@ class OrderDetailActivity : AppCompatActivity() {
         initAdapter()
 
         // TODO: Transform this in args
-        val statusArg = OrderStatus.COMPLETE
+        val statusArg = OrderStatus.DELIVERED
         val restaurantArg = "Sabor Brasileiro"
         val dateArg = "27/03/2023"
 
@@ -37,24 +39,12 @@ class OrderDetailActivity : AppCompatActivity() {
         image.setImageResource(R.drawable.restaurant)
         restaurant.text = restaurantArg
         date.text = dateArg
-        when (statusArg) {
-            OrderStatus.PREPARING -> {
-                status.text = resources.getString(R.string.v_preparing)
-                progressBar.progress = 33
-            }
-
-            OrderStatus.DELIVERING -> {
-                status.text = resources.getString(R.string.v_delivering)
-                progressBar.progress = 66
-            }
-
-            OrderStatus.COMPLETE -> {
-                status.text = resources.getString(R.string.v_complete)
-                progressBar.progress = 0
-                progressBar.progressDrawable.setTint(ContextCompat.getColor(this, R.color.green_500))
-                progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
-            }
-        }
+        status.text = orderStatusToString(this, statusArg)
+        progressBar.progressDrawable.setTint(
+            ContextCompat.getColor(this, orderStatusToColor(statusArg))
+        )
+        progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
+        progressBar.progress = orderStatusToProgress(statusArg)
     }
 
     private fun initHeader() {
@@ -65,10 +55,9 @@ class OrderDetailActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        val adapter = OrderDetailAdapter(createList())
         val items = findViewById<RecyclerView>(R.id.order_detail_items)
         items.layoutManager = LinearLayoutManager(this)
-        items.adapter = adapter
+        items.adapter = OrderDetailAdapter(createList())
     }
 
     private fun createList(): ArrayList<OrderItem> {
@@ -82,20 +71,14 @@ class OrderDetailActivity : AppCompatActivity() {
 
 class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
     RecyclerView.Adapter<OrderDetailAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_order_detail, parent, false)
-        )
-    }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_order_detail, parent, false)
+    )
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        holder.bindView(item)
-    }
+    override fun getItemCount(): Int = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val quantity = itemView.findViewById<TextView>(R.id.order_detail_item_quantity)
@@ -103,7 +86,7 @@ class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
         private val price = itemView.findViewById<TextView>(R.id.order_detail_item_price)
 
         @SuppressLint("SetTextI18n")
-        fun bindView(item: OrderItem) {
+        fun bind(item: OrderItem) {
             quantity.text = item.quantity.toString() + "x"
             product.text = item.product
             price.text = item.price
@@ -119,6 +102,29 @@ data class OrderItem(
 
 enum class OrderStatus {
     PREPARING,
-    DELIVERING,
-    COMPLETE
+    TRANSPORTING,
+    DELIVERED
+}
+
+fun orderStatusToString(context: Context, status: OrderStatus): String = when (status) {
+    OrderStatus.DELIVERED -> context.resources.getString(R.string.t_delivered)
+    OrderStatus.TRANSPORTING -> context.resources.getString(R.string.t_transporting)
+    OrderStatus.PREPARING -> context.resources.getString(R.string.t_preparing)
+}
+
+@ColorRes
+fun orderStatusToColor(status: OrderStatus): Int {
+    return when (status) {
+        OrderStatus.PREPARING -> R.color.orange_500
+        OrderStatus.TRANSPORTING -> R.color.orange_500
+        OrderStatus.DELIVERED -> R.color.green_500
+    }
+}
+
+fun orderStatusToProgress(status: OrderStatus): Int {
+    return when (status) {
+        OrderStatus.PREPARING -> 33
+        OrderStatus.TRANSPORTING -> 66
+        OrderStatus.DELIVERED -> 100
+    }
 }

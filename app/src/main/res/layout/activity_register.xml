@@ -37,7 +37,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/t_name">
+            android:hint="@string/t_name"
+            app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/t_email"
+            app:boxBackgroundColor="@color/white"
             app:helperText="username@domain.com"
             app:helperTextEnabled="true">
 
@@ -78,6 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/t_address"
+            app:boxBackgroundColor="@color/white"
             app:helperText="Street, 100, City, 55555-5555"
             app:helperTextEnabled="true">
 
@@ -99,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/t_cellphone"
+            app:boxBackgroundColor="@color/white"
             app:helperText="+321 55555-5555"
             app:helperTextEnabled="true">
 
@@ -120,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/t_password"
+            app:boxBackgroundColor="@color/white"
             app:endIconMode="password_toggle"
             app:helperText="Must contains numbers and letters"
             app:helperTextEnabled="true">
@@ -142,6 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/t_confirm_password"
+            app:boxBackgroundColor="@color/white"
             app:endIconMode="password_toggle"
             app:helperText="Must be equals to password"
             app:helperTextEnabled="true">
