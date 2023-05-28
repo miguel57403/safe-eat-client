@@ -8,15 +8,19 @@
     android:padding="16dp"
     tools:context=".OrderDetailActivity">
 
+    <include layout="@layout/fragment_header" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/order_detail_top_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp">
 
         <ImageView
             android:id="@+id/order_detail_restaurant_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/d_image_restaurant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +31,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:text="Restaurant name"
+            android:text="@string/k_restaurant"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/order_detail_date"
             app:layout_constraintStart_toEndOf="@+id/order_detail_restaurant_image"
@@ -37,7 +42,9 @@
             android:id="@+id/order_detail_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Restaurant name"
+            android:text="@string/k_date_time"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +54,7 @@
         android:id="@+id/header_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/orange_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,17 +62,18 @@
         app:layout_constraintTop_toBottomOf="@+id/header_back_button" />
 
     <TextView
+        android:id="@+id/order_detail_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Status: Preparing" />
+        android:text="@string/k_status" />
 
     <ProgressBar
-        android:id="@+id/order_default_progress_bar"
+        android:id="@+id/order_detail_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:indeterminate="false"
         android:max="100"
         android:progress="30"
@@ -113,7 +121,7 @@
         <FrameLayout
             android:id="@+id/order_detail_products_divider"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/orange_500"
             app:layout_constraintEnd_toEndOf="parent"
