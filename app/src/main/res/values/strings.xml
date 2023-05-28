@@ -111,5 +111,6 @@
     <string name="t_subtotal">Subtotal</string>
     <string name="t_total">Total</string>
     <string name="t_transporting">Transporting</string>
+    <string name="t_restaurant">Restaurants</string>
     <string name="t_yes">Yes</string>
 </resources>
