@@ -13,7 +13,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.card.MaterialCardView
 
-class AllergyEditActivity(private val listener: NavigationListener) : AllergyListener, Fragment()  {
+class AllergyEditActivity(private val navigation: NavigationListener) : AllergyListener, Fragment()  {
     // TODO: Create a fragment for allergies buttons
     private lateinit var allergiesButtons: RecyclerView
     private var allergyList = ArrayList<Allergy>()
@@ -37,7 +37,7 @@ class AllergyEditActivity(private val listener: NavigationListener) : AllergyLis
         val title = view.findViewById<TextView>(R.id.header_title)
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_edit_allergies)
-        backButton.setOnClickListener { listener.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initAllergiesButtons(view: View) {

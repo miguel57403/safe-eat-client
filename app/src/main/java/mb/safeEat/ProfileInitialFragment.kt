@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 
-class ProfileInitialFragment(private val listener: NavigationListener) : Fragment() {
+class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,10 +25,10 @@ class ProfileInitialFragment(private val listener: NavigationListener) : Fragmen
         val settingsButton = view.findViewById<Button>(R.id.profile_button_settings)
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
 
-        addressButton.setOnClickListener { listener.navigateTo(AddressActivity(listener))  }
-        restrictionsButton.setOnClickListener { listener.navigateTo(AllergyEditActivity(listener))  }
-        ordersButton.setOnClickListener { listener.navigateTo(OrdersActivity(listener)) }
-        paymentButton.setOnClickListener { listener.navigateTo(PaymentOptionActivity(listener))  }
+        addressButton.setOnClickListener { navigation.navigateTo(AddressActivity(navigation))  }
+        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditActivity(navigation))  }
+        ordersButton.setOnClickListener { navigation.navigateTo(OrdersActivity(navigation)) }
+        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionActivity(navigation))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
     }
