@@ -2,7 +2,6 @@ package mb.safeEat
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +50,7 @@ class RestaurantActivity(
         deliveryPrice.text = params.deliveryPrice
         restaurantName.text = params.restaurant
         restaurantImage.setImageResource(R.drawable.restaurant)
-        searchButton.setOnClickListener { Log.d("Click", "Search button") }
+        searchButton.setOnClickListener { navigation.navigateTo(SearchRestaurantActivity(navigation)) }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 

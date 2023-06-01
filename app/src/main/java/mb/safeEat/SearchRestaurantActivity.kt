@@ -1,6 +1,5 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,20 +8,32 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
-class SearchRestaurantActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_restaurant)
-        initAdapter()
+class SearchRestaurantActivity(private val navigation: NavigationListener) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_search_restaurant, container, false)
+        if (view != null) onInit(view)
+        return view
+    }
 
-        val searchLayout = findViewById<TextInputLayout>(R.id.search_restaurant_search_layout)
-        val searchInput = findViewById<TextInputEditText>(R.id.search_restaurant_search_input)
+    private fun onInit(view: View) {
+        initAdapter(view)
+        initScreenEvents(view)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val backButton = view.findViewById<MaterialCardView>(R.id.search_restaurant_back_button)
+        val searchLayout = view.findViewById<TextInputLayout>(R.id.search_restaurant_search_layout)
+        val searchInput = view.findViewById<TextInputEditText>(R.id.search_restaurant_search_input)
 
         searchLayout.setEndIconOnClickListener { submit(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
@@ -30,32 +41,37 @@ class SearchRestaurantActivity : AppCompatActivity() {
             if (enterClicked) submit(searchInput.text.toString())
             enterClicked
         }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun submit(data: String) {
         Log.d("Submit", data)
     }
 
-    private fun initAdapter() {
-        val listItems = findViewById<RecyclerView>(R.id.search_restaurant_list)
-        listItems.layoutManager = LinearLayoutManager(this)
-        listItems.adapter = SearchRestaurantAdapter(createList())
+    private fun initAdapter(view: View) {
+        val listItems = view.findViewById<RecyclerView>(R.id.search_restaurant_list)
+        listItems.layoutManager = LinearLayoutManager(view.context)
+        listItems.adapter = SearchRestaurantAdapter(navigation, createList())
     }
 
     private fun createList(): ArrayList<SearchRestaurant> {
         return arrayListOf(
-            SearchRestaurant(searchProductImage, "Sabor Brasileiro", "€2,99", "10 - 20 min"),
-            SearchRestaurant(searchProductImage, "Marmita Caseira", "€2,99", "10 - 20 min"),
-            SearchRestaurant(searchProductImage, "Galinha da vizinha", "€2,99", "10 - 20 min"),
+            SearchRestaurant(searchRestaurantImage, "Sabor Brasileiro", "€2,99", "10 - 20 min"),
+            SearchRestaurant(searchRestaurantImage, "Marmita Caseira", "€2,99", "10 - 20 min"),
+            SearchRestaurant(searchRestaurantImage, "Galinha da vizinha", "€2,99", "10 - 20 min"),
         )
     }
 
 }
 
-class SearchRestaurantAdapter(private var data: ArrayList<SearchRestaurant>) :
+class SearchRestaurantAdapter(
+    private val navigation: NavigationListener,
+    private var data: ArrayList<SearchRestaurant>
+) :
     RecyclerView.Adapter<SearchRestaurantAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant_alone, parent, false)
     )
 
@@ -63,7 +79,8 @@ class SearchRestaurantAdapter(private var data: ArrayList<SearchRestaurant>) :
 
     override fun getItemCount(): Int = data.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val navigation: NavigationListener, itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val container = itemView.findViewById<MaterialCardView>(R.id.payment_address_container)
         private val image = itemView.findViewById<ImageView>(R.id.search_restaurant_item_image)
         private val name = itemView.findViewById<TextView>(R.id.search_restaurant_item_product)
         private val price = itemView.findViewById<TextView>(R.id.search_restaurant_item_price)
@@ -74,6 +91,7 @@ class SearchRestaurantAdapter(private var data: ArrayList<SearchRestaurant>) :
             price.text = restaurant.price
             time.text = restaurant.time
             image.setImageBitmap(base64ToBitmap(restaurant.image))
+            container.setOnClickListener { navigation.navigateTo(ProductDetailsActivity(navigation)) }
         }
     }
 }

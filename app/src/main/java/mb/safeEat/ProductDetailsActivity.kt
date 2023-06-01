@@ -1,6 +1,5 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,28 +7,35 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class ProductDetailsActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_details)
-        initAdapter()
-        initHeader()
+class ProductDetailsActivity(private val navigation: NavigationListener) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_product_details, container, false)
+        if (view != null) onInit(view)
+        return view
     }
 
-    private fun initHeader() {
-        val title = findViewById<TextView>(R.id.header_title)
-        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
+    private fun onInit(view: View) {
+        initHeader(view)
+        initAdapter(view)
+    }
+
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_product_details)
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun initAdapter() {
-        val items = findViewById<RecyclerView>(R.id.product_detail_items)
-        items.layoutManager = LinearLayoutManager(this)
+    private fun initAdapter(view: View) {
+        val items = view.findViewById<RecyclerView>(R.id.product_detail_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = ProductDetailAdapter(createList())
     }
 
@@ -63,7 +69,6 @@ class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
                 content.setTextColor(color)
                 image.setColorFilter(color)
             }
-
         }
     }
 }
