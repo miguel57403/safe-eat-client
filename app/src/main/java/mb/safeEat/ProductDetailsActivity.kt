@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
@@ -24,6 +28,22 @@ class ProductDetailsActivity(private val navigation: NavigationListener) : Fragm
     private fun onInit(view: View) {
         initHeader(view)
         initAdapter(view)
+        initScreenEvents(view)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val addToCartButton = view.findViewById<Button>(R.id.product_detail_button)
+        addToCartButton.setOnClickListener {
+            val dialog = ProductAddedDialogFragment()
+            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+            dialog.lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        navigation.navigateTo(CartFragment())
+                    }
+                }
+            })
+        }
     }
 
     private fun initHeader(view: View) {

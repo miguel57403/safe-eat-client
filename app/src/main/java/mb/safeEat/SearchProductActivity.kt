@@ -8,20 +8,30 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class SearchProductActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_product)
-        initAdapter()
+class SearchProductActivity(private val navigation: NavigationListener) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_search_product, container, false)
+        if (view != null) onInit(view)
+        return view
+    }
+    private fun onInit(view: View) {
+        initAdapter(view)
+        initScreenEvents(view)
+    }
 
-        val searchLayout = findViewById<TextInputLayout>(R.id.search_product_search_layout)
-        val searchInput = findViewById<TextInputEditText>(R.id.search_product_search_input)
+    private fun initScreenEvents(view: View) {
+        val backButton = view.findViewById<ImageView>(R.id.search_product_back_button)
+        val searchLayout = view.findViewById<TextInputLayout>(R.id.search_product_search_layout)
+        val searchInput = view.findViewById<TextInputEditText>(R.id.search_product_search_input)
 
         searchLayout.setEndIconOnClickListener { submit(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
@@ -29,16 +39,17 @@ class SearchProductActivity : AppCompatActivity() {
             if (enterClicked) submit(searchInput.text.toString())
             enterClicked
         }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun submit(data: String) {
         Log.d("Submit", data)
     }
 
-    private fun initAdapter() {
-        val listItems = findViewById<RecyclerView>(R.id.search_product_list)
-        listItems.layoutManager = LinearLayoutManager(this)
-        listItems.adapter = SearchProductAdapter(createList())
+    private fun initAdapter(view: View) {
+        val listItems = view.findViewById<RecyclerView>(R.id.search_product_list)
+        listItems.layoutManager = LinearLayoutManager(view.context)
+        listItems.adapter = SearchProductAdapter(navigation, createList())
     }
 
     private fun createList(): ArrayList<SearchProduct> {
@@ -50,10 +61,11 @@ class SearchProductActivity : AppCompatActivity() {
     }
 }
 
-class SearchProductAdapter(private var data: ArrayList<SearchProduct>) :
+class SearchProductAdapter(private val navigation: NavigationListener, private var data: ArrayList<SearchProduct>) :
     RecyclerView.Adapter<SearchProductAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
     )
 
@@ -61,7 +73,8 @@ class SearchProductAdapter(private var data: ArrayList<SearchProduct>) :
 
     override fun getItemCount(): Int = data.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val navigation: NavigationListener, itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val container = itemView.findViewById<MaterialCardView>(R.id.item_product_container)
         private val image = itemView.findViewById<ImageView>(R.id.search_product_item_image)
         private val name = itemView.findViewById<TextView>(R.id.search_product_item_product)
         private val price = itemView.findViewById<TextView>(R.id.search_product_item_price)
@@ -70,6 +83,7 @@ class SearchProductAdapter(private var data: ArrayList<SearchProduct>) :
             name.text = product.name
             price.text = product.price
             image.setImageBitmap(base64ToBitmap(product.image))
+            container.setOnClickListener { navigation.navigateTo(ProductDetailsActivity(navigation)) }
         }
     }
 }

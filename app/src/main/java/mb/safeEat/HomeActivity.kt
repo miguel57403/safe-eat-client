@@ -3,6 +3,7 @@ package mb.safeEat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.lang.Exception
 
@@ -50,4 +51,5 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
 interface NavigationListener {
     fun navigateTo(fragment: Fragment)
     fun onBackPressed()
+    fun getSupportFragmentManager(): FragmentManager
 }

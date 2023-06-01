@@ -21,7 +21,8 @@ data class RestaurantParams(
 )
 
 class RestaurantActivity(
-    private val navigation: NavigationListener, private val params: RestaurantParams
+    private val navigation: NavigationListener,
+    private val params: RestaurantParams,
 ) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,14 +51,14 @@ class RestaurantActivity(
         deliveryPrice.text = params.deliveryPrice
         restaurantName.text = params.restaurant
         restaurantImage.setImageResource(R.drawable.restaurant)
-        searchButton.setOnClickListener { navigation.navigateTo(SearchRestaurantActivity(navigation)) }
+        searchButton.setOnClickListener { navigation.navigateTo(SearchProductActivity(navigation)) }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initAdapter(view: View) {
         val items = view.findViewById<RecyclerView>(R.id.restaurant_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = RestaurantCategoryAdapter(createList())
+        items.adapter = RestaurantCategoryAdapter(navigation, createList())
     }
 
     private fun createList(): ArrayList<RestaurantCategory> {
@@ -87,10 +88,12 @@ class RestaurantActivity(
     }
 }
 
-class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>) :
-    RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
+class RestaurantCategoryAdapter(
+    private val navigation: NavigationListener,
+    private val data: ArrayList<RestaurantCategory>,
+) : RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        parent.context,
+        navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant, parent, false)
     )
 
@@ -98,7 +101,10 @@ class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(
+        private val navigation: NavigationListener,
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
         private val category = itemView.findViewById<TextView>(R.id.restaurant_category_name)
         private val items = itemView.findViewById<RecyclerView>(R.id.restaurant_category_items)
         fun bind(item: RestaurantCategory) {
@@ -107,8 +113,8 @@ class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>)
         }
 
         private fun initAdapter(item: RestaurantCategory) {
-            val adapter = RestaurantProductAdapter(item.products)
-            items.layoutManager = LinearLayoutManager(context).apply {
+            val adapter = RestaurantProductAdapter(navigation, item.products)
+            items.layoutManager = LinearLayoutManager(itemView.context).apply {
                 orientation = RecyclerView.HORIZONTAL
             }
             items.adapter = adapter
@@ -116,9 +122,13 @@ class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>)
     }
 }
 
-class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
+class RestaurantProductAdapter(
+    private val navigation: NavigationListener,
+    private val data: ArrayList<RestaurantProduct>,
+) :
     RecyclerView.Adapter<RestaurantProductAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant_product, parent, false)
     )
 
@@ -126,7 +136,8 @@ class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val navigation: NavigationListener, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
         private val container =
             itemView.findViewById<MaterialCardView>(R.id.restaurant_product_container)
         private val product = itemView.findViewById<TextView>(R.id.restaurant_product_name)
@@ -149,6 +160,7 @@ class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
                     ContextCompat.getColor(itemView.context, android.R.color.transparent)
                 container.strokeWidth = dp2px(itemView.context, 0f).toInt()
             }
+            container.setOnClickListener { navigation.navigateTo(ProductDetailsActivity(navigation)) }
         }
     }
 }
@@ -160,9 +172,13 @@ fun dp2px(context: Context, dp: Float): Float {
 }
 
 data class RestaurantProduct(
-    val imageId: Int, val name: String, val price: String, val restricted: Boolean
+    val imageId: Int,
+    val name: String,
+    val price: String,
+    val restricted: Boolean,
 )
 
 data class RestaurantCategory(
-    val name: String, val products: ArrayList<RestaurantProduct>
+    val name: String,
+    val products: ArrayList<RestaurantProduct>,
 )
