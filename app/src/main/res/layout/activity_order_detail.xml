@@ -152,4 +152,10 @@
             app:layout_constraintTop_toTopOf="@+id/order_detail_products_divider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/order_detail_button_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/m_feedback" />
 </LinearLayout>

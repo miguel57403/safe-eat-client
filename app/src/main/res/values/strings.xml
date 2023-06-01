@@ -122,4 +122,6 @@
     <string name="t_yes">Yes</string>
     <string name="t_advertisement">Advertisement</string>
     <string name="k_score">[0.0]</string>
+    <string name="r_x_times">x</string>
+    <string name="m_feedback">Give a feedback</string>
 </resources>

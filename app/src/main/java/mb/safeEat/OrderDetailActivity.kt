@@ -3,60 +3,81 @@ package mb.safeEat
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class OrderDetailActivity : AppCompatActivity() {
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order_detail)
-        initHeader()
-        initAdapter()
+data class OrderDetailParams(
+    val status: OrderStatus,
+    val restaurant: String,
+    val date: String
+)
 
-        // TODO: Transform this in args
-        val statusArg = OrderStatus.DELIVERED
-        val restaurantArg = "Sabor Brasileiro"
-        val dateArg = "27/03/2023"
+class OrderDetailActivity(
+    private val navigation: NavigationListener,
+    private val params: OrderDetailParams
+) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_order_detail, container, false)
+        if (view != null) onInit(view)
+        return view
+    }
 
-        val image = findViewById<ImageView>(R.id.order_detail_restaurant_image)
-        val restaurant = findViewById<TextView>(R.id.order_detail_restaurant_name)
-        val date = findViewById<TextView>(R.id.order_detail_date)
-        val status = findViewById<TextView>(R.id.order_detail_status)
-        val progressBar = findViewById<ProgressBar>(R.id.order_detail_progress_bar)
+    private fun onInit(view: View) {
+        initAdapter(view)
+        initHeader(view)
+        initScreenEvents(view)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val image = view.findViewById<ImageView>(R.id.order_detail_restaurant_image)
+        val restaurant = view.findViewById<TextView>(R.id.order_detail_restaurant_name)
+        val date = view.findViewById<TextView>(R.id.order_detail_date)
+        val status = view.findViewById<TextView>(R.id.order_detail_status)
+        val progressBar = view.findViewById<ProgressBar>(R.id.order_detail_progress_bar)
+        val buttonFeedback = view.findViewById<Button>(R.id.order_detail_button_feedback)
 
         image.setImageResource(R.drawable.restaurant)
-        restaurant.text = restaurantArg
-        date.text = dateArg
-        status.text = orderStatusToString(this, statusArg)
+        restaurant.text = params.restaurant
+        date.text = params.date
+        status.text = params.status.toResourceString(view.context)
         progressBar.progressDrawable.setTint(
-            ContextCompat.getColor(this, orderStatusToColor(statusArg))
+            ContextCompat.getColor(view.context, params.status.toResourceColor())
         )
         progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
-        progressBar.progress = orderStatusToProgress(statusArg)
+        progressBar.progress = params.status.toProgress()
+        if (params.status == OrderStatus.DELIVERED) {
+            buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackActivity(navigation)) }
+            buttonFeedback.visibility = View.VISIBLE
+        } else {
+            buttonFeedback.visibility = View.GONE
+        }
     }
 
-    private fun initHeader() {
-        val title = findViewById<TextView>(R.id.header_title)
-        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_order)
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun initAdapter() {
-        val items = findViewById<RecyclerView>(R.id.order_detail_items)
-        items.layoutManager = LinearLayoutManager(this)
+    private fun initAdapter(view: View) {
+        val items = view.findViewById<RecyclerView>(R.id.order_detail_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = OrderDetailAdapter(createList())
     }
 
@@ -87,7 +108,7 @@ class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
 
         @SuppressLint("SetTextI18n")
         fun bind(item: OrderItem) {
-            quantity.text = item.quantity.toString() + "x"
+            quantity.text = item.quantity.toString() + itemView.resources.getString(R.string.r_x_times)
             product.text = item.product
             price.text = item.price
         }
@@ -97,34 +118,28 @@ class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
 data class OrderItem(
     val quantity: Int,
     val product: String,
-    val price: String
+    val price: String,
 )
 
 enum class OrderStatus {
-    PREPARING,
-    TRANSPORTING,
-    DELIVERED
-}
+    PREPARING, TRANSPORTING, DELIVERED;
 
-fun orderStatusToString(context: Context, status: OrderStatus): String = when (status) {
-    OrderStatus.DELIVERED -> context.resources.getString(R.string.t_delivered)
-    OrderStatus.TRANSPORTING -> context.resources.getString(R.string.t_transporting)
-    OrderStatus.PREPARING -> context.resources.getString(R.string.t_preparing)
-}
-
-@ColorRes
-fun orderStatusToColor(status: OrderStatus): Int {
-    return when (status) {
-        OrderStatus.PREPARING -> R.color.orange_500
-        OrderStatus.TRANSPORTING -> R.color.orange_500
-        OrderStatus.DELIVERED -> R.color.green_500
+    fun toResourceString(context: Context): String = when (this) {
+        DELIVERED -> context.resources.getString(R.string.t_delivered)
+        TRANSPORTING -> context.resources.getString(R.string.t_transporting)
+        PREPARING -> context.resources.getString(R.string.t_preparing)
     }
-}
 
-fun orderStatusToProgress(status: OrderStatus): Int {
-    return when (status) {
-        OrderStatus.PREPARING -> 33
-        OrderStatus.TRANSPORTING -> 66
-        OrderStatus.DELIVERED -> 100
+    @ColorRes
+    fun toResourceColor(): Int = when (this) {
+        PREPARING -> R.color.orange_500
+        TRANSPORTING -> R.color.orange_500
+        DELIVERED -> R.color.green_500
+    }
+
+    fun toProgress(): Int = when (this) {
+        PREPARING -> 33
+        TRANSPORTING -> 66
+        DELIVERED -> 100
     }
 }

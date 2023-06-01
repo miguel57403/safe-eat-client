@@ -1,35 +1,52 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 
-class FeedbackActivity : AppCompatActivity() {
+class FeedbackActivity(private val navigation: NavigationListener) : Fragment() {
     private var score = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_feedback)
-        initHeader()
-        initStars()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_feedback, container, false)
+        onInit(view)
+        return view
     }
 
-    private fun initHeader() {
-        val title = findViewById<TextView>(R.id.header_title)
-        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
+    private fun onInit(view: View) {
+        initHeader(view)
+        initStars(view)
+        initScreenEvents(view)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val submitButton = view.findViewById<Button>(R.id.feedback_submit)
+        submitButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_feedback)
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun initStars() {
+    private fun initStars(view: View) {
         val stars = arrayListOf<ImageView>(
-            findViewById(R.id.feedback_star1),
-            findViewById(R.id.feedback_star2),
-            findViewById(R.id.feedback_star3),
-            findViewById(R.id.feedback_star4),
-            findViewById(R.id.feedback_star5)
+            view.findViewById(R.id.feedback_star1),
+            view.findViewById(R.id.feedback_star2),
+            view.findViewById(R.id.feedback_star3),
+            view.findViewById(R.id.feedback_star4),
+            view.findViewById(R.id.feedback_star5)
         )
 
         fun updateScoreUI(newScore: Int) {

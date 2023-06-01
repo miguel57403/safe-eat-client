@@ -1,7 +1,6 @@
 package mb.safeEat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class NotificationInitialFragment : Fragment() {
+class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +26,7 @@ class NotificationInitialFragment : Fragment() {
     }
 
     private fun initAdapter(view: View) {
-        val adapter = NotificationAdapter(createList())
+        val adapter = NotificationAdapter(navigation, createList())
         val items = view.findViewById<RecyclerView>(R.id.notification_items)
         items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = adapter
@@ -39,51 +38,62 @@ class NotificationInitialFragment : Fragment() {
                 "Sabor Brasileiro",
                 "30 seconds ago",
                 R.drawable.restaurant,
-                "Your order has arrived"
+                "Your order has arrived",
+                OrderStatus.DELIVERED
             ),
             Notification(
                 "Sabor Brasileiro",
                 "5 min ago",
                 R.drawable.restaurant,
-                "Your order is out for delivery"
+                "Your order is out for delivery",
+                OrderStatus.TRANSPORTING
             ),
             Notification(
                 "Sabor Brasileiro",
                 "15 min ago",
                 R.drawable.restaurant,
-                "Your order is in preparation"
+                "Your order is in preparation",
+                OrderStatus.PREPARING
             ),
             Notification(
                 "Mimo's Pizza",
                 "1 day ago",
                 R.drawable.restaurant,
-                "Promotion message"
+                "Promotion message",
+                null
             ),
             Notification(
                 "Gelados Maravilhosos",
                 "2 days ago",
                 R.drawable.restaurant,
-                "Promotion message"
+                "Promotion message",
+                null
             ),
             Notification(
                 "Sabor Brasileiro",
                 "25 Apr at 12:45",
                 R.drawable.restaurant,
-                "Promotion message"
+                "Promotion message",
+                null
             ),
             Notification(
                 "Sabor Brasileiro",
                 "23 Apr at 12:45",
                 R.drawable.restaurant,
-                "Promotion message"
+                "Promotion message",
+                null
             ),
         )
     }
 }
 
-class NotificationAdapter(private val data: ArrayList<Notification>) :
+class NotificationAdapter(
+    private val navigation: NavigationListener,
+    private val data: ArrayList<Notification>
+) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_notification, parent, false)
     )
 
@@ -91,7 +101,8 @@ class NotificationAdapter(private val data: ArrayList<Notification>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val navigation: NavigationListener, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
         private val container =
             itemView.findViewById<MaterialCardView>(R.id.restaurant_product_container)
         private val image = itemView.findViewById<ImageView>(R.id.notification_restaurant_image)
@@ -103,10 +114,18 @@ class NotificationAdapter(private val data: ArrayList<Notification>) :
             image.setImageResource(item.imageId)
             restaurant.text = item.restaurant
             timeArrival.text = item.arrivalTime
-            status.text = item.status
-            if (item.arrivalTime.startsWith("30 seconds")) {
+            status.text = item.message
+            if (item.orderStatus != null) {
                 container.setOnClickListener {
-                    Log.d("Click", "Notification: $item")
+                    navigation.navigateTo(
+                        OrderDetailActivity(
+                            navigation, OrderDetailParams(
+                                item.orderStatus,
+                                item.restaurant,
+                                item.arrivalTime
+                            )
+                        )
+                    )
                 }
             } else {
                 container.isClickable = false
@@ -119,5 +138,6 @@ data class Notification(
     val restaurant: String,
     val arrivalTime: String,
     val imageId: Int,
-    val status: String
+    val message: String,
+    val orderStatus: OrderStatus?,
 )

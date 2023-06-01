@@ -39,9 +39,6 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".NotificationInitialFragment"
             android:exported="false" />
         <activity

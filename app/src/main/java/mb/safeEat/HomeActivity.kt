@@ -26,7 +26,7 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
                 R.id.menu_item_search -> SearchCategoryFragment()
                 R.id.menu_item_cart -> CartFragment()
                 R.id.menu_item_user -> ProfileFragment(this)
-                R.id.menu_item_notification -> NotificationFragment()
+                R.id.menu_item_notification -> NotificationFragment(this)
                 else -> throw Exception("Menu item id not defined")
             }
             navigateTo(fragment)
