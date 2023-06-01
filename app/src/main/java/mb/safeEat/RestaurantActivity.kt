@@ -1,7 +1,6 @@
 package mb.safeEat
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -11,41 +10,54 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class RestaurantActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_restaurant)
-        initAdapter()
+data class RestaurantParams(
+    val restaurant: String,
+    val deliveryPrice: String,
+    val deliveryTime: String,
+)
 
-        // TODO: Receive values by arguments
-        val restaurantNameArg = "Sabor Brasileiro"
-        val deliveryPriceArg = "Delivery €2,99"
-        val deliveryIntervalArg = "20 - 30 min"
-
-        val posterImage = findViewById<ImageView>(R.id.restaurant_poster_image)
-        val deliveryInterval = findViewById<TextView>(R.id.restaurant_delivery_interval)
-        val deliveryPrice = findViewById<TextView>(R.id.restaurant_delivery_price)
-        val restaurantName = findViewById<TextView>(R.id.restaurant_name)
-        val restaurantImage = findViewById<ImageView>(R.id.restaurant_image)
-        val searchButton = findViewById<MaterialCardView>(R.id.restaurant_search_button)
-        val backButton = findViewById<MaterialCardView>(R.id.restaurant_back_button)
-
-        posterImage.setImageResource(R.drawable.sandwich)
-        deliveryInterval.text = deliveryIntervalArg
-        deliveryPrice.text = deliveryPriceArg
-        restaurantName.text = restaurantNameArg
-        restaurantImage.setImageResource(R.drawable.restaurant)
-        searchButton.setOnClickListener { Log.d("Click", "Search button") }
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+class RestaurantActivity(
+    private val navigation: NavigationListener, private val params: RestaurantParams
+) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_restaurant, container, false)
+        if (view != null) onInit(view)
+        return view
     }
 
-    private fun initAdapter() {
-        val items = findViewById<RecyclerView>(R.id.restaurant_items)
-        items.layoutManager = LinearLayoutManager(this)
+    private fun onInit(view: View) {
+        initAdapter(view)
+        initScreenEvents(view)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val posterImage = view.findViewById<ImageView>(R.id.restaurant_poster_image)
+        val deliveryInterval = view.findViewById<TextView>(R.id.restaurant_delivery_interval)
+        val deliveryPrice = view.findViewById<TextView>(R.id.restaurant_delivery_price)
+        val restaurantName = view.findViewById<TextView>(R.id.restaurant_name)
+        val restaurantImage = view.findViewById<ImageView>(R.id.restaurant_image)
+        val searchButton = view.findViewById<MaterialCardView>(R.id.restaurant_search_button)
+        val backButton = view.findViewById<MaterialCardView>(R.id.restaurant_back_button)
+
+        posterImage.setImageResource(R.drawable.sandwich)
+        deliveryInterval.text = params.deliveryTime
+        deliveryPrice.text = params.deliveryPrice
+        restaurantName.text = params.restaurant
+        restaurantImage.setImageResource(R.drawable.restaurant)
+        searchButton.setOnClickListener { Log.d("Click", "Search button") }
+        backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initAdapter(view: View) {
+        val items = view.findViewById<RecyclerView>(R.id.restaurant_items)
+        items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = RestaurantCategoryAdapter(createList())
     }
 
@@ -108,8 +120,7 @@ class RestaurantCategoryAdapter(private val data: ArrayList<RestaurantCategory>)
 class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
     RecyclerView.Adapter<RestaurantProductAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_restaurant_product, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant_product, parent, false)
     )
 
     override fun getItemCount(): Int = data.size
@@ -145,20 +156,14 @@ class RestaurantProductAdapter(private val data: ArrayList<RestaurantProduct>) :
 
 fun dp2px(context: Context, dp: Float): Float {
     return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        dp,
-        context.resources.displayMetrics
+        TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics
     )
 }
 
 data class RestaurantProduct(
-    val imageId: Int,
-    val name: String,
-    val price: String,
-    val restricted: Boolean
+    val imageId: Int, val name: String, val price: String, val restricted: Boolean
 )
 
 data class RestaurantCategory(
-    val name: String,
-    val products: ArrayList<RestaurantProduct>
+    val name: String, val products: ArrayList<RestaurantProduct>
 )
