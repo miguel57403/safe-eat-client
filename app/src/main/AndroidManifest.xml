@@ -15,19 +15,10 @@
             android:name=".AllergyActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileInitialFragment"
-            android:exported="false" />
-        <activity
             android:name=".AddressRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".ExperimentalActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -39,22 +30,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationInitialFragment"
-            android:exported="false" />
-        <activity
-            android:name=".AllergyEditActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProductDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FeedbackActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CartInitialFragment"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity
             android:name=".SearchProductActivity"
