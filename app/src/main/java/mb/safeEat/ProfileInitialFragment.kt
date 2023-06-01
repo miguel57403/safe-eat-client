@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
@@ -18,6 +19,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun onInit(view: View) {
+        val profileImage = view.findViewById<ImageView>(R.id.profile_image)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)
         val restrictionsButton = view.findViewById<Button>(R.id.profile_button_restrictions)
         val ordersButton = view.findViewById<Button>(R.id.profile_button_orders)
@@ -25,6 +27,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val settingsButton = view.findViewById<Button>(R.id.profile_button_settings)
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
 
+        profileImage.setOnClickListener { navigation.navigateTo(ProfileEditActivity(navigation)) }
         addressButton.setOnClickListener { navigation.navigateTo(AddressActivity(navigation))  }
         restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditActivity(navigation))  }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersActivity(navigation)) }
