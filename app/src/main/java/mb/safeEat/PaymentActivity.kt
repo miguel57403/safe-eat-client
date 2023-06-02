@@ -1,20 +1,40 @@
 package mb.safeEat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 
-class PaymentActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
-        initHeader()
+class PaymentActivity(private val navigation: NavigationListener) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_payment, container, false)
+        if (view != null) onInit(view)
+        return view
+    }
 
-        val addressButton = findViewById<MaterialCardView>(R.id.payment_address_button)
-        val deliveryOptionButton = findViewById<MaterialCardView>(R.id.payment_delivery_option_button)
-        val paymentKindButton = findViewById<MaterialCardView>(R.id.payment_kind_button)
+    private fun onInit(view: View) {
+        initHeader(view)
+        initScreenEvents(view)
+    }
+
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = resources.getString(R.string.t_payment)
+        backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initScreenEvents(view: View) {
+        val addressButton = view.findViewById<MaterialCardView>(R.id.payment_address_button)
+        val deliveryOptionButton = view.findViewById<MaterialCardView>(R.id.payment_delivery_option_button)
+        val paymentKindButton = view.findViewById<MaterialCardView>(R.id.payment_kind_button)
 
         addressButton.setOnClickListener {
             Log.d("Click", "Address Button Clicked")
@@ -25,12 +45,5 @@ class PaymentActivity : AppCompatActivity() {
         paymentKindButton.setOnClickListener {
             Log.d("Click", "Payment Kind Button Clicked")
         }
-    }
-
-    private fun initHeader() {
-        val title = findViewById<TextView>(R.id.header_title)
-        val backButton = findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_payment)
-        backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 }

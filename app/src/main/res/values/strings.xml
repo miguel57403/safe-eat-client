@@ -6,6 +6,7 @@
     <string name="d_button_search">Search button</string>
     <string name="d_feedback_star">Feedback star</string>
     <string name="d_icon_cart">Icon cart</string>
+    <string name="d_icon_front_hand">Icon front hand</string>
     <string name="d_icon_confirmation_handshake">Icon confirmation handshake</string>
     <string name="d_icon_credit_card">Icon credit card</string>
     <string name="d_icon_delete">Icon delete</string>
@@ -124,4 +125,5 @@
     <string name="k_score">[0.0]</string>
     <string name="r_x_times">x</string>
     <string name="m_feedback">Give a feedback</string>
+    <string name="m_restriction_alert">Your order has product marked as restricted. Do you want to continue?</string>
 </resources>

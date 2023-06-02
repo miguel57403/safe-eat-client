@@ -23,7 +23,7 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
             val fragment = when (it.itemId) {
                 R.id.menu_item_home -> HomeInitialFragment(this)
                 R.id.menu_item_search -> SearchCategoryFragment(this)
-                R.id.menu_item_cart -> CartFragment()
+                R.id.menu_item_cart -> CartFragment(this)
                 R.id.menu_item_user -> ProfileFragment(this)
                 R.id.menu_item_notification -> NotificationFragment(this)
                 else -> throw Exception("Menu item id not defined")
