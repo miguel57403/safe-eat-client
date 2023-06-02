@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class ProfileFragment(private val listener: NavigationListener) : Fragment() {
+class ProfileFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,6 +17,6 @@ class ProfileFragment(private val listener: NavigationListener) : Fragment() {
     }
 
     private fun onInit() {
-        listener.navigateTo(ProfileInitialFragment(listener))
+        navigation.navigateTo(ProfileInitialFragment(navigation))
     }
 }

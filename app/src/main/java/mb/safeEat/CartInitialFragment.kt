@@ -1,18 +1,27 @@
 package mb.safeEat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.text.DecimalFormat
 import java.util.ArrayList
 
-class CartInitialFragment : Fragment() {
+class CartInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    val data = arrayListOf(
+        Product(product = "Pizza acebolada", amount = 3, price = 14.99f, warn = true),
+        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99f, warn = false),
+        Product(product = "Pizza de achova", amount = 2, price = 2.99f, warn = false)
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,20 +33,41 @@ class CartInitialFragment : Fragment() {
 
     private fun onInit(view: View) {
         initAdapter(view)
+        initScreenEvents(view)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initScreenEvents(view: View) {
+        val productsCount = view.findViewById<TextView>(R.id.cart_products_count)
+        val productsPrice = view.findViewById<TextView>(R.id.cart_products_price)
+        val button = view.findViewById<Button>(R.id.cart_button_submit)
+
+        val priceUnit = "€"
+        val hasWarnings = data.any { it.warn }
+        val totalPrice = data.sumOf { it.getTotalPrice().toDouble() }.toFloat()
+
+        productsCount.text = data.size.toString()
+        productsPrice.text = priceUnit + formatPrice(totalPrice)
+
+        button.setOnClickListener {
+            if (hasWarnings) {
+                val dialog = RestrictionAlertDialogFragment()
+                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+                dialog.setOnConfirmListener { confirm -> if (confirm) navigateToPayment() }
+            } else {
+                navigateToPayment()
+            }
+        }
     }
 
     private fun initAdapter(view: View) {
         val items = view.findViewById<RecyclerView>(R.id.cart_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = CartAdapter(createList())
+        items.adapter = CartAdapter(data)
     }
 
-    private fun createList(): ArrayList<Product> {
-        return arrayListOf(
-            Product(product = "Pizza acebolada", quantifyItem = 3, priceItem = "€14,99", warn = true),
-            Product(product = "Pizza 4 queijos", quantifyItem = 1, priceItem = "€2,99", warn = false),
-            Product(product = "Pizza de achova", quantifyItem = 2, priceItem = "€2,99", warn = false)
-        )
+    private fun navigateToPayment() {
+        navigation.navigateTo(PaymentActivity(navigation))
     }
 }
 
@@ -64,15 +94,19 @@ class CartAdapter(private var data: ArrayList<Product>) :
                 icon.visibility = View.VISIBLE
             }
             product.text = item.product
-            quantity.text = item.quantifyItem.toString()
-            price.text = item.priceItem
+            quantity.text = item.amount.toString()
+            price.text = formatPrice(item.price)
         }
     }
 }
 
 data class Product(
     val product: String,
-    val quantifyItem: Int,
-    val priceItem: String,
+    val amount: Int,
+    val price: Float,
     val warn: Boolean
-)
+) {
+    fun getTotalPrice(): Float = amount * price
+}
+
+fun formatPrice(price: Float): String = DecimalFormat("#.##").format(price)

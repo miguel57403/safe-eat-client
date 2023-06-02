@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class OrdersActivity(private val listener: NavigationListener) : Fragment() {
+class OrdersActivity(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +34,7 @@ class OrdersActivity(private val listener: NavigationListener) : Fragment() {
         val title = view.findViewById<TextView>(R.id.header_title)
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = view.resources.getString(R.string.t_orders)
-        backButton.setOnClickListener { listener.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initAdapter(view: View) {
@@ -92,10 +92,10 @@ class OrdersAdapter(private var data: ArrayList<Order>) :
         fun bind(order: Order) {
             restaurant.text = order.restaurant
             date.text = order.date
-            statusText.text = orderStatusToString(itemView.context, order.status)
+            statusText.text = order.status.toResourceString(itemView.context)
             image.setImageBitmap(base64ToBitmap(order.image))
             productsNumber.text = order.products_number.toString()
-            val color = orderStatusToColor(order.status)
+            val color = order.status.toResourceColor()
             statusIcon.setColorFilter(ContextCompat.getColor(itemView.context, color))
         }
     }

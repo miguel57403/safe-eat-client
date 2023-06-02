@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 
-class PaymentOptionActivity(private val listener: NavigationListener) : Fragment() {
+class PaymentOptionActivity(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +26,6 @@ class PaymentOptionActivity(private val listener: NavigationListener) : Fragment
         val title = view.findViewById<TextView>(R.id.header_title)
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_payment_options)
-        backButton.setOnClickListener { listener.onBackPressed() }
+        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 }

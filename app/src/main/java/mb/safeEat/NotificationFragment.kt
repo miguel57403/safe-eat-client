@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class NotificationFragment : Fragment() {
+class NotificationFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,13 +17,6 @@ class NotificationFragment : Fragment() {
     }
 
     private fun onInit() {
-        navigateTo(NotificationInitialFragment())
-    }
-
-    private fun navigateTo(fragment: Fragment) {
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.notification_container, fragment)
-            .commit()
+        navigation.navigateTo(NotificationInitialFragment(navigation))
     }
 }

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class CartFragment : Fragment() {
+class CartFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,13 +17,6 @@ class CartFragment : Fragment() {
     }
 
     private fun onInit() {
-        navigateTo(CartInitialFragment())
-    }
-
-    private fun navigateTo(fragment: Fragment) {
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.cart_container, fragment)
-            .commit()
+        navigation.navigateTo(CartInitialFragment(navigation))
     }
 }

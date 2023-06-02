@@ -2,8 +2,8 @@ package mb.safeEat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.lang.Exception
 
@@ -20,20 +20,19 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         bottomNavigation.setOnItemSelectedListener {
-            Log.d("Click", it.itemId.toString())
             val fragment = when (it.itemId) {
-                R.id.menu_item_home -> HomeInitialFragment()
-                R.id.menu_item_search -> SearchCategoryFragment()
-                R.id.menu_item_cart -> CartFragment()
+                R.id.menu_item_home -> HomeInitialFragment(this)
+                R.id.menu_item_search -> SearchCategoryFragment(this)
+                R.id.menu_item_cart -> CartFragment(this)
                 R.id.menu_item_user -> ProfileFragment(this)
-                R.id.menu_item_notification -> NotificationFragment()
+                R.id.menu_item_notification -> NotificationFragment(this)
                 else -> throw Exception("Menu item id not defined")
             }
             navigateTo(fragment)
             true
         }
 
-        navigateTo(HomeInitialFragment())
+        navigateTo(HomeInitialFragment(this))
     }
 
     override fun navigateTo(fragment: Fragment) {
@@ -46,11 +45,11 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
 
     override fun onBackPressed() {
         onBackPressedDispatcher.onBackPressed()
-        Log.d("Back Pressed", "Ok")
     }
 }
 
 interface NavigationListener {
     fun navigateTo(fragment: Fragment)
     fun onBackPressed()
+    fun getSupportFragmentManager(): FragmentManager
 }
