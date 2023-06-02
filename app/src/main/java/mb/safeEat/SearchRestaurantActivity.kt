@@ -31,7 +31,7 @@ class SearchRestaurantActivity(private val navigation: NavigationListener) : Fra
     }
 
     private fun initScreenEvents(view: View) {
-        val backButton = view.findViewById<ImageView>(R.id.search_restaurant_back_button)
+        val backButton = view.findViewById<MaterialCardView>(R.id.search_restaurant_back_button)
         val searchLayout = view.findViewById<TextInputLayout>(R.id.search_restaurant_search_layout)
         val searchInput = view.findViewById<TextInputEditText>(R.id.search_restaurant_search_input)
 

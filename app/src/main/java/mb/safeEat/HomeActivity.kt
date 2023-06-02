@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
         bottomNavigation.setOnItemSelectedListener {
             val fragment = when (it.itemId) {
                 R.id.menu_item_home -> HomeInitialFragment(this)
-                R.id.menu_item_search -> SearchCategoryFragment()
+                R.id.menu_item_search -> SearchCategoryFragment(this)
                 R.id.menu_item_cart -> CartFragment()
                 R.id.menu_item_user -> ProfileFragment(this)
                 R.id.menu_item_notification -> NotificationFragment(this)

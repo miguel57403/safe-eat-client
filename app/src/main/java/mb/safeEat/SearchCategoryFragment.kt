@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class SearchCategoryFragment : Fragment() {
+class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,13 +17,6 @@ class SearchCategoryFragment : Fragment() {
     }
 
     private fun onInit() {
-        navigateTo(SearchCategoryActivity())
-    }
-
-    private fun navigateTo(fragment: Fragment) {
-        childFragmentManager
-            .beginTransaction()
-            .replace(R.id.search_container, fragment)
-            .commit()
+        navigation.navigateTo(SearchCategoryActivity(navigation))
     }
 }
