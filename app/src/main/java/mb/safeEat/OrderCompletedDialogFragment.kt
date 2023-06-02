@@ -1,5 +1,6 @@
 package mb.safeEat
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,11 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 
+typealias OnDismissListener = () -> Unit
+
 class OrderCompletedDialogFragment : DialogFragment() {
+    private var onDismissListener: OnDismissListener = {}
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -23,5 +28,14 @@ class OrderCompletedDialogFragment : DialogFragment() {
         )
         val okButton = dialog!!.window!!.findViewById<Button>(R.id.order_completed_ok_button)
         okButton.setOnClickListener { dialog!!.dismiss() }
+    }
+
+    fun setOnDismissListener(listener: OnDismissListener) {
+        onDismissListener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismissListener()
     }
 }
