@@ -5,7 +5,7 @@
 - [advertisements](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/advertisements)
 - [addresses](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/addresses)
 - [allergies](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/allergies)
-- [authentication](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/login)
+- [authentication](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/authentication)
 - [carts](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/carts)
 - [categories](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/categories)
 - [deliveries](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/deliveries)
