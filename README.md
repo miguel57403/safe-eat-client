@@ -2,25 +2,25 @@
 
 ## collections
 
-- [advertisements](bit.ly/safeeat/advertisements)
-- [addresses](bit.ly/safeeat/addresses)
-- [allergies](bit.ly/safeeat/allergies)
-- [authentication](bit.ly/safeeat/login)
-- [carts](bit.ly/safeeat/carts)
-- [categories](bit.ly/safeeat/categories)
-- [deliveries](bit.ly/safeeat/deliveries)
-- [feedbacks](bit.ly/safeeat/feedbacks)
-- [home](bit.ly/safeeat/home)
-- [ingredients](bit.ly/safeeat/ingredients)
-- [items](bit.ly/safeeat/items)
-- [notifications](bit.ly/safeeat/notifications)
-- [orders](bit.ly/safeeat/orders)
-- [payments](bit.ly/safeeat/payments)
-- [product-sections](bit.ly/safeeat/product-sections)
-- [products](bit.ly/safeeat/products)
-- [restaurant-sections](bit.ly/safeeat/restaurant-sections)
-- [restaurants](bit.ly/safeeat/restaurants)
-- [users](bit.ly/safeeat/users)
+- [advertisements](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/advertisements)
+- [addresses](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/addresses)
+- [allergies](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/allergies)
+- [authentication](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/login)
+- [carts](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/carts)
+- [categories](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/categories)
+- [deliveries](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/deliveries)
+- [feedbacks](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/feedbacks)
+- [home](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/home)
+- [ingredients](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/ingredients)
+- [items](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/items)
+- [notifications](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/notifications)
+- [orders](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/orders)
+- [payments](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/payments)
+- [product-sections](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/product-sections)
+- [products](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/products)
+- [restaurant-sections](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/restaurant-sections)
+- [restaurants](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/restaurants)
+- [users](https://a6aa0d3f-61e2-4430-accb-0eff3e181a75.mock.pstmn.io/users)
 
 ## endpoints
 
@@ -75,14 +75,14 @@
     - update -> PUT: /carts/{id}
     - delete -> DELETE: /carts/{id}
 
-- feedbacks
-    - getAll -> GET: /feedbacks/
-    - getById -> GET: /feedbacks/{id}
-    - getByRestaurant -> GET: /feedbacks/restaurant/{id}
-    - getByOrder -> GET: /feedbacks/order/{id}
-    - create -> POST: /feedbacks/
-    - update -> PUT: /feedbacks/{id}
-    - delete -> DELETE: /feedbacks/{id}
+- feed-backs
+    - getAll -> GET: /feed-backs/
+    - getById -> GET: /feed-backs/{id}
+    - getByRestaurant -> GET: /feed-backs/restaurant/{id}
+    - getByOrder -> GET: /feed-backs/order/{id}
+    - create -> POST: /feed-backs/
+    - update -> PUT: /feed-backs/{id}
+    - delete -> DELETE: /feed-backs/{id}
 
 - home
     - getAll -> GET: /home/
