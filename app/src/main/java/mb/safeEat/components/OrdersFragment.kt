@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class OrdersActivity(private val navigation: NavigationListener) : Fragment() {
+class OrdersFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_orders, container, false)
+        val view = inflater.inflate(R.layout.fragment_orders, container, false)
         if (view != null) onInit(view)
         return view
     }

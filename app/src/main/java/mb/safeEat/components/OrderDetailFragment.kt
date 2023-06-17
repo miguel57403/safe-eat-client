@@ -25,7 +25,7 @@ data class OrderDetailParams(
     val date: String
 )
 
-class OrderDetailActivity(
+class OrderDetailFragment(
     private val navigation: NavigationListener,
     private val params: OrderDetailParams
 ) : Fragment() {
@@ -33,7 +33,7 @@ class OrderDetailActivity(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_order_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_order_detail, container, false)
         if (view != null) onInit(view)
         return view
     }
@@ -62,7 +62,7 @@ class OrderDetailActivity(
         progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
         progressBar.progress = params.status.toProgress()
         if (params.status == OrderStatus.DELIVERED) {
-            buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackActivity(navigation)) }
+            buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
             buttonFeedback.visibility = View.VISIBLE
         } else {
             buttonFeedback.visibility = View.GONE

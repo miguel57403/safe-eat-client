@@ -21,14 +21,14 @@ data class RestaurantParams(
     val deliveryTime: String,
 )
 
-class RestaurantActivity(
+class RestaurantFragment(
     private val navigation: NavigationListener,
     private val params: RestaurantParams,
 ) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_restaurant, container, false)
+        val view = inflater.inflate(R.layout.fragment_restaurant, container, false)
         if (view != null) onInit(view)
         return view
     }
@@ -52,7 +52,7 @@ class RestaurantActivity(
         deliveryPrice.text = params.deliveryPrice
         restaurantName.text = params.restaurant
         restaurantImage.setImageResource(R.drawable.restaurant)
-        searchButton.setOnClickListener { navigation.navigateTo(SearchProductActivity(navigation)) }
+        searchButton.setOnClickListener { navigation.navigateTo(SearchProductFragment(navigation)) }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
@@ -161,7 +161,7 @@ class RestaurantProductAdapter(
                     ContextCompat.getColor(itemView.context, android.R.color.transparent)
                 container.strokeWidth = dp2px(itemView.context, 0f).toInt()
             }
-            container.setOnClickListener { navigation.navigateTo(ProductDetailsActivity(navigation)) }
+            container.setOnClickListener { navigation.navigateTo(ProductDetailsFragment(navigation)) }
         }
     }
 }

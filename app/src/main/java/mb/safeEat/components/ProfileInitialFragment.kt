@@ -28,11 +28,11 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val settingsButton = view.findViewById<Button>(R.id.profile_button_settings)
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
 
-        profileImage.setOnClickListener { navigation.navigateTo(ProfileEditActivity(navigation)) }
-        addressButton.setOnClickListener { navigation.navigateTo(AddressActivity(navigation))  }
-        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditActivity(navigation))  }
-        ordersButton.setOnClickListener { navigation.navigateTo(OrdersActivity(navigation)) }
-        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionActivity(navigation))  }
+        profileImage.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
+        addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation))  }
+        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation))  }
+        ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
+        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
     }

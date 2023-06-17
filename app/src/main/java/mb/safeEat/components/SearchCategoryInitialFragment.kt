@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class SearchCategoryActivity(private val navigation: NavigationListener) : Fragment() {
+class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -72,7 +72,7 @@ class SearchCategoryAdapter(
         fun bind(category: Category) {
             this.category.text = category.name
             image.setBackgroundResource(category.imageId)
-            container.setOnClickListener { navigation.navigateTo(SearchRestaurantActivity(navigation)) }
+            container.setOnClickListener { navigation.navigateTo(SearchRestaurantFragment(navigation)) }
         }
     }
 }

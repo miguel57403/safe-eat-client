@@ -14,7 +14,7 @@ import com.google.android.flexbox.JustifyContent
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class AllergyEditActivity(private val navigation: NavigationListener) : AllergyListener, Fragment()  {
+class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment()  {
     // TODO: Create a fragment for allergies buttons
     private lateinit var allergiesButtons: RecyclerView
     private var allergyList = ArrayList<Allergy>()
@@ -23,7 +23,7 @@ class AllergyEditActivity(private val navigation: NavigationListener) : AllergyL
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_allergy_edit, container, false)
+        val view = inflater.inflate(R.layout.fragment_allergy_edit, container, false)
         if (view != null) onInit(view)
         return view
     }

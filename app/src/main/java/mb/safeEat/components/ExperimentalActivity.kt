@@ -30,7 +30,7 @@ class ExperimentalActivity : AppCompatActivity() {
         // Dialog: https://www.youtube.com/watch?v=ZPbOKrJzXno&ab_channel=TiagoAguiar
         val openDialog = findViewById<Button>(R.id.open_dialog)
         openDialog.setOnClickListener {
-            val dialog = OrderCompletedDialogFragment()
+            val dialog = OrderCompletedDialog()
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }

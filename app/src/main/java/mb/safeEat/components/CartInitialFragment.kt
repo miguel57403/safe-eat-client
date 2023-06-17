@@ -52,7 +52,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
 
         button.setOnClickListener {
             if (hasWarnings) {
-                val dialog = RestrictionAlertDialogFragment()
+                val dialog = RestrictionAlertDialog()
                 dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
                 dialog.setOnConfirmListener { confirm -> if (confirm) navigateToPayment() }
             } else {
@@ -68,7 +68,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
     }
 
     private fun navigateToPayment() {
-        navigation.navigateTo(PaymentActivity(navigation))
+        navigation.navigateTo(PaymentFragment(navigation))
     }
 }
 

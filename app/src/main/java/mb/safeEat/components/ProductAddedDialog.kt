@@ -9,7 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import mb.safeEat.R
 
-class ProductAddedDialogFragment : DialogFragment() {
+class ProductAddedDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

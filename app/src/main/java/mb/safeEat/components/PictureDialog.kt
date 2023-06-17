@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class PictureDialogFragment : DialogFragment() {
+class PictureDialog : DialogFragment() {
     var imageResource: Int? = null
 
     override fun onCreateView(
@@ -23,7 +23,7 @@ class PictureDialogFragment : DialogFragment() {
 
     override fun onStart() {
         if (imageResource == null)
-            throw NullPointerException("PictureDialogFragment.imageResource is null")
+            throw NullPointerException("PictureDialog.imageResource is null")
         super.onStart()
         dialog!!.window!!.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT, // width

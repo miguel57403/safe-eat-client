@@ -18,6 +18,6 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun onInit() {
-        navigation.navigateTo(SearchCategoryActivity(navigation))
+        navigation.navigateTo(SearchCategoryInitialFragment(navigation))
     }
 }

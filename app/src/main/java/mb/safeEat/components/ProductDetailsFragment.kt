@@ -17,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class ProductDetailsActivity(private val navigation: NavigationListener) : Fragment() {
+class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_product_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_product_details, container, false)
         if (view != null) onInit(view)
         return view
     }
@@ -35,7 +35,7 @@ class ProductDetailsActivity(private val navigation: NavigationListener) : Fragm
     private fun initScreenEvents(view: View) {
         val addToCartButton = view.findViewById<Button>(R.id.product_detail_button)
         addToCartButton.setOnClickListener {
-            val dialog = ProductAddedDialogFragment()
+            val dialog = ProductAddedDialog()
             dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
             dialog.lifecycle.addObserver(object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {

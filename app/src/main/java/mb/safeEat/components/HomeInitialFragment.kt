@@ -167,7 +167,7 @@ class HomeRestaurantAdapter(
             score.text = DecimalFormat("0.0").format(item.score)
             container.setOnClickListener {
                 navigation.navigateTo(
-                    RestaurantActivity(
+                    RestaurantFragment(
                         navigation, RestaurantParams(
                             item.name, item.deliveryPrice, item.deliveryTime
                         )

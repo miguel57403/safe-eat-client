@@ -119,7 +119,7 @@ class NotificationAdapter(
             if (item.orderStatus != null) {
                 container.setOnClickListener {
                     navigation.navigateTo(
-                        OrderDetailActivity(
+                        OrderDetailFragment(
                             navigation, OrderDetailParams(
                                 item.orderStatus,
                                 item.restaurant,

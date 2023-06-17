@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class FeedbackActivity(private val navigation: NavigationListener) : Fragment() {
+class FeedbackFragment(private val navigation: NavigationListener) : Fragment() {
     private var score = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_feedback, container, false)
+        val view = inflater.inflate(R.layout.fragment_feedback, container, false)
         onInit(view)
         return view
     }

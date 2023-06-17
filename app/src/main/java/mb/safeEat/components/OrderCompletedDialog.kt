@@ -12,7 +12,7 @@ import mb.safeEat.R
 
 typealias OnDismissListener = () -> Unit
 
-class OrderCompletedDialogFragment : DialogFragment() {
+class OrderCompletedDialog : DialogFragment() {
     private var onDismissListener: OnDismissListener = {}
 
     override fun onCreateView(

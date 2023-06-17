@@ -25,17 +25,8 @@
             android:name=".components.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".components.PaymentActivity"
-            android:exported="false" />
-        <activity
             android:name=".components.RegisterActivity"
             android:exported="false" />
-        <activity
-            android:name=".components.ProductDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".components.SearchProductActivity"
-            android:exported="false"/>
         <activity
             android:name=".components.LoginActivity"
             android:exported="true">

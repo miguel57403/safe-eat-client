@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class AddressActivity(private val navigation: NavigationListener) : Fragment() {
+class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_address, container, false)
+        val view = inflater.inflate(R.layout.fragment_payment_option, container, false)
         if (view != null) onInit(view)
         return view
     }
@@ -26,7 +26,7 @@ class AddressActivity(private val navigation: NavigationListener) : Fragment() {
     private fun initHeader(view: View) {
         val title = view.findViewById<TextView>(R.id.header_title)
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_address)
+        title.text = resources.getString(R.string.t_payment_options)
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 }

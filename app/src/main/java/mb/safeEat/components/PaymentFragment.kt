@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
-class PaymentActivity(private val navigation: NavigationListener) : Fragment() {
+class PaymentFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_payment, container, false)
+        val view = inflater.inflate(R.layout.fragment_payment, container, false)
         if (view != null) onInit(view)
         return view
     }
@@ -40,17 +40,17 @@ class PaymentActivity(private val navigation: NavigationListener) : Fragment() {
         val submitButton = view.findViewById<Button>(R.id.payment_button_submit)
 
         addressButton.setOnClickListener {
-            navigation.navigateTo(AddressActivity(navigation))
+            navigation.navigateTo(AddressFragment(navigation))
         }
         deliveryOptionButton.setOnClickListener {
             Log.d("Click", "Delivery Option Button Clicked")
             // navigation.navigateTo(DeliveryOptionActivity(navigation))
         }
         paymentKindButton.setOnClickListener {
-            navigation.navigateTo(PaymentOptionActivity(navigation))
+            navigation.navigateTo(PaymentOptionFragment(navigation))
         }
         submitButton.setOnClickListener {
-            val dialog = OrderCompletedDialogFragment()
+            val dialog = OrderCompletedDialog()
             dialog.setOnDismissListener { navigation.navigateTo(NotificationFragment(navigation)) }
             dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
         }

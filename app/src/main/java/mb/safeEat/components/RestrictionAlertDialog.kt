@@ -11,7 +11,7 @@ import mb.safeEat.R
 
 typealias OnConfirm = (confirm: Boolean) -> Unit
 
-class RestrictionAlertDialogFragment : DialogFragment() {
+class RestrictionAlertDialog : DialogFragment() {
     private var onConfirmListener: OnConfirm = { _ -> }
 
     override fun onCreateView(
