@@ -153,7 +153,7 @@ class RestaurantProductAdapter(
 
             if (item.restricted) {
                 warning.visibility = ImageView.VISIBLE
-                container.strokeColor = ContextCompat.getColor(itemView.context, R.color.red)
+                container.strokeColor = ContextCompat.getColor(itemView.context, R.color.red_500)
                 container.strokeWidth = dp2px(itemView.context, 2.0f).toInt()
             } else {
                 warning.visibility = ImageView.GONE

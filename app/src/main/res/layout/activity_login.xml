@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_material_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/initial_pages_px"
@@ -29,7 +30,7 @@
 
         <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_material_email_input"
+            android:id="@+id/login_material_email_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_material_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="emailAddress"
@@ -52,7 +54,7 @@
 
         <!-- Password -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_material_password_input"
+            android:id="@+id/login_material_password_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,9 +64,10 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_material_email_input">
+            app:layout_constraintTop_toBottomOf="@+id/login_material_email_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_material_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="password"

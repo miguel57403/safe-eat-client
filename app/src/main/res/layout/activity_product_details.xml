@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/red" />
+            app:tint="@color/red_500" />
 
         <TextView
             android:id="@+id/product_details_content_alert_content"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/m_warning_message"
-            android:textColor="@color/red"
+            android:textColor="@color/red_500"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

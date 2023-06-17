@@ -86,7 +86,7 @@ class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
         fun bind(item: ProductDetail) {
             content.text = item.name
             if (item.isRestrict) {
-                val color = ContextCompat.getColor(itemView.context, R.color.red)
+                val color = ContextCompat.getColor(itemView.context, R.color.red_500)
                 content.setTextColor(color)
                 image.setColorFilter(color)
             }

@@ -9,7 +9,7 @@
     android:clickable="true"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    app:strokeColor="@color/red"
+    app:strokeColor="@color/red_500"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,6 +76,6 @@
             android:src="@drawable/baseline_error_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/red" />
+            app:tint="@color/red_500" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
