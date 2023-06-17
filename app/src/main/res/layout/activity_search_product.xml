@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="15dp"
     android:paddingVertical="40dp"
-    tools:context=".SearchProductActivity">
+    tools:context=".components.SearchProductActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_product_header"

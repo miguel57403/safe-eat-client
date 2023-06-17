@@ -12,31 +12,31 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".AllergyActivity"
+            android:name=".components.AllergyActivity"
             android:exported="false" />
         <activity
-            android:name=".AddressRegisterActivity"
+            android:name=".components.AddressRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ExperimentalActivity"
+            android:name=".components.ExperimentalActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".components.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentActivity"
+            android:name=".components.PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".components.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".components.ProductDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchProductActivity"
+            android:name=".components.SearchProductActivity"
             android:exported="false"/>
         <activity
-            android:name=".HomeActivity"
+            android:name=".components.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
