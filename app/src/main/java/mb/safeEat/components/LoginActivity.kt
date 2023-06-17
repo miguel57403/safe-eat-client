@@ -1,9 +1,12 @@
 package mb.safeEat.components
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatDelegate
@@ -30,7 +33,10 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.login_material_submit)
 
         withoutAccountContainer.setOnClickListener { navigateToRegister() }
-        loginButton.setOnClickListener { doLogin() }
+        loginButton.setOnClickListener {
+            hideKeyboard(it)
+            doLogin()
+        }
     }
 
     // Navigation
@@ -90,5 +96,10 @@ class LoginActivity : AppCompatActivity() {
             Snackbar.LENGTH_SHORT,
             AlertColors.error(applicationContext)
         ).unwrap().show()
+    }
+
+    private fun hideKeyboard(button: View) {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(button.windowToken, 0)
     }
 }
