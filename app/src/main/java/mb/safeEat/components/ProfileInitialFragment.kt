@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import mb.safeEat.R
+import mb.safeEat.services.api.authorization
+import android.content.Intent
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
@@ -27,6 +29,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val paymentButton = view.findViewById<Button>(R.id.profile_button_payment)
         val settingsButton = view.findViewById<Button>(R.id.profile_button_settings)
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
+        val exitButton = view.findViewById<Button>(R.id.profile_button_exit)
 
         profileImage.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
         addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation))  }
@@ -35,5 +38,14 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
+        exitButton.setOnClickListener {
+            authorization.clearAuthorization()
+            navigateToLogin()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(context, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

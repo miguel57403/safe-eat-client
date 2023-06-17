@@ -69,7 +69,6 @@
     <string name="m_allergy_title">Do you have any kind of food restrictions?</string>
     <string name="m_confirmation_order">Your order completed successful</string>
     <string name="m_feedback">Give a feedback</string>
-    <string name="m_order_restricted">Your order has product marked as restricted. Do you want to continue?</string>
     <string name="m_product_added">Your product has been added to the cart!</string>
     <string name="m_restriction_alert">Your order has product marked as restricted. Do you want to continue?</string>
     <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
@@ -95,6 +94,7 @@
     <string name="t_edit_allergies">Edit Allergies</string>
     <string name="t_edit_profile">Edit Profile</string>
     <string name="t_email">Email</string>
+    <string name="t_exit">Exit</string>
     <string name="t_feedback">Feedback</string>
     <string name="t_home">Home</string>
     <string name="t_ingredients">Ingredients</string>
