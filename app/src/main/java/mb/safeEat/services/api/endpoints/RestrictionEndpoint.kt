@@ -11,20 +11,20 @@ import retrofit2.http.Path
 
 sealed interface RestrictionEndpoint {
     @GET
-    fun findAll(): Any
+    fun findAll(): List<Restriction>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Any
+    fun findById(@Path("id") id: String?): Restriction
 
     @POST
-    fun create(@Body restriction: Restriction?): Any
+    fun create(@Body restriction: Restriction?): Restriction
 
     @POST("/many")
-    fun createMany(@Body restrictions: List<Restriction?>?): Any
+    fun createMany(@Body restrictions: List<Restriction?>?): List<Restriction>
 
     @PUT
-    fun update(@Body restriction: Restriction?): Any
+    fun update(@Body restriction: Restriction?): Restriction
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Any
+    fun delete(@Path("id") id: String?): Restriction
 }

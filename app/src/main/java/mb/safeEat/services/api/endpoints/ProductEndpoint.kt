@@ -1,6 +1,7 @@
 package mb.safeEat.services.api.endpoints
 
 import mb.safeEat.services.api.models.Product
+
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

@@ -11,20 +11,20 @@ import retrofit2.http.Path
 
 sealed interface RestaurantSectionEndpoint {
     @GET
-    fun findAll(): Any
+    fun findAll(): List<RestaurantSection>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Any
+    fun findById(@Path("id") id: String?): RestaurantSection
 
     @POST
-    fun create(@Body restaurantSection: RestaurantSection?): Any
+    fun create(@Body restaurantSection: RestaurantSection?): RestaurantSection
 
     @POST("/many")
-    fun createMany(@Body restaurantSections: List<RestaurantSection?>?): Any
+    fun createMany(@Body restaurantSections: List<RestaurantSection?>?): List<RestaurantSection>
 
     @PUT
-    fun update(@Body restaurantSection: RestaurantSection?): Any
+    fun update(@Body restaurantSection: RestaurantSection?): RestaurantSection
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Any
+    fun delete(@Path("id") id: String?)
 }

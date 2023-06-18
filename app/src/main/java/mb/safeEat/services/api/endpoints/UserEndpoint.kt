@@ -11,20 +11,20 @@ import retrofit2.http.Path
 
 sealed interface UserEndpoint {
     @GET
-    fun findAll(): Any
+    fun findAll(): List<User>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Any
+    fun findById(@Path("id") id: String?): User
 
     @POST
-    fun create(@Body user: User?): Any
+    fun create(@Body user: User?): User
 
     @POST("/many")
-    fun createMany(@Body users: List<User?>?): Any
+    fun createMany(@Body users: List<User?>?): List<User>
 
     @PUT
-    fun update(@Body user: User?): Any
+    fun update(@Body user: User?): User
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Any
+    fun delete(@Path("id") id: String?): User
 }
