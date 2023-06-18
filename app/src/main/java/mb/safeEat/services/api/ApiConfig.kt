@@ -4,4 +4,4 @@ data class ApiConfig(
     val baseUrl: String
 )
 
-val config = ApiConfig("https://sm-activity-57060.free.beeceptor.com")
+val config = ApiConfig("https://safe-eat-api.azurewebsites.net")
