@@ -6,6 +6,6 @@ data class Product(
     val price: Double? = null,
     val images: List<String>? = null,
     val isRestricted: Boolean? = null,
-//    val categories: List<Category>? = null,
-//    val ingredients: List<Ingredient>? = null,
+    val categories: List<Category>? = null,
+    val ingredients: List<Ingredient>? = null,
 )

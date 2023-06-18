@@ -1,21 +1,17 @@
 package mb.safeEat.services.api.models
 
-import mb.safeEat.components.Restaurant
-import java.time.LocalDateTime
-
-
 data class Order(
     val id: String? = null,
     val status: String? = null,
-    val time: LocalDateTime? = null,
-    val subtotal: Double = 0.0,
-    val total: Double = 0.0,
-    val quantity: Int = 0,
+    val time: String? = null,
+    val subtotal: Double? = null,
+    val total: Double? = null,
+    val quantity: Int? = null,
     val address: Address? = null,
-    //val payment: Payment = null,
+    val payment: Payment? = null,
     val delivery: Delivery? = null,
     val items: List<Item>? = null,
     val restaurant: Restaurant? = null,
     val feedback: Feedback? = null,
-    //val client: User = null
+    val client: User? = null,
 )

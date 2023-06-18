@@ -1,6 +1,5 @@
 package mb.safeEat.services.api.models
 
-
 data class Address(
     val id: String? = null,
     val name: String? = null,
@@ -9,5 +8,5 @@ data class Address(
     val number: String? = null,
     val complement: String? = null,
     val city: String? = null,
-    val postalCode: String? = null
+    val postalCode: String? = null,
 )

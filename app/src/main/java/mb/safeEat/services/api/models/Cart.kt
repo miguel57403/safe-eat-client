@@ -1,10 +1,8 @@
 package mb.safeEat.services.api.models
 
-import android.content.ClipData.Item
-
-data class Cart (
+data class Cart(
     val id: String? = null,
-    val quantity: Int = 0,
-    val subtotal: Double = 0.0,
-    val items: List<Item> = ArrayList()
+    val quantity: Int? = null,
+    val subtotal: Double? = null,
+    val items: List<Item>? = null,
 )
