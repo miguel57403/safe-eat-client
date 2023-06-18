@@ -8,8 +8,9 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import mb.safeEat.R
-import mb.safeEat.services.api.authorization
-import android.content.Intent
+import android.widget.TextView
+import mb.safeEat.functions.base64ToBitmap
+import mb.safeEat.services.state.state
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
@@ -23,6 +24,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
 
     private fun onInit(view: View) {
         val profileImage = view.findViewById<ImageView>(R.id.profile_image)
+        val profileName = view.findViewById<TextView>(R.id.profile_name)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)
         val restrictionsButton = view.findViewById<Button>(R.id.profile_button_restrictions)
         val ordersButton = view.findViewById<Button>(R.id.profile_button_orders)
@@ -38,14 +40,13 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
-        exitButton.setOnClickListener {
-            authorization.clearAuthorization()
-            navigateToLogin()
-        }
-    }
+        exitButton.setOnClickListener { state.logout() }
 
-    private fun navigateToLogin() {
-        val intent = Intent(context, LoginActivity::class.java)
-        startActivity(intent)
+        state.user.observe(viewLifecycleOwner) {
+            if (it != null) {
+                profileImage.setImageBitmap(base64ToBitmap(it.profileImage))
+                profileName.text = it.name
+            }
+        }
     }
 }

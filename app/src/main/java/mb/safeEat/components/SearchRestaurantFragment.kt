@@ -15,7 +15,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
-import java.util.*
+import mb.safeEat.functions.base64ToBitmap
 
 class SearchRestaurantFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
