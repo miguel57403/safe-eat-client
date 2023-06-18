@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import mb.safeEat.R
+import mb.safeEat.functions.cleanIntentStack
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
+        cleanIntentStack(intent)
         startActivity(intent)
     }
 
