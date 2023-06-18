@@ -16,10 +16,12 @@ import com.google.android.material.textfield.TextInputEditText
 import mb.safeEat.R
 import mb.safeEat.extensions.AlertColors
 import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.functions.cleanIntentStack
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.LoginBody
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.authorization
+import mb.safeEat.services.state.state
 import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
@@ -27,7 +29,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        onInit()
+    }
 
+    private fun onInit() {
+        initScreenEvents()
+        checkIfLoggedIn()
+    }
+
+    private fun initScreenEvents() {
         val withoutAccountContainer =
             findViewById<ConstraintLayout>(R.id.login_material_without_account_container)
         val loginButton = findViewById<Button>(R.id.login_material_submit)
@@ -42,11 +52,13 @@ class LoginActivity : AppCompatActivity() {
     // Navigation
     private fun navigateToRegister() {
         val intent = Intent(this, RegisterActivity::class.java)
+        cleanIntentStack(intent)
         startActivity(intent)
     }
 
     private fun navigateToHome() {
         val intent = Intent(this, HomeActivity::class.java)
+        cleanIntentStack(intent)
         startActivity(intent)
     }
 
@@ -57,17 +69,20 @@ class LoginActivity : AppCompatActivity() {
         val body = LoginBody(emailInput.text.toString(), passwordInput.text.toString())
         if (!validateBody(body)) return
 
-        suspendToLiveData { api.auth.login(body) }.observe(this) { result ->
+        suspendToLiveData {
+            val loginResponse = api.auth.login(body)
+            val tokenType = loginResponse.tokenType.lowercase(Locale.getDefault())
+            if (tokenType == "bearer") {
+                authorization.setAuthorization("Bearer ${loginResponse.accessToken}")
+                val userResponse = api.auth.me()
+                state.user.postValue(userResponse)
+            }
+            loginResponse.copy(tokenType = tokenType)
+        }.observe(this) { result ->
             result.fold(onSuccess = {
-                when (it.tokenType.lowercase(Locale.getDefault())) {
-                    "bearer" -> {
-                        authorization.setAuthorization("Bearer ${it.accessToken}")
-                        navigateToHome()
-                    }
-
-                    else -> {
-                        alertError("Internal Error: Unknown tokenType")
-                    }
+                when (it.tokenType) {
+                    "bearer" -> navigateToHome()
+                    else -> alertError("Internal Error: Unknown tokenType")
                 }
             }, onFailure = {
                 alertError("Internet Connection Error")
@@ -99,7 +114,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun hideKeyboard(button: View) {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(button.windowToken, 0)
+    }
+
+    private fun checkIfLoggedIn() {
+        if (state.user.value != null) {
+            navigateToHome()
+        }
     }
 }
