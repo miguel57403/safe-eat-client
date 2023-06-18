@@ -3,7 +3,6 @@ package mb.safeEat.services.api.endpoints
 import mb.safeEat.services.api.models.Notification
 import retrofit2.http.*
 
-
 interface NotificationEndpoint {
     @GET
     fun findAll(): List<Notification>

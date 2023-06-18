@@ -3,9 +3,7 @@ package mb.safeEat.services.api.endpoints
 import mb.safeEat.services.api.models.Category
 import retrofit2.http.*
 
-
 sealed interface CategoryEndpoint {
-
     @GET
     suspend fun findAll(): List<Category>
 
@@ -15,7 +13,6 @@ sealed interface CategoryEndpoint {
     @POST
     fun create(@Body category: Category?): Category
 
-
     @POST("/many")
     fun createMany(@Body categories: List<Category?>?): List<Category>
 
@@ -24,5 +21,4 @@ sealed interface CategoryEndpoint {
 
     @DELETE("/{id}")
     fun delete(@Path("id") id: String?)
-
 }

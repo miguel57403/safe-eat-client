@@ -3,9 +3,7 @@ package mb.safeEat.services.api.endpoints
 import mb.safeEat.services.api.models.Order
 import retrofit2.http.*
 
-
-sealed interface OrderEndpoint{
-
+sealed interface OrderEndpoint {
     @GET
     fun findAll(): List<Order>
 

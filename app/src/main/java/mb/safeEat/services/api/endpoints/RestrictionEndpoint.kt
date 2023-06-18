@@ -1,13 +1,7 @@
 package mb.safeEat.services.api.endpoints
 
 import mb.safeEat.services.api.models.Restriction
-
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.*
 
 sealed interface RestrictionEndpoint {
     @GET
