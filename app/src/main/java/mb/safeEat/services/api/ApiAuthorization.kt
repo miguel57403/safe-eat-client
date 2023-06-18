@@ -12,7 +12,7 @@ class ApiAuthorization : Interceptor {
         } else {
             chain.proceed(
                 chain.request().newBuilder()
-                    .header("ApiAuthorization", authorization!!)
+                    .header("Authorization", authorization!!)
                     .build()
             )
         }
