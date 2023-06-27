@@ -1,24 +1,25 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.UserDto
 import mb.safeEat.services.api.models.User
 import retrofit2.http.*
 
 sealed interface UserEndpoint {
     @GET
-    fun findAll(): List<User>
+    suspend fun findAll(): List<User>
+
+    @GET("/me")
+    suspend fun getMe(): User
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): User
-
-    @POST
-    fun create(@Body user: User?): User
+    suspend fun findById(@Path("id") id: String): User
 
     @POST("/many")
-    fun createMany(@Body users: List<User?>?): List<User>
+    suspend fun createMany(@Body users: List<UserDto>): List<User>
 
     @PUT
-    fun update(@Body user: User?): User
+    suspend fun update(@Body user: UserDto): User
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): User
+    suspend fun delete(@Path("id") id: String): User
 }

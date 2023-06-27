@@ -1,24 +1,28 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.OrderDto
 import mb.safeEat.services.api.models.Order
 import retrofit2.http.*
 
 sealed interface OrderEndpoint {
     @GET
-    fun findAll(): List<Order>
+    suspend fun findAll(): List<Order>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Order
+    suspend fun findById(@Path("id") id: String): Order
+
+    @GET("/user/{userId}")
+    suspend fun findAllByUser(@Path("userId") userId: String): List<Order>
 
     @POST
-    fun create(@Body order: Order?): Order
+    suspend fun create(@Body order: OrderDto): Order
 
     @POST("/many")
-    fun createMany(@Body orders: List<Order?>?): List<Order>
+    suspend fun createMany(@Body orders: List<OrderDto>): List<Order>
 
-    @PUT
-    fun update(@Body order: Order?): Order
+    @PUT("/{id}")
+    suspend fun updateStatus(@Path("id") id: String, @Query("status") status: String): Order
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Order
+    suspend fun delete(@Path("id") id: String): Order
 }

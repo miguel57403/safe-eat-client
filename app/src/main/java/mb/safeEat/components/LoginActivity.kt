@@ -18,11 +18,10 @@ import mb.safeEat.extensions.AlertColors
 import mb.safeEat.extensions.CustomSnackbar
 import mb.safeEat.functions.cleanIntentStack
 import mb.safeEat.functions.suspendToLiveData
-import mb.safeEat.services.api.LoginBody
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.authorization
+import mb.safeEat.services.api.dto.LoginDto
 import mb.safeEat.services.state.state
-import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,24 +64,18 @@ class LoginActivity : AppCompatActivity() {
     private fun doLogin() {
         val emailInput = findViewById<TextInputEditText>(R.id.login_material_email_input)
         val passwordInput = findViewById<TextInputEditText>(R.id.login_material_password_input)
-        val body = LoginBody(emailInput.text.toString(), passwordInput.text.toString())
+        val body = LoginDto(emailInput.text.toString(), passwordInput.text.toString())
         if (!validateBody(body)) return
 
         suspendToLiveData {
-            val loginResponse = api.auth.login(body)
-            val tokenType = loginResponse.tokenType.lowercase(Locale.getDefault())
-            if (tokenType == "bearer") {
-                authorization.setAuthorization("Bearer ${loginResponse.accessToken}")
-                val userResponse = api.auth.me()
-                state.user.postValue(userResponse)
-            }
-            loginResponse.copy(tokenType = tokenType)
+            val token = api.auth.login(body)
+            authorization.setAuthorization("Bearer $token")
+            val userResponse = api.users.getMe()
+            state.user.postValue(userResponse)
+            token
         }.observe(this) { result ->
             result.fold(onSuccess = {
-                when (it.tokenType) {
-                    "bearer" -> navigateToHome()
-                    else -> alertError("Internal Error: Unknown tokenType")
-                }
+                navigateToHome()
             }, onFailure = {
                 alertError("Internet Connection Error")
                 Log.d("Api Error", "$it")
@@ -91,12 +84,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Extras
-    private fun validateBody(body: LoginBody): Boolean {
-        if (body.username.isBlank()) {
+    private fun validateBody(body: LoginDto): Boolean {
+        if (body.email.isNullOrBlank()) {
             alertError("Email is required")
             return false
         }
-        if (body.password.isBlank()) {
+        if (body.password.isNullOrBlank()) {
             alertError("Password is required")
             return false
         }

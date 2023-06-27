@@ -1,5 +1,6 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.CategoryDto
 import mb.safeEat.services.api.models.Category
 import retrofit2.http.*
 
@@ -11,14 +12,14 @@ sealed interface CategoryEndpoint {
     suspend fun findById(@Path("id") id: String): Category
 
     @POST
-    fun create(@Body category: Category?): Category
+    suspend fun create(@Body category: CategoryDto): Category
 
     @POST("/many")
-    fun createMany(@Body categories: List<Category?>?): List<Category>
+    suspend fun createMany(@Body categories: List<CategoryDto>): List<Category>
 
     @PUT
-    fun update(@Body category: Category?): Category
+    suspend fun update(@Body category: CategoryDto): Category
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun delete(@Path("id") id: String?)
 }

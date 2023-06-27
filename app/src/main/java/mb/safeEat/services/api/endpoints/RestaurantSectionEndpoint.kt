@@ -1,24 +1,25 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.RestaurantSectionDto
 import mb.safeEat.services.api.models.RestaurantSection
 import retrofit2.http.*
 
 sealed interface RestaurantSectionEndpoint {
     @GET
-    fun findAll(): List<RestaurantSection>
+    suspend fun findAll(): List<RestaurantSection>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): RestaurantSection
+    suspend fun findById(@Path("id") id: String): RestaurantSection
 
     @POST
-    fun create(@Body restaurantSection: RestaurantSection?): RestaurantSection
+    suspend fun create(@Body restaurantSection: RestaurantSectionDto): RestaurantSection
 
     @POST("/many")
-    fun createMany(@Body restaurantSections: List<RestaurantSection?>?): List<RestaurantSection>
+    suspend fun createMany(@Body restaurantSections: List<RestaurantSectionDto>): List<RestaurantSection>
 
     @PUT
-    fun update(@Body restaurantSection: RestaurantSection?): RestaurantSection
+    suspend fun update(@Body restaurantSection: RestaurantSectionDto): RestaurantSection
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun delete(@Path("id") id: String)
 }

@@ -1,24 +1,28 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.RestrictionDto
 import mb.safeEat.services.api.models.Restriction
 import retrofit2.http.*
 
 sealed interface RestrictionEndpoint {
     @GET
-    fun findAll(): List<Restriction>
+    suspend fun findAll(): List<Restriction>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Restriction
+    suspend fun findById(@Path("id") id: String): Restriction
+
+    @GET("/user/{userId}")
+    suspend fun findAllByUser(@Path("userId") userId: String): List<Restriction>
 
     @POST
-    fun create(@Body restriction: Restriction?): Restriction
+    suspend fun create(@Body restriction: RestrictionDto): Restriction
 
     @POST("/many")
-    fun createMany(@Body restrictions: List<Restriction?>?): List<Restriction>
+    suspend fun createMany(@Body restrictions: List<RestrictionDto>): List<Restriction>
 
     @PUT
-    fun update(@Body restriction: Restriction?): Restriction
+    suspend fun update(@Body restriction: RestrictionDto): Restriction
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Restriction
+    suspend fun delete(@Path("id") id: String): Restriction
 }

@@ -1,10 +1,11 @@
-package mb.safeEat.services.api.models
+package mb.safeEat.services.api.dto
 
-data class User(
+data class UserDto(
     val id: String? = null,
     val password: String? = null,
     val image: String? = null,
     val name: String? = null,
     val email: String? = null,
     val cellphone: String? = null,
+    val restrictionIds: List<String>? = null,
 )

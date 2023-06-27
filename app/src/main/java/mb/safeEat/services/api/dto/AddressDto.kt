@@ -1,6 +1,6 @@
-package mb.safeEat.services.api.models
+package mb.safeEat.services.api.dto
 
-data class Address(
+data class AddressDto(
     val id: String? = null,
     val name: String? = null,
     val street: String? = null,

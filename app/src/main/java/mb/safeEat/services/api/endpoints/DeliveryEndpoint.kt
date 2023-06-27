@@ -1,5 +1,6 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.DeliveryDto
 import mb.safeEat.services.api.models.Delivery
 import retrofit2.http.*
 
@@ -11,20 +12,20 @@ sealed interface DeliveryEndpoint {
     suspend fun findById(@Path("id") id: String): Delivery
 
     @POST
-    fun create(
-        @Body delivery: Delivery?,
-        @Query("restaurantId") restaurantId: String?,
+    suspend fun create(
+        @Body delivery: DeliveryDto,
+        @Query("restaurantId") restaurantId: String,
     ): Delivery
 
     @POST("/many")
-    fun createMany(
-        @Body deliveries: List<Delivery?>?,
-        @Query("restaurantId") restaurantId: String?,
+    suspend fun createMany(
+        @Body deliveries: List<DeliveryDto>,
+        @Query("restaurantId") restaurantId: String,
     ): List<Delivery>
 
     @PUT
-    fun update(@Body delivery: Delivery?): Delivery
+    suspend fun update(@Body delivery: DeliveryDto): Delivery
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String?)
 }

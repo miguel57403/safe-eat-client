@@ -1,27 +1,31 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.NotificationDto
 import mb.safeEat.services.api.models.Notification
 import retrofit2.http.*
 
 interface NotificationEndpoint {
     @GET
-    fun findAll(): List<Notification>
+    suspend fun findAll(): List<Notification>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Notification
+    suspend fun findById(@Path("id") id: String): Notification
+
+    @GET("/user/{userId}")
+    suspend fun findAllByUser(@Path("userId") userId: String): List<Notification>
 
     @POST
-    fun create(@Body notification: Notification?): Notification
+    suspend fun create(@Body notification: NotificationDto, @Query("userId") userId: String): Notification
 
     @POST("/many")
-    fun createMany(@Body notifications: List<Notification?>?): List<Notification>
+    suspend fun createMany(@Body notifications: List<NotificationDto>, @Query("userId") userId: String): List<Notification>
 
     @PUT
-    fun update(@Body notification: Notification?): Notification
+    suspend fun update(@Body notification: NotificationDto): Notification
 
     @PATCH("/{id}")
-    fun view(@Path("id") id: String?): Notification
+    suspend fun view(@Path("id") id: String): Notification
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun delete(@Path("id") id: String, @Query("userId") userId: String)
 }

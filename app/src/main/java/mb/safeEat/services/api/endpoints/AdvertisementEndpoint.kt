@@ -1,5 +1,6 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.AdvertisementDto
 import mb.safeEat.services.api.models.Advertisement
 import retrofit2.http.*
 
@@ -11,14 +12,14 @@ sealed interface AdvertisementEndpoint {
     suspend fun findById(@Path("id") id: String): Advertisement
 
     @POST
-    fun create(@Body advertisement: Advertisement?): Advertisement
+    suspend fun create(@Body advertisement: AdvertisementDto): Advertisement
 
     @POST("/many")
-    fun createMany(@Body advertisements: List<Advertisement?>?): List<Advertisement>
+    suspend fun createMany(@Body advertisements: List<AdvertisementDto>): List<Advertisement>
 
     @PUT
-    fun update(@Body advertisement: Advertisement?): Advertisement
+    suspend fun update(@Body advertisement: AdvertisementDto): Advertisement
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String?)
 }

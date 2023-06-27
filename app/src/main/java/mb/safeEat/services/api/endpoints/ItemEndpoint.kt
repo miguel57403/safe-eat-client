@@ -1,30 +1,34 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.ItemDto
 import mb.safeEat.services.api.models.Item
 import retrofit2.http.*
 
 sealed interface ItemEndpoint {
     @GET
-    fun findAll(): List<Item>
+    suspend fun findAll(): List<Item>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Item
+    suspend fun findById(@Path("id") id: String): Item
+
+    @GET("/cart/{cartId}")
+    suspend fun findAllByCart(@Path("cartId") cartId: String): List<Item>
 
     @POST
-    fun create(
-        @Body item: Item?,
-        @Query("cartId") cartId: String?,
+    suspend fun create(
+        @Body item: ItemDto,
+        @Query("cartId") cartId: String,
     ): Item
 
     @POST("/many")
-    fun createMany(
-        @Body items: List<Item?>?,
-        @Query("cartId") cartId: String?,
+    suspend fun createMany(
+        @Body items: List<ItemDto>,
+        @Query("cartId") cartId: String,
     ): List<Item>
 
     @PUT
-    fun update(@Body item: Item?): Item
+    suspend fun update(@Body item: ItemDto): Item
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Item
+    suspend fun delete(@Path("id") id: String, @Query("cartId") cartId: String?): Item
 }

@@ -1,30 +1,34 @@
 package mb.safeEat.services.api.endpoints
 
+import mb.safeEat.services.api.dto.PaymentDto
 import mb.safeEat.services.api.models.Payment
 import retrofit2.http.*
 
-sealed interface PaymentEndpoint{
+sealed interface PaymentEndpoint {
     @GET
-    fun findAll(): List<Payment>
+    suspend fun findAll(): List<Payment>
 
     @GET("/{id}")
-    fun findById(@Path("id") id: String?): Payment
+    suspend fun findById(@Path("id") id: String): Payment
+
+    @GET("/user/{userId}")
+    suspend fun findAllByUser(@Path("userId") userId: String): List<Payment>
 
     @POST
-    fun create(
-        @Body payment: Payment?,
-        @Query("userId") userId: String?
+    suspend fun create(
+        @Body payment: PaymentDto,
+        @Query("userId") userId: String,
     ): Payment
 
     @POST("/many")
-    fun createMany(
-        @Body payments: List<Payment?>?,
-        @Query("userId") userId: String?
+    suspend fun createMany(
+        @Body payments: List<PaymentDto>,
+        @Query("userId") userId: String,
     ): List<Payment>
 
     @PUT
-    fun update(@Body payment: Payment?): Payment
+    suspend fun update(@Body payment: PaymentDto): Payment
 
     @DELETE("/{id}")
-    fun delete(@Path("id") id: String?): Payment
+    suspend fun delete(@Path("id") id: String, @Query("userId") userId: String): Payment
 }

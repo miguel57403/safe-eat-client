@@ -8,14 +8,14 @@ sealed interface CartEndpoint {
     suspend fun findAll(): List<Cart>
 
     @GET("/{id}")
-    suspend fun findById(@Path("id") id:String): Cart
+    suspend fun findById(@Path("id") id: String): Cart
 
-    @POST
-    fun create(@Query("userId") userId: String?): Cart
+    @GET("/user/{userId}")
+    suspend fun findByUser(@Path("userId") userId: String): Cart
+
+    @GET("/{id}/isBuying")
+    suspend fun isBuying(@Path("id") id: String): Cart
 
     @PUT
-    fun empty(@Query("cartId") cartId: String?): Cart
-
-    @DELETE("/{id}")
-    fun delete(@Path("id") id: String?)
+    suspend fun empty(@Query("cartId") cartId: String?): Cart
 }
