@@ -8,7 +8,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -69,11 +68,13 @@ class RestaurantFragment(
             api.restaurants.findById(params.id)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurant ->
-                println(restaurant);
                 restaurantName.text = restaurant.name
                 val delivery = restaurant.deliveries?.get(0)
                 if (delivery != null) {
-
+                    // TODO: Fill delivery interval and price
+                    // deliveryInterval.text = params.deliveryTime
+                    // deliveryPrice.text = params.deliveryPrice
+                    // restaurantName.text = params.restaurant
                 }
                 Glide.with(this)
                     .load(restaurant.logo) // Replace with your actual image URL
@@ -86,12 +87,6 @@ class RestaurantFragment(
                     .apply(RequestOptions().centerCrop())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(posterImage)
-
-//                deliveryInterval.text = params.id
-
-//                deliveryInterval.text = params.deliveryTime
-//                deliveryPrice.text = params.deliveryPrice
-//                restaurantName.text = params.restaurant
             }, onFailure = {
                 alertError("Internet Connection Error",view)
                 Log.d("Api Error", "$it")

@@ -73,6 +73,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                         HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
                             it.restaurantSection.restaurants!!.map { restaurant ->
                                 Restaurant(
+                                    id = restaurant.id!!,
                                     name = restaurant.name!!,
                                     // TODO: Set up url
                                     image = R.drawable.restaurant,
@@ -171,13 +172,19 @@ class HomeAdapter(
         private val navigation: NavigationListener,
         itemView: View,
     ) : RecyclerView.ViewHolder(itemView) {
-        private val advertisement = itemView.findViewById<ConstraintLayout>(R.id.home_item_advertisement)
-        private val advertisementTitle = itemView.findViewById<TextView>(R.id.home_item_advertisement_title)
-        private val advertisementImage = itemView.findViewById<ImageView>(R.id.home_item_advertisement_image)
+        private val advertisement =
+            itemView.findViewById<ConstraintLayout>(R.id.home_item_advertisement)
+        private val advertisementTitle =
+            itemView.findViewById<TextView>(R.id.home_item_advertisement_title)
+        private val advertisementImage =
+            itemView.findViewById<ImageView>(R.id.home_item_advertisement_image)
 
-        private val restaurantList = itemView.findViewById<LinearLayoutCompat>(R.id.home_item_restaurant_list)
-        private val restaurantListTitle = itemView.findViewById<TextView>(R.id.home_item_restaurant_list_title)
-        private val restaurantListItems = itemView.findViewById<RecyclerView>(R.id.home_item_restaurant_list_items)
+        private val restaurantList =
+            itemView.findViewById<LinearLayoutCompat>(R.id.home_item_restaurant_list)
+        private val restaurantListTitle =
+            itemView.findViewById<TextView>(R.id.home_item_restaurant_list_title)
+        private val restaurantListItems =
+            itemView.findViewById<RecyclerView>(R.id.home_item_restaurant_list_items)
 
         fun bind(item: HomeItem) = when (item.kind) {
             HomeKind.Advertisement -> bindAdvertisement(item.advertisement!!)
@@ -210,17 +217,22 @@ class HomeRestaurantAdapter(
     private val navigation: NavigationListener, private val data: List<Restaurant>
 ) : RecyclerView.Adapter<HomeRestaurantAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        navigation, LayoutInflater.from(parent.context).inflate(R.layout.item_home_restaurant_list, parent, false)
+        navigation,
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_home_restaurant_list, parent, false)
     )
 
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(private val navigation: NavigationListener, itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val container = itemView.findViewById<MaterialCardView>(R.id.restaurant_list_item_container)
+    class ViewHolder(private val navigation: NavigationListener, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        private val container =
+            itemView.findViewById<MaterialCardView>(R.id.restaurant_list_item_container)
         private val image = itemView.findViewById<ImageView>(R.id.restaurant_list_item_image)
-        private val restaurant = itemView.findViewById<TextView>(R.id.restaurant_list_item_restaurant)
+        private val restaurant =
+            itemView.findViewById<TextView>(R.id.restaurant_list_item_restaurant)
         private val score = itemView.findViewById<TextView>(R.id.restaurant_list_item_score)
 
         fun bind(item: Restaurant) {
@@ -229,9 +241,7 @@ class HomeRestaurantAdapter(
             score.text = DecimalFormat("0.0").format(item.score)
             container.setOnClickListener {
                 navigation.navigateTo(
-                    RestaurantFragment(
-                        navigation, RestaurantParams("649f3335b743876fd72143b1")
-                    )
+                    RestaurantFragment(navigation, RestaurantParams("649f3335b743876fd72143b1"))
                 )
             }
         }
@@ -262,7 +272,9 @@ enum class HomeKind {
 }
 
 data class HomeItem(
-    val kind: HomeKind, val advertisement: HomeAdvertisement?, val restaurantList: HomeRestaurantList?
+    val kind: HomeKind,
+    val advertisement: HomeAdvertisement?,
+    val restaurantList: HomeRestaurantList?
 ) : Serializable {
     companion object {
         fun createAdvertisement(advertisement: HomeAdvertisement) =
