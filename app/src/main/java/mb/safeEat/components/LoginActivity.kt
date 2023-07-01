@@ -25,7 +25,6 @@ import mb.safeEat.services.state.state
 
 //import mb.safeEat.services.state.state
 
-// TODO: Remove this fragment
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

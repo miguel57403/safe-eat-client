@@ -34,10 +34,10 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
         bottomNavigation.setOnItemSelectedListener {
             val fragment = when (it.itemId) {
                 R.id.menu_item_home -> HomeInitialFragment(this)
-                R.id.menu_item_search -> SearchCategoryFragment(this)
-                R.id.menu_item_cart -> CartFragment(this)
-                R.id.menu_item_user -> ProfileFragment(this)
-                R.id.menu_item_notification -> NotificationFragment(this)
+                R.id.menu_item_search -> SearchCategoryInitialFragment(this)
+                R.id.menu_item_cart -> CartInitialFragment(this)
+                R.id.menu_item_user -> ProfileInitialFragment(this)
+                R.id.menu_item_notification -> NotificationInitialFragment(this)
                 else -> throw Exception("Menu item id not defined")
             }
             navigateTo(fragment)

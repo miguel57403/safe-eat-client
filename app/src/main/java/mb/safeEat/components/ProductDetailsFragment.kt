@@ -37,7 +37,7 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
             dialog.lifecycle.addObserver(object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     if (event == Lifecycle.Event.ON_DESTROY) {
-                        navigation.navigateTo(CartFragment(navigation))
+                        navigation.navigateTo(CartInitialFragment(navigation))
                     }
                 }
             })

@@ -48,7 +48,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment() {
         }
         submitButton.setOnClickListener {
             val dialog = OrderCompletedDialog()
-            dialog.setOnDismissListener { navigation.navigateTo(NotificationFragment(navigation)) }
+            dialog.setOnDismissListener { navigation.navigateTo(NotificationInitialFragment(navigation)) }
             dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
         }
     }
