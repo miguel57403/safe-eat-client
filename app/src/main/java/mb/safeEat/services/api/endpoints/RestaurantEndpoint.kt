@@ -5,7 +5,7 @@ import mb.safeEat.services.api.models.Restaurant
 import retrofit2.http.*
 
 sealed interface RestaurantEndpoint {
-    @GET
+    @GET("/restaurants")
     suspend fun findAll(): List<Restaurant>
 
     @GET("{id}")
