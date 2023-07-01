@@ -121,8 +121,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn() {
-//        if (state.user.value != null) {
-//            navigateToHome()
-//        }
+        if (state.user.value != null) {
+            navigateToHome()
+        }
     }
 }
