@@ -19,13 +19,10 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile_initial, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+    ): View? = inflater.inflate(R.layout.fragment_profile_initial, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val profileImage = view.findViewById<ImageView>(R.id.profile_image)
         val profileName = view.findViewById<TextView>(R.id.profile_name)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)

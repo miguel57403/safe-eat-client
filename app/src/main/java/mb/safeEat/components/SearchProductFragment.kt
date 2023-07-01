@@ -20,12 +20,10 @@ import mb.safeEat.functions.base64ToBitmap
 class SearchProductFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_search_product, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
-    private fun onInit(view: View) {
+    ): View? = inflater.inflate(R.layout.fragment_search_product, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
     }

@@ -16,13 +16,10 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_address, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+    ): View? = inflater.inflate(R.layout.fragment_address, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         val button = view.findViewById<Button>(R.id.new_address)
         button.setOnClickListener {
