@@ -66,8 +66,15 @@ class LoginActivity : AppCompatActivity() {
     private fun doLogin() {
         val emailInput = findViewById<TextInputEditText>(R.id.login_material_email_input)
         val passwordInput = findViewById<TextInputEditText>(R.id.login_material_password_input)
-        val body = LoginDto(emailInput.text.toString(), passwordInput.text.toString())
-        if (!validateBody(body)) return
+        // TODO: Remove this when the app is ready
+        val development = true
+        val body = if (development) {
+            LoginDto("afonso@safeeat.com", "123")
+        } else {
+            val body = LoginDto(emailInput.text.toString(), passwordInput.text.toString())
+            if (!validateBody(body)) return
+            body
+        }
 
         suspendToLiveData {
             val tokenResponse = api.auth.login(body)

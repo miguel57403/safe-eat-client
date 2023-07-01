@@ -1,6 +1,5 @@
 package mb.safeEat.services.api.endpoints
 
-import androidx.lifecycle.LiveData
 import mb.safeEat.services.api.dto.CategoryDto
 import mb.safeEat.services.api.models.Category
 import retrofit2.http.*
