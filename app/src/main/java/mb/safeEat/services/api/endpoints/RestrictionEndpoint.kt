@@ -8,10 +8,10 @@ sealed interface RestrictionEndpoint {
     @GET
     suspend fun findAll(): List<Restriction>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Restriction
 
-    @GET("/user/{userId}")
+    @GET("user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Restriction>
 
     @POST
@@ -20,6 +20,6 @@ sealed interface RestrictionEndpoint {
     @PUT
     suspend fun update(@Body restriction: RestrictionDto): Restriction
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String): Restriction
 }

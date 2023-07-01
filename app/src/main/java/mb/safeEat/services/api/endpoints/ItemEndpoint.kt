@@ -8,10 +8,10 @@ sealed interface ItemEndpoint {
     @GET
     suspend fun findAll(): List<Item>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Item
 
-    @GET("/cart/{cartId}")
+    @GET("cart/{cartId}")
     suspend fun findAllByCart(@Path("cartId") cartId: String): List<Item>
 
     @POST
@@ -20,6 +20,6 @@ sealed interface ItemEndpoint {
     @PUT
     suspend fun update(@Body item: ItemDto): Item
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String): Item
 }

@@ -8,19 +8,19 @@ sealed interface RestaurantEndpoint {
     @GET
     suspend fun findAll(): List<Restaurant>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Restaurant
 
-    @GET("/productCategory/{categoryId}")
+    @GET("productCategory/{categoryId}")
     suspend fun findAllByCategory(@Path("categoryId") categoryId: String): List<Restaurant>
 
-    @GET("/owner/{userId}")
+    @GET("owner/{userId}")
     suspend fun findAllByOwner(@Path("userId") userId: String): List<Restaurant>
 
-    @GET("/cart")
+    @GET("cart")
     suspend fun findByCart(): Restaurant
 
-    @GET("/name/{name}")
+    @GET("name/{name}")
     suspend fun findAllByName(@Path("name") name: String): List<Restaurant>
 
     @POST
@@ -30,13 +30,13 @@ sealed interface RestaurantEndpoint {
     suspend fun update(@Body restaurant: RestaurantDto): Restaurant
 
     // TODO: update the image file type
-    @PUT("/{id}/logo")
+    @PUT("{id}/logo")
     suspend fun updateLogo(@Path("id") id: String, @Query("image") imageFile: String): Restaurant
 
     // TODO: update the image file type
-    @PUT("/{id}/cover")
+    @PUT("{id}/cover")
     suspend fun updateCover(@Path("id") id: String, @Query("image") imageFile: String): Restaurant
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

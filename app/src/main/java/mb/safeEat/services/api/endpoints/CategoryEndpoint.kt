@@ -8,7 +8,7 @@ sealed interface CategoryEndpoint {
     @GET
     suspend fun findAll(): List<Category>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Category
 
     @POST
@@ -18,9 +18,9 @@ sealed interface CategoryEndpoint {
     suspend fun update(@Body category: CategoryDto): Category
 
     // TODO: update the image file type
-    @PUT("/{id}/image")
+    @PUT("{id}/image")
     suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Category
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String?)
 }

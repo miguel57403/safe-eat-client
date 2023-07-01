@@ -7,18 +7,18 @@ interface NotificationEndpoint {
     @GET
     suspend fun findAll(): List<Notification>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Notification
 
-    @GET("/user/{userId}")
+    @GET("user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Notification>
 
-    @GET("/restaurant/{restaurantId}")
+    @GET("restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") userId: String): List<Notification>
 
-    @PATCH("/{id}")
+    @PATCH("{id}")
     suspend fun view(@Path("id") id: String): Notification
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

@@ -70,13 +70,13 @@ class LoginActivity : AppCompatActivity() {
         if (!validateBody(body)) return
 
         suspendToLiveData {
-            val token = api.auth.login(body)
+            val tokenResponse = api.auth.login(body)
+            authorization.setAuthorization("Bearer ${tokenResponse.token}")
             val userResponse = api.users.findMe()
             state.user.postValue(userResponse)
-            token.token!!
+            tokenResponse.token!!
         }.observe(this) { result ->
             result.fold(onSuccess = { token ->
-                authorization.setAuthorization("Bearer $token")
                 navigateToHome()
             }, onFailure = {
                 alertError("Internet Connection Error")

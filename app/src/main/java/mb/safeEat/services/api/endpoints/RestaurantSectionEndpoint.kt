@@ -8,7 +8,7 @@ sealed interface RestaurantSectionEndpoint {
     @GET
     suspend fun findAll(): List<RestaurantSection>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): RestaurantSection
 
     @POST
@@ -17,6 +17,6 @@ sealed interface RestaurantSectionEndpoint {
     @PUT
     suspend fun update(@Body restaurantSection: RestaurantSectionDto): RestaurantSection
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

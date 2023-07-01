@@ -8,13 +8,13 @@ sealed interface FeedbackEndpoint {
     @GET
     suspend fun findAll(): List<Feedback>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Feedback
 
-    @GET("/order/{orderId}")
+    @GET("order/{orderId}")
     suspend fun findByOrder(@Path("orderId") orderId: String): Feedback
 
-    @POST("/order/{orderId}")
+    @POST("order/{orderId}")
     suspend fun create(
         @Body feedback: FeedbackDto,
         @Path("orderId") orderId: String,
@@ -23,6 +23,6 @@ sealed interface FeedbackEndpoint {
     @PUT
     suspend fun update(@Body feedback: FeedbackDto): Feedback
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

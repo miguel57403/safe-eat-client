@@ -8,13 +8,13 @@ sealed interface DeliveryEndpoint {
     @GET
     suspend fun findAll(): List<Delivery>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Delivery
 
-    @GET("/restaurant/{restaurantId}")
+    @GET("restaurant/{restaurantId}")
     suspend fun findByAllRestaurant(@Path("restaurantId") restaurantId: String): List<Delivery>
 
-    @POST("/restaurant/{restaurantId}")
+    @POST("restaurant/{restaurantId}")
     suspend fun create(
         @Body delivery: DeliveryDto,
         @Path("restaurantId") restaurantId: String,
@@ -23,6 +23,6 @@ sealed interface DeliveryEndpoint {
     @PUT
     suspend fun update(@Body delivery: DeliveryDto): Delivery
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

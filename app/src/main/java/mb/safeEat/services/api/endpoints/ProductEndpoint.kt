@@ -11,16 +11,16 @@ sealed interface ProductEndpoint {
     @GET("{id}")
     suspend fun findById(@Path("id") id: String): Product
 
-    @GET("/restaurant/{restaurantId}")
+    @GET("restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") restaurantId: String): List<Product>
 
-    @GET("/restaurant/{restaurantId}/name/{name}")
+    @GET("restaurant/{restaurantId}/name/{name}")
     suspend fun findAllByRestaurantAndName(
         @Path("restaurantId") restaurantId: String,
         @Path("name") name: String,
     ): List<Product>
 
-    @POST("/restaurant/{restaurantId}")
+    @POST("restaurant/{restaurantId}")
     suspend fun create(
         @Body product: ProductDto,
         @Path("restaurantId") restaurantId: String,
@@ -30,10 +30,10 @@ sealed interface ProductEndpoint {
     suspend fun update(@Body product: ProductDto): Product
 
     // TODO: update the image file type
-    @PUT("/{id}/image")
+    @PUT("{id}/image")
     suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Product
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }
 

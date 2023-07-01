@@ -7,15 +7,15 @@ sealed interface CartEndpoint {
     @GET
     suspend fun findAll(): List<Cart>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Cart
 
-    @GET("/user/{userId}")
+    @GET("user/{userId}")
     suspend fun findByUser(@Path("userId") userId: String): Cart
 
-    @GET("/isEmpty")
+    @GET("isEmpty")
     suspend fun isEmpty(): Boolean
 
-    @PUT("/empty")
+    @PUT("empty")
     suspend fun empty(): Cart
 }

@@ -8,16 +8,16 @@ sealed interface IngredientEndpoint {
     @GET
     suspend fun findAll(): List<Ingredient>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Ingredient
 
-    @GET("/restaurant/{restaurantId}")
+    @GET("restaurant/{restaurantId}")
     suspend fun findByAllRestaurant(@Path("restaurantId") restaurantId: String): List<Ingredient>
 
-    @GET("/product/{productId}")
+    @GET("product/{productId}")
     suspend fun findByAllProduct(@Path("productId") productId: String): List<Ingredient>
 
-    @POST("/restaurant/{restaurantId}")
+    @POST("restaurant/{restaurantId}")
     suspend fun create(
         @Body ingredient: IngredientDto,
         @Path("restaurantId") restaurantId: String,
@@ -26,6 +26,6 @@ sealed interface IngredientEndpoint {
     @PUT
     suspend fun update(@Body ingredient: IngredientDto): Ingredient
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

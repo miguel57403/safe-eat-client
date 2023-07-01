@@ -8,10 +8,10 @@ sealed interface PaymentEndpoint {
     @GET
     suspend fun findAll(): List<Payment>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Payment
 
-    @GET("/user/{userId}")
+    @GET("user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Payment>
 
     @POST
@@ -20,6 +20,6 @@ sealed interface PaymentEndpoint {
     @PUT
     suspend fun update(@Body payment: PaymentDto): Payment
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String): Payment
 }

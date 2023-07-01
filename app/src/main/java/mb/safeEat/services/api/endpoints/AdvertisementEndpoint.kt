@@ -8,10 +8,10 @@ sealed interface AdvertisementEndpoint {
     @GET
     suspend fun findAll(): List<Advertisement>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): Advertisement
 
-    @GET("/restaurant/{restaurantId}")
+    @GET("restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") id: String): List<Advertisement>
 
     @POST
@@ -21,12 +21,12 @@ sealed interface AdvertisementEndpoint {
     suspend fun update(@Body advertisement: AdvertisementDto): Advertisement
 
     // TODO: update the image file type
-    @PUT("/{id}/image")
+    @PUT("{id}/image")
     suspend fun updateImage(
         @Path("id") id: String,
         @Query("image") imageFile: String
     ): Advertisement
 
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String)
 }

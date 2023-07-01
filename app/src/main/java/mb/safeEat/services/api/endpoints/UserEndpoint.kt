@@ -8,20 +8,19 @@ sealed interface UserEndpoint {
     @GET
     suspend fun findAll(): List<User>
 
-    @GET("/{id}")
+    @GET("{id}")
     suspend fun findById(@Path("id") id: String): User
 
-    @GET("/me")
+    @GET("me")
     suspend fun findMe(): User
 
     @PUT
     suspend fun update(@Body user: UserDto): User
 
     // TODO: update the image file type
-    @PUT("/me/image")
+    @PUT("me/image")
     suspend fun updateImage(@Query("image") imageFile: String): User
 
-
-    @DELETE("/{id}")
+    @DELETE("{id}")
     suspend fun delete(@Path("id") id: String): User
 }
