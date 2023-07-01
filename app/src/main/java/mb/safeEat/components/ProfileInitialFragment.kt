@@ -8,14 +8,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
-
-//import mb.safeEat.services.state.state
+import mb.safeEat.services.state.state
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_initial, container, false)
         if (view != null) onInit(view)
@@ -34,19 +37,22 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val exitButton = view.findViewById<Button>(R.id.profile_button_exit)
 
         profileImage.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
-        addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation))  }
-        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation))  }
+        addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation)) }
+        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation)) }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
-        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation))  }
-        settingsButton.setOnClickListener {  }
-        aboutUsButton.setOnClickListener {  }
-//        exitButton.setOnClickListener { state.logout() }
+        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation)) }
+        settingsButton.setOnClickListener { }
+        aboutUsButton.setOnClickListener { }
+        exitButton.setOnClickListener { state.logout() }
 
-//        state.user.observe(viewLifecycleOwner) {
-//            if (it != null) {
-//                profileImage.setImageBitmap(base64ToBitmap(it.profileImage))
-//                profileName.text = it.name
-//            }
-//        }
+        state.user.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                if (user.image != null) {
+                    Glide.with(this).load(user.image).apply(RequestOptions.centerCropTransform())
+                        .transition(DrawableTransitionOptions.withCrossFade()).into(profileImage)
+                }
+                profileName.text = user.name
+            }
+        }
     }
 }
