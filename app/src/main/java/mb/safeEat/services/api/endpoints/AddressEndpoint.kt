@@ -5,7 +5,7 @@ import mb.safeEat.services.api.models.Address
 import retrofit2.http.*
 
 sealed interface AddressEndpoint {
-    @GET
+    @GET("/addresses")
     suspend fun findAll(): List<Address>
 
     @GET("{id}")

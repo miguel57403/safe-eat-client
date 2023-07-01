@@ -2,6 +2,7 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.dto.OrderDto
+import mb.safeEat.services.api.models.Cart
+import mb.safeEat.services.state.state
 import java.text.DecimalFormat
 import java.util.ArrayList
 
 class CartInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private var orderDto = OrderDto()
+
     val data = arrayListOf(
         Product(product = "Pizza acebolada", amount = 3, price = 14.99f, warn = true),
         Product(product = "Pizza 4 queijos", amount = 1, price = 2.99f, warn = false),
@@ -24,8 +32,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
     )
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart_initial, container, false)
         if (view != null) onInit(view)
@@ -33,8 +40,68 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
     }
 
     private fun onInit(view: View) {
+        loadData(view)
         initAdapter(view)
         initScreenEvents(view)
+    }
+
+    private fun loadData(view: View) {
+        val userId = state.user.value?.id
+        if (userId != null) {
+            suspendToLiveData { api.carts.findByUser(userId) }.observe(viewLifecycleOwner) { result ->
+                result.fold(onSuccess = {
+                    loadDataByCart(it)
+                }, onFailure = {
+                    Log.d("Api Error", "$it")
+                })
+            }
+
+            suspendToLiveData { api.addresses.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
+                result.fold(onSuccess = {
+                    // TODO: Usar os endereços
+                }, onFailure = {
+                    Log.d("Api Error", "$it")
+                })
+            }
+
+            suspendToLiveData { api.payments.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
+                result.fold(onSuccess = {
+                    // TODO: Usar os pagamentos
+                }, onFailure = {
+                    Log.d("Api Error", "$it")
+                })
+            }
+        }
+    }
+
+    private fun loadDataByCart(cart: Cart) {
+        suspendToLiveData { api.items.findAllByCart(cart.id!!) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                // TODO: Usar os items
+            }, onFailure = {
+                Log.d("Api Error", "$it")
+            })
+        }
+
+        suspendToLiveData { api.restaurants.findByCart() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                loadDataByRestaurant(it)
+            }, onFailure = {
+                Log.d("Api Error", "$it")
+            })
+        }
+    }
+
+    private fun loadDataByRestaurant(restaurant: mb.safeEat.services.api.models.Restaurant) {
+        suspendToLiveData { api.deliveries.findByAllRestaurant(restaurant.id!!) }.observe(
+            viewLifecycleOwner
+        ) { result ->
+            result.fold(onSuccess = {
+                // TODO: Usar as entregas
+            }, onFailure = {
+                Log.d("Api Error", "$it")
+            })
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -54,11 +121,18 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
             if (hasWarnings) {
                 val dialog = RestrictionAlertDialog()
                 dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-                dialog.setOnConfirmListener { confirm -> if (confirm) navigateToPayment() }
+                dialog.setOnConfirmListener { confirm ->
+                    if (confirm) confirmCart()
+                }
             } else {
-                navigateToPayment()
+                confirmCart()
             }
         }
+    }
+
+    private fun confirmCart() {
+        //suspendToLiveData { api.orders.create(orderDto) }
+        navigateToPayment()
     }
 
     private fun initAdapter(view: View) {
@@ -102,10 +176,7 @@ class CartAdapter(private var data: ArrayList<Product>) :
 }
 
 data class Product(
-    val product: String,
-    val amount: Int,
-    val price: Float,
-    val warn: Boolean
+    val product: String, val amount: Int, val price: Float, val warn: Boolean
 ) {
     fun getTotalPrice(): Float = amount * price
 }

@@ -5,7 +5,7 @@ import mb.safeEat.services.api.models.Category
 import retrofit2.http.*
 
 sealed interface CategoryEndpoint {
-    @GET
+    @GET("/categories")
     suspend fun findAll(): List<Category>
 
     @GET("{id}")
