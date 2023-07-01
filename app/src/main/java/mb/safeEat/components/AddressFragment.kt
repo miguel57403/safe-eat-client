@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
@@ -23,6 +24,10 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment() {
 
     private fun onInit(view: View) {
         initHeader(view)
+        val button = view.findViewById<Button>(R.id.new_address)
+        button.setOnClickListener {
+            navigation.navigateTo(AddressRegisterFragment(navigation))
+        }
 
         val addressName = view.findViewById<TextView>(R.id.address_main_text)
         suspendToLiveData { api.addresses.findAll() }.observe(viewLifecycleOwner) { result ->
