@@ -1,11 +1,12 @@
 package mb.safeEat.services.api.endpoints
 
+import androidx.lifecycle.LiveData
 import mb.safeEat.services.api.dto.CategoryDto
 import mb.safeEat.services.api.models.Category
 import retrofit2.http.*
 
 sealed interface CategoryEndpoint {
-    @GET
+    @GET("/categories")
     suspend fun findAll(): List<Category>
 
     @GET("{id}")

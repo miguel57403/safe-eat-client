@@ -1,6 +1,8 @@
 package mb.safeEat.components
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.ViewTarget
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
 
 class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
@@ -22,30 +30,31 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
     }
 
     private fun onInit(view: View) {
-        initAdapter(view)
+        onGetAllCategory(view)
     }
 
-    private fun initAdapter(view: View) {
+    private fun onGetAllCategory(view: View) {
+        suspendToLiveData {
+            api.categories.findAll()
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { categories ->
+                initAdapter(view, categories)
+            }, onFailure = { failure ->
+                Log.d("Debug","Failure $failure")
+            })
+        }
+    }
+
+    private fun initAdapter(view: View, categories: List<mb.safeEat.services.api.models.Category>) {
         val items = view.findViewById<RecyclerView>(R.id.search_categories_items)
         items.layoutManager = GridLayoutManager(view.context, 2)
-        items.adapter = SearchCategoryAdapter(navigation, getItemList())
+        items.adapter = SearchCategoryAdapter(navigation, getItemList(view,categories))
     }
 
-    private fun getItemList(): List<Category> {
-        return listOf(
-            Category("Sandwich", R.drawable.sandwich),
-            Category("Pizza", R.drawable.pizza),
-            Category("Burger", R.drawable.burger),
-            Category("Portions", R.drawable.portions),
-            Category("Meals", R.drawable.meals),
-            Category("Japanese", R.drawable.japanese),
-            Category("Drinks", R.drawable.drinks),
-            Category("Ice Cream", R.drawable.ice_cream),
-            Category("Donner", R.drawable.donner),
-            Category("Desserts", R.drawable.desserts),
-            Category("Vegan", R.drawable.vegan),
-            Category("Thai Foods", R.drawable.thai_foods)
-        )
+    private fun getItemList(view: View, categories: List<mb.safeEat.services.api.models.Category>): List<Category> {
+        return categories.map { category ->{}
+            Category(category.name!!, category.image!!)
+        }
     }
 }
 
@@ -71,12 +80,17 @@ class SearchCategoryAdapter(
 
         fun bind(category: Category) {
             this.category.text = category.name
-            image.setBackgroundResource(category.imageId)
+            Glide.with(itemView)
+                .load(category.imageUrl) // Replace with your actual image URL
+                .apply(RequestOptions().centerCrop())
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(image)
             container.setOnClickListener { navigation.navigateTo(SearchRestaurantFragment(navigation)) }
         }
     }
 }
 
-data class Category(
-    val name: String, val imageId: Int
+data class Category (
+    val name: String,
+    val imageUrl: String,
 )
