@@ -14,9 +14,6 @@ sealed interface RestaurantSectionEndpoint {
     @POST
     suspend fun create(@Body restaurantSection: RestaurantSectionDto): RestaurantSection
 
-    @POST("/many")
-    suspend fun createMany(@Body restaurantSections: List<RestaurantSectionDto>): List<RestaurantSection>
-
     @PUT
     suspend fun update(@Body restaurantSection: RestaurantSectionDto): RestaurantSection
 

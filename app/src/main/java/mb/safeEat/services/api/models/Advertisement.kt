@@ -4,5 +4,5 @@ data class Advertisement(
     val id: String? = null,
     val title: String? = null,
     val image: String? = null,
-    val restaurant: Restaurant? = null,
+    val restaurantId: String? = null,
 )

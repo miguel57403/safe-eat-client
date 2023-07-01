@@ -5,7 +5,5 @@ data class OrderDto(
     val addressId: String? = null,
     val paymentId: String? = null,
     val deliveryId: String? = null,
-    val itemIds: List<String>? = null,
-    val restaurantId: String? = null,
-    val clientId: String? = null,
+    val itemIds: List<String>? = null
 )

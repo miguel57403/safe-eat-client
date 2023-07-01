@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import mb.safeEat.R
-import android.widget.TextView
-import mb.safeEat.functions.base64ToBitmap
-import mb.safeEat.services.state.state
+
+//import mb.safeEat.services.state.state
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
@@ -40,13 +40,13 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation))  }
         settingsButton.setOnClickListener {  }
         aboutUsButton.setOnClickListener {  }
-        exitButton.setOnClickListener { state.logout() }
+//        exitButton.setOnClickListener { state.logout() }
 
-        state.user.observe(viewLifecycleOwner) {
-            if (it != null) {
-                profileImage.setImageBitmap(base64ToBitmap(it.profileImage))
-                profileName.text = it.name
-            }
-        }
+//        state.user.observe(viewLifecycleOwner) {
+//            if (it != null) {
+//                profileImage.setImageBitmap(base64ToBitmap(it.profileImage))
+//                profileName.text = it.name
+//            }
+//        }
     }
 }

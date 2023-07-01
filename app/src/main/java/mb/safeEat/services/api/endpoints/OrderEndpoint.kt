@@ -14,11 +14,11 @@ sealed interface OrderEndpoint {
     @GET("/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Order>
 
+    @GET("/restaurant/{restaurantId}")
+    suspend fun findAllByRestaurant(@Path("restaurantId") userId: String): List<Order>
+
     @POST
     suspend fun create(@Body order: OrderDto): Order
-
-    @POST("/many")
-    suspend fun createMany(@Body orders: List<OrderDto>): List<Order>
 
     @PUT("/{id}")
     suspend fun updateStatus(@Path("id") id: String, @Query("status") status: String): Order

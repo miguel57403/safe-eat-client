@@ -11,21 +11,21 @@ sealed interface IngredientEndpoint {
     @GET("/{id}")
     suspend fun findById(@Path("id") id: String): Ingredient
 
-    @POST
+    @GET("/restaurant/{restaurantId}")
+    suspend fun findByAllRestaurant(@Path("restaurantId") restaurantId: String): List<Ingredient>
+
+    @GET("/product/{productId}")
+    suspend fun findByAllProduct(@Path("productId") productId: String): List<Ingredient>
+
+    @POST("/restaurant/{restaurantId}")
     suspend fun create(
         @Body ingredient: IngredientDto,
-        @Query("restaurantId") restaurantId: String,
+        @Path("restaurantId") restaurantId: String,
     ): Ingredient
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body ingredients: List<IngredientDto>,
-        @Query("restaurantId") restaurantId: String,
-    ): List<Ingredient>
 
     @PUT
     suspend fun update(@Body ingredient: IngredientDto): Ingredient
 
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String)
+    suspend fun delete(@Path("id") id: String)
 }

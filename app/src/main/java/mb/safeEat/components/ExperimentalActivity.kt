@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import mb.safeEat.R
 import mb.safeEat.functions.suspendToLiveData
-import mb.safeEat.services.api.LoginBody
+import mb.safeEat.services.api.dto.LoginDto
 import mb.safeEat.services.api.api
 
 @Suppress("FunctionName")
@@ -19,7 +19,7 @@ class ExperimentalActivity : AppCompatActivity() {
         val openDialog = findViewById<Button>(R.id.open_dialog)
         openDialog.setOnClickListener {
             suspendToLiveData {
-                api.auth.login(LoginBody("username", "password"))
+                api.auth.login(LoginDto("username", "password"))
             }.observe(this) { result ->
                 result.fold(onSuccess = { println(it) }, onFailure = { println(it) })
             }

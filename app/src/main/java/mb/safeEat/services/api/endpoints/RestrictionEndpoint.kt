@@ -17,9 +17,6 @@ sealed interface RestrictionEndpoint {
     @POST
     suspend fun create(@Body restriction: RestrictionDto): Restriction
 
-    @POST("/many")
-    suspend fun createMany(@Body restrictions: List<RestrictionDto>): List<Restriction>
-
     @PUT
     suspend fun update(@Body restriction: RestrictionDto): Restriction
 

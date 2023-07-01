@@ -15,20 +15,11 @@ sealed interface PaymentEndpoint {
     suspend fun findAllByUser(@Path("userId") userId: String): List<Payment>
 
     @POST
-    suspend fun create(
-        @Body payment: PaymentDto,
-        @Query("userId") userId: String,
-    ): Payment
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body payments: List<PaymentDto>,
-        @Query("userId") userId: String,
-    ): List<Payment>
+    suspend fun create(@Body payment: PaymentDto): Payment
 
     @PUT
     suspend fun update(@Body payment: PaymentDto): Payment
 
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("userId") userId: String): Payment
+    suspend fun delete(@Path("id") id: String): Payment
 }

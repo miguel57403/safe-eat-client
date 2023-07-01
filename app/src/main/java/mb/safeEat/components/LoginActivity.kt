@@ -21,7 +21,7 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.authorization
 import mb.safeEat.services.api.dto.LoginDto
-import mb.safeEat.services.state.state
+//import mb.safeEat.services.state.state
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +70,8 @@ class LoginActivity : AppCompatActivity() {
         suspendToLiveData {
             val token = api.auth.login(body)
             authorization.setAuthorization("Bearer $token")
-            val userResponse = api.users.getMe()
-            state.user.postValue(userResponse)
+            val userResponse = api.users.findMe()
+//            state.user.postValue(userResponse)
             token
         }.observe(this) { result ->
             result.fold(onSuccess = {
@@ -112,8 +112,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn() {
-        if (state.user.value != null) {
-            navigateToHome()
-        }
+//        if (state.user.value != null) {
+//            navigateToHome()
+//        }
     }
 }

@@ -13,9 +13,9 @@ sealed interface CartEndpoint {
     @GET("/user/{userId}")
     suspend fun findByUser(@Path("userId") userId: String): Cart
 
-    @GET("/{id}/isBuying")
-    suspend fun isBuying(@Path("id") id: String): Cart
+    @GET("/isEmpty")
+    suspend fun isEmpty(): Boolean
 
-    @PUT
-    suspend fun empty(@Query("cartId") cartId: String?): Cart
+    @PUT("/empty")
+    suspend fun empty(): Cart
 }

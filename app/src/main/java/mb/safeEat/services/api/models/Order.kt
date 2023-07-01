@@ -11,7 +11,10 @@ data class Order(
     val payment: Payment? = null,
     val delivery: Delivery? = null,
     val items: List<Item>? = null,
+
     val restaurant: Restaurant? = null,
     val feedback: Feedback? = null,
     val client: User? = null,
 )
+
+// TODO: remove ignored properties?

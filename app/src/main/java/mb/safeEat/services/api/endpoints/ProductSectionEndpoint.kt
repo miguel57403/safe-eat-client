@@ -14,17 +14,11 @@ sealed interface ProductSectionEndpoint {
     @GET("/restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") restaurantId: String): List<ProductSection>
 
-    @POST
+    @POST("/restaurant/{restaurantId}")
     suspend fun create(
         @Body productSection: ProductSectionDto,
-        @Query("restaurantId") restaurantId: String,
+        @Path("restaurantId") restaurantId: String,
     ): ProductSection
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body productSections: List<ProductSectionDto>,
-        @Query("restaurantId") restaurantId: String,
-    ): List<ProductSection>
 
     @PUT
     suspend fun update(@Body productSection: ProductSectionDto): ProductSection

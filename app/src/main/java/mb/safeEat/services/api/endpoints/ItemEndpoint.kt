@@ -15,20 +15,11 @@ sealed interface ItemEndpoint {
     suspend fun findAllByCart(@Path("cartId") cartId: String): List<Item>
 
     @POST
-    suspend fun create(
-        @Body item: ItemDto,
-        @Query("cartId") cartId: String,
-    ): Item
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body items: List<ItemDto>,
-        @Query("cartId") cartId: String,
-    ): List<Item>
+    suspend fun create( @Body item: ItemDto): Item
 
     @PUT
     suspend fun update(@Body item: ItemDto): Item
 
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("cartId") cartId: String?): Item
+    suspend fun delete(@Path("id") id: String): Item
 }

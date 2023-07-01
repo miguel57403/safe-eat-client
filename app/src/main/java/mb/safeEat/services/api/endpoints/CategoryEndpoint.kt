@@ -14,11 +14,12 @@ sealed interface CategoryEndpoint {
     @POST
     suspend fun create(@Body category: CategoryDto): Category
 
-    @POST("/many")
-    suspend fun createMany(@Body categories: List<CategoryDto>): List<Category>
-
     @PUT
     suspend fun update(@Body category: CategoryDto): Category
+
+    // TODO: update the image file type
+    @PUT("/{id}/image")
+    suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Category
 
     @DELETE("/{id}")
     suspend fun delete(@Path("id") id: String?)

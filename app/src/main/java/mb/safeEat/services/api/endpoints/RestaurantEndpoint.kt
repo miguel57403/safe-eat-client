@@ -17,17 +17,25 @@ sealed interface RestaurantEndpoint {
     @GET("/owner/{userId}")
     suspend fun findAllByOwner(@Path("userId") userId: String): List<Restaurant>
 
+    @GET("/cart")
+    suspend fun findByCart(): Restaurant
+
     @GET("/name/{name}")
     suspend fun findAllByName(@Path("name") name: String): List<Restaurant>
 
     @POST
     suspend fun create(@Body restaurant: RestaurantDto): Restaurant
 
-    @POST("/many")
-    suspend fun createMany(@Body restaurants: List<RestaurantDto>): List<Restaurant>
-
     @PUT
     suspend fun update(@Body restaurant: RestaurantDto): Restaurant
+
+    // TODO: update the image file type
+    @PUT("/{id}/logo")
+    suspend fun updateLogo(@Path("id") id: String, @Query("image") imageFile: String): Restaurant
+
+    // TODO: update the image file type
+    @PUT("/{id}/cover")
+    suspend fun updateCover(@Path("id") id: String, @Query("image") imageFile: String): Restaurant
 
     @DELETE("/{id}")
     suspend fun delete(@Path("id") id: String)

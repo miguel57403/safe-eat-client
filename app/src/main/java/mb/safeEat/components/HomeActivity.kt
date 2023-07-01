@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import mb.safeEat.R
 import mb.safeEat.functions.cleanIntentStack
-import mb.safeEat.services.api.authorization
-import mb.safeEat.services.state.state
+//import mb.safeEat.services.api.authorization
+//import mb.safeEat.services.state.state
 import java.lang.Exception
 
 // Bottom Navigation: https://www.youtube.com/watch?v=Bb8SgfI4Cm4&ab_channel=Foxandroid
@@ -44,12 +44,12 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
             true
         }
 
-        state.user.observe(this) {
-            if (it == null) {
-                authorization.clearAuthorization()
-                navigateToLogin()
-            }
-        }
+//        state.user.observe(this) {
+//            if (it == null) {
+//                authorization.clearAuthorization()
+//                navigateToLogin()
+//            }
+//        }
     }
 
     private fun navigateToLogin() {

@@ -5,3 +5,5 @@ data class Login(
     val message: String? = null,
     val token: String? = null,
 )
+
+// TODO: not used anymore

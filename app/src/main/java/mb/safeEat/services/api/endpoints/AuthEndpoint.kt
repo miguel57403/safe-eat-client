@@ -8,9 +8,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 sealed interface AuthEndpoint {
-    @GET("signup")
+    @GET("/signup")
     suspend fun signup(@Body body: UserDto): User
 
-    @POST("login")
+    @POST("/login")
     suspend fun login(@Body body: LoginDto): String
 }

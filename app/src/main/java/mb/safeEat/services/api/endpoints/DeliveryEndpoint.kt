@@ -11,21 +11,18 @@ sealed interface DeliveryEndpoint {
     @GET("/{id}")
     suspend fun findById(@Path("id") id: String): Delivery
 
-    @POST
+    @GET("/restaurant/{restaurantId}")
+    suspend fun findByAllRestaurant(@Path("restaurantId") restaurantId: String): List<Delivery>
+
+    @POST("/restaurant/{restaurantId}")
     suspend fun create(
         @Body delivery: DeliveryDto,
-        @Query("restaurantId") restaurantId: String,
+        @Path("restaurantId") restaurantId: String,
     ): Delivery
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body deliveries: List<DeliveryDto>,
-        @Query("restaurantId") restaurantId: String,
-    ): List<Delivery>
 
     @PUT
     suspend fun update(@Body delivery: DeliveryDto): Delivery
 
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String?)
+    suspend fun delete(@Path("id") id: String)
 }

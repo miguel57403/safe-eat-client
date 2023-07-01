@@ -20,22 +20,20 @@ sealed interface ProductEndpoint {
         @Path("name") name: String,
     ): List<Product>
 
-    @POST
+    @POST("/restaurant/{restaurantId}")
     suspend fun create(
         @Body product: ProductDto,
-        @Query("restaurantId") restaurantId: String,
+        @Path("restaurantId") restaurantId: String,
     ): Product
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body products: List<ProductDto>,
-        @Query("restaurantId") restaurantId: String,
-    ): List<Product>
 
     @PUT
     suspend fun update(@Body product: ProductDto): Product
 
+    // TODO: update the image file type
+    @PUT("/{id}/image")
+    suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Product
+
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String)
+    suspend fun delete(@Path("id") id: String)
 }
 

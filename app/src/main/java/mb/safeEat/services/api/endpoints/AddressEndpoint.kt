@@ -15,17 +15,11 @@ sealed interface AddressEndpoint {
     suspend fun findAllByUser(@Path("userId") userId: String): List<Address>
 
     @POST
-    suspend fun create(@Body address: AddressDto, @Query("userId") userId: String): Address
-
-    @POST("/many")
-    suspend fun createMany(
-        @Body addresses: List<AddressDto>,
-        @Query("userId") userId: String?,
-    ): List<Address>
+    suspend fun create(@Body address: AddressDto): Address
 
     @PUT
     suspend fun update(@Body address: AddressDto): Address
 
     @DELETE("/{id}")
-    suspend fun delete(@Path("id") id: String, @Query("userId") userId: String?)
+    suspend fun delete(@Path("id") id: String)
 }
