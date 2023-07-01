@@ -15,8 +15,7 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment() 
     private var score = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_feedback, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

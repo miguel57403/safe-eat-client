@@ -44,6 +44,7 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
             true
         }
 
+        // TODO: Uncomment this
 //        state.user.observe(this) {
 //            if (it == null) {
 //                authorization.clearAuthorization()

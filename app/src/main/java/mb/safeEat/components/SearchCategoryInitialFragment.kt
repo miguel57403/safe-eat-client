@@ -28,6 +28,7 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
         onGetAllCategory(view)
     }
 
+    // TODO: Rename this function to a standard name
     private fun onGetAllCategory(view: View) {
         suspendToLiveData { api.categories.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { categories ->

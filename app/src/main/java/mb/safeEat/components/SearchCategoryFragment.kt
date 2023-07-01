@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import mb.safeEat.R
 
+// TODO: Remove this fragment
 class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search_category, container, false)
         onInit()

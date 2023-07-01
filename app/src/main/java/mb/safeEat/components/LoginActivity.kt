@@ -25,6 +25,7 @@ import mb.safeEat.services.state.state
 
 //import mb.safeEat.services.state.state
 
+// TODO: Remove this fragment
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
             state.user.postValue(userResponse)
             tokenResponse.token!!
         }.observe(this) { result ->
-            result.fold(onSuccess = { token ->
+            result.fold(onSuccess = {
                 navigateToHome()
             }, onFailure = {
                 alertError("Internet Connection Error")

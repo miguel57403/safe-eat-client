@@ -64,6 +64,7 @@ class AllergyAdapter(
 ) : RecyclerView.Adapter<AllergyAdapter.ViewHolder>() {
     private var data: ArrayList<Allergy> = ArrayList()
 
+    // TODO: Rename and spread this method to other adapters
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: ArrayList<Allergy>) {
         data = newData

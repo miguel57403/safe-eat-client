@@ -14,13 +14,24 @@ import mb.safeEat.services.api.api
 
 class AddressFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_address, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initHeader(view)
+        initScreenEvents(view)
+    }
+
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
+
+        title.text = resources.getString(R.string.t_address)
+        backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initScreenEvents(view: View) {
         val button = view.findViewById<Button>(R.id.new_address)
         button.setOnClickListener {
             navigation.navigateTo(AddressRegisterFragment(navigation))
@@ -35,13 +46,5 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment() {
                 println("Api Error")
             })
         }
-    }
-
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-
-        title.text = resources.getString(R.string.t_address)
-        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 }

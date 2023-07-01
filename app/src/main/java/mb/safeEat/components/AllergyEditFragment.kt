@@ -20,8 +20,7 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
     private var allergyList = ArrayList<Allergy>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_allergy_edit, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

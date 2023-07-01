@@ -14,12 +14,8 @@ class PictureDialog : DialogFragment() {
     var imageResource: Int? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_picture, container)
-    }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.dialog_picture, container)
 
     override fun onStart() {
         if (imageResource == null)

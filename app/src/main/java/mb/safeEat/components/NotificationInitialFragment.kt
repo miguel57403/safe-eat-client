@@ -14,8 +14,7 @@ import mb.safeEat.R
 
 class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_notification_initial, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
