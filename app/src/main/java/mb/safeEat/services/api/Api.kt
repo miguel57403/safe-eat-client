@@ -31,8 +31,8 @@ class Api {
     companion object {
         fun jsonApi(baseUrl: String): Retrofit {
             val okHttpClient = OkHttpClient.Builder()
-                .readTimeout(1, TimeUnit.SECONDS)
-                .connectTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .addInterceptor(authorization)
                 .build()
             return Retrofit.Builder()

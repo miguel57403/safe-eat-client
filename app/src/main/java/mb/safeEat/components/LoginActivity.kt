@@ -21,6 +21,8 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.authorization
 import mb.safeEat.services.api.dto.LoginDto
+import mb.safeEat.services.state.state
+
 //import mb.safeEat.services.state.state
 
 class LoginActivity : AppCompatActivity() {
@@ -69,12 +71,12 @@ class LoginActivity : AppCompatActivity() {
 
         suspendToLiveData {
             val token = api.auth.login(body)
-            authorization.setAuthorization("Bearer $token")
             val userResponse = api.users.findMe()
-//            state.user.postValue(userResponse)
-            token
+            state.user.postValue(userResponse)
+            token.token!!
         }.observe(this) { result ->
-            result.fold(onSuccess = {
+            result.fold(onSuccess = { token ->
+                authorization.setAuthorization("Bearer $token")
                 navigateToHome()
             }, onFailure = {
                 alertError("Internet Connection Error")
