@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
-import mb.safeEat.functions.base64ToBitmap
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.state.state
 
 class OrdersFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
@@ -44,8 +46,27 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as OrdersAdapter).loadInitialData(createList())
+        val userId = state.user.value!!.id!!
+        suspendToLiveData { api.orders.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { orders ->
+                val initialData = mapInitialData(orders)
+                (items.adapter as OrdersAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun mapInitialData(order: List<mb.safeEat.services.api.models.Order>): ArrayList<Order> {
+        return order.map {
+            Order(
+                image = it.restaurant?.logo ?: "",
+                restaurant = it.restaurant?.name ?: "",
+                date = "", // TODO: Use DateAgo extension
+                status = OrderStatus.DELIVERED, // TODO: Set correct status
+                products_number = it.quantity!!
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun createList(): ArrayList<Order> {
@@ -103,7 +124,7 @@ class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
             restaurant.text = order.restaurant
             date.text = order.date
             statusText.text = order.status.toResourceString(itemView.context)
-            image.setImageBitmap(base64ToBitmap(order.image))
+            //image.setImageBitmap(base64ToBitmap(order.image))
             productsNumber.text = order.products_number.toString()
             val color = order.status.toResourceColor()
             statusIcon.setColorFilter(ContextCompat.getColor(itemView.context, color))
