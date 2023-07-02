@@ -20,11 +20,12 @@ import mb.safeEat.services.api.authorization
 import mb.safeEat.services.api.dto.LoginDto
 import mb.safeEat.services.state.state
 
-//import mb.safeEat.services.state.state
-
 class LoginActivity : AppCompatActivity(), Alertable {
     override fun requireView(): View = findViewById(R.id.login_material_container)
     override fun requireContext(): Context = this
+
+    // TODO: Add loading to other screens
+    private var loading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity(), Alertable {
         withoutAccountContainer.setOnClickListener { navigateToRegister() }
         loginButton.setOnClickListener {
             hideKeyboard(it)
-            doLogin()
+            doLogin(loginButton)
         }
     }
 
@@ -63,7 +64,8 @@ class LoginActivity : AppCompatActivity(), Alertable {
     }
 
     // Actions
-    private fun doLogin() {
+    private fun doLogin(button: Button) {
+        if (loading) return
         val emailInput = findViewById<TextInputEditText>(R.id.login_material_email_input)
         val passwordInput = findViewById<TextInputEditText>(R.id.login_material_password_input)
         // TODO: Remove this when the app is ready
@@ -76,6 +78,9 @@ class LoginActivity : AppCompatActivity(), Alertable {
             body
         }
 
+        loading = true
+        button.isEnabled = false
+        alertInfo("Loading...")
         suspendToLiveData {
             val tokenResponse = api.auth.login(body)
             authorization.setAuthorization("Bearer ${tokenResponse.token}")
@@ -86,9 +91,11 @@ class LoginActivity : AppCompatActivity(), Alertable {
             result.fold(onSuccess = {
                 navigateToHome()
             }, onFailure = {
-                alertError("Error: ${it.message}")
+                alertThrowable(it)
                 Log.d("Api Error", "$it")
             })
+            button.isEnabled = true
+            loading = false
         }
     }
 
