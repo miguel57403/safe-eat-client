@@ -12,15 +12,24 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.base64ToBitmap
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
 
-// TODO: Receive parameters (category, name) to do initial search
-class SearchRestaurantFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+data class RestaurantParam(val id: String)
+
+class SearchRestaurantFragment(
+    private val navigation: NavigationListener,
+    private val params: RestaurantParams
+) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -30,8 +39,8 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
-        initScreenEvents(view)
         loadInitialData()
+        initScreenEvents(view)
     }
 
     private fun initAdapter(view: View) {
@@ -55,22 +64,37 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
-        // OBS: find all restaurants by category
-        (items.adapter as SearchRestaurantAdapter).loadInitialData(createList())
+        suspendToLiveData {
+            api.restaurants.findAllByCategory(params.id.toString())
+        }.observe(viewLifecycleOwner) {
+            result -> result.fold(onSuccess = {restaurants ->
+            Log.d("Restaurants", restaurants.toString())
+            val initData = getItemList(restaurants)
+                (items.adapter as SearchRestaurantAdapter).loadInitialData(initData)
+            }, onFailure = {erro ->
+                Log.d("Error", erro.toString())
+                alertThrowable(erro)
+            })
+        }
     }
 
-    private fun createList(): ArrayList<SearchRestaurant> {
-        return arrayListOf(
-            SearchRestaurant(searchRestaurantImage, "Sabor Brasileiro", "€2,99", "10 - 20 min"),
-            SearchRestaurant(searchRestaurantImage, "Marmita Caseira", "€2,99", "10 - 20 min"),
-            SearchRestaurant(searchRestaurantImage, "Galinha da vizinha", "€2,99", "10 - 20 min"),
-        )
+    private fun getItemList(restaurants: List<mb.safeEat.services.api.models.Restaurant>): ArrayList<SearchRestaurant> {
+        return restaurants.map { restaurant ->
+            SearchRestaurant(restaurant.logo!!, restaurant.name!!, "€2,99", "10 - 20 min")
+        }.toCollection(ArrayList())
     }
 
     private fun searchAgain(input: String) {
-        // TODO: search with input
-        Log.d("Search", input)
+        suspendToLiveData {
+            api.restaurants.findAllByName(input.toString())
+        }.observe(viewLifecycleOwner) {
+            result -> result.fold(onSuccess = { dataFetch ->
+                val initData = getItemList(dataFetch)
+                (items.adapter as SearchRestaurantAdapter).loadInitialData(initData)
+          }, onFailure = {
+            alertThrowable(it)
+          })
+        }
     }
 }
 
@@ -107,7 +131,11 @@ class SearchRestaurantAdapter(
             name.text = item.name
             price.text = item.price
             time.text = item.time
-            image.setImageBitmap(base64ToBitmap(item.image))
+            Glide.with(itemView) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions().centerCrop()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
+                .into(image)
             container.setOnClickListener {
                 navigation.navigateTo(
                     RestaurantFragment(
@@ -120,7 +148,7 @@ class SearchRestaurantAdapter(
 }
 
 data class SearchRestaurant(
-    val image: String,
+    val imageUrl: String,
     val name: String,
     val price: String,
     val time: String,

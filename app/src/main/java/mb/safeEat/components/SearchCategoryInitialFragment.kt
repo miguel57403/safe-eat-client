@@ -54,6 +54,7 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
     private fun getItemList(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
         return categories.map { category ->
             Category(
+                category.id!!,
                 category.name!!,
                 category.image ?: "https://placehold.co/600x400?text=${category.name}",
             )
@@ -95,12 +96,14 @@ class SearchCategoryAdapter(
                 .apply(RequestOptions().centerCrop()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
-            container.setOnClickListener { navigation.navigateTo(SearchRestaurantFragment(navigation)) }
+            val params = RestaurantParams(category.id)
+            container.setOnClickListener { navigation.navigateTo(SearchRestaurantFragment(navigation,params)) }
         }
     }
 }
 
 data class Category(
+    val id: String,
     val name: String,
     val imageUrl: String,
 )
