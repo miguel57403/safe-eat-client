@@ -3,7 +3,6 @@ package mb.safeEat.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -84,8 +83,7 @@ class RestaurantFragment(
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(posterImage)
             }, onFailure = {
-                alertError("Error: ${it.message}")
-                Log.d("Api Error", "$it")
+                alertThrowable(it)
             })
         }
     }

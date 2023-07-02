@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +43,7 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 val initialData = mapInitialData(notifications)
                 (items.adapter as NotificationAdapter).loadInitialData(initialData)
             }, onFailure = {
-                alertError("Error: ${it.message}")
-                Log.d("Api Error", "$it")
+                alertThrowable(it)
             })
         }
     }

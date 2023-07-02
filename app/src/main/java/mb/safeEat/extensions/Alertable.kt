@@ -1,6 +1,7 @@
 package mb.safeEat.extensions
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import mb.safeEat.functions.errorMessageFromThrowable
@@ -25,7 +26,9 @@ interface Alertable {
     }
 
     fun alertThrowable(throwable: Throwable) {
-        alertError(errorMessageFromThrowable(throwable))
+        val message = errorMessageFromThrowable(throwable)
+        alertError(message)
+        Log.d("Alert Error", message)
     }
 
     fun requireContext(): Context

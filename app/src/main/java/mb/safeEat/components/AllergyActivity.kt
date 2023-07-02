@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +69,6 @@ class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
                 (items.adapter as AllergyAdapter).loadInitialData(initialData)
             }, onFailure = {
                 alertThrowable(it)
-                Log.d("Api Error", "$it")
             })
         }
     }
@@ -95,7 +93,6 @@ class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
                     navigateToLogin()
                 }, onFailure = {
                     alertThrowable(it)
-                    Log.d("Api Error", "$it")
                 })
             }
         }

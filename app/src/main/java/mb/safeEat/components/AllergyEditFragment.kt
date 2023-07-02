@@ -1,7 +1,6 @@
 package mb.safeEat.components
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +65,6 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
             }, onFailure = {
                 // TODO: Spread this error handling to other places
                 alertThrowable(it)
-                Log.d("Api Error", "$it")
             })
         }
     }
@@ -86,7 +84,6 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
                     navigation.onBackPressed()
                 }, onFailure = {
                     alertThrowable(it)
-                    Log.d("Api Error", "$it")
                 })
             }
         }

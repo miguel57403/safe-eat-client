@@ -60,8 +60,7 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment(), 
                 val initialData = mapInitialData(addresses)
                 (items.adapter as AddressAdapter).loadInitialData(initialData)
             }, onFailure = {
-                alertError("Error: ${it.message}")
-                Log.d("Api Error", "$it")
+                alertThrowable(it)
             })
         }
     }

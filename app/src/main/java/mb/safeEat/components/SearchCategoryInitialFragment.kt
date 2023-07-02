@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,8 +45,7 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
                 val initialData = getItemList(categories)
                 (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
             }, onFailure = {
-                alertError("Error: ${it.message}")
-                Log.d("Api Error", "$it")
+                alertThrowable(it)
             })
         }
     }

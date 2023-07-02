@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,16 +32,16 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
-        loadInitialData(view)
+        loadInitialData()
     }
 
     private fun initAdapter(view: View) {
-        items = view.findViewById<RecyclerView>(R.id.home_items)
+        items = view.findViewById(R.id.home_items)
         items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = HomeAdapter(navigation)
     }
 
-    private fun loadInitialData(view: View) {
+    private fun loadInitialData() {
         suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { home ->
                 if (home.content != null) {
@@ -50,8 +49,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                     (items.adapter as HomeAdapter).loadInitialData(initialData)
                 }
             }, onFailure = {
-                alertError("Error: ${it.message}")
-                Log.d("Api Error", "$it")
+                alertThrowable(it)
             })
         }
     }
