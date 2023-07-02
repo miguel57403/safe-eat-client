@@ -8,18 +8,18 @@ sealed interface AddressEndpoint {
     @GET("/addresses")
     suspend fun findAll(): List<Address>
 
-    @GET("{id}")
+    @GET("/addresses/{id}")
     suspend fun findById(@Path("id") id: String): Address
 
-    @GET("user/{userId}")
+    @GET("/addresses/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Address>
 
-    @POST
+    @POST("/addresses")
     suspend fun create(@Body address: AddressDto): Address
 
-    @PUT
+    @PUT("/addresses")
     suspend fun update(@Body address: AddressDto): Address
 
-    @DELETE("{id}")
+    @DELETE("/addresses/{id}")
     suspend fun delete(@Path("id") id: String)
 }

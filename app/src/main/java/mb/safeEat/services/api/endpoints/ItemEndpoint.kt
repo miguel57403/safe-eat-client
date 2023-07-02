@@ -5,21 +5,21 @@ import mb.safeEat.services.api.models.Item
 import retrofit2.http.*
 
 sealed interface ItemEndpoint {
-    @GET
+    @GET("/items")
     suspend fun findAll(): List<Item>
 
-    @GET("{id}")
+    @GET("/items/{id}")
     suspend fun findById(@Path("id") id: String): Item
 
-    @GET("cart/{cartId}")
+    @GET("/items/cart/{cartId}")
     suspend fun findAllByCart(@Path("cartId") cartId: String): List<Item>
 
-    @POST
+    @POST("/items")
     suspend fun create( @Body item: ItemDto): Item
 
-    @PUT
+    @PUT("/items")
     suspend fun update(@Body item: ItemDto): Item
 
-    @DELETE("{id}")
+    @DELETE("/items/{id}")
     suspend fun delete(@Path("id") id: String): Item
 }

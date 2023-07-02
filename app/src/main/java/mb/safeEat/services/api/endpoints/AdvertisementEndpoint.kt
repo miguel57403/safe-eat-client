@@ -5,28 +5,28 @@ import mb.safeEat.services.api.models.Advertisement
 import retrofit2.http.*
 
 sealed interface AdvertisementEndpoint {
-    @GET
+    @GET("/advertisements")
     suspend fun findAll(): List<Advertisement>
 
-    @GET("{id}")
+    @GET("/advertisements/{id}")
     suspend fun findById(@Path("id") id: String): Advertisement
 
-    @GET("restaurant/{restaurantId}")
+    @GET("/advertisements/restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") id: String): List<Advertisement>
 
-    @POST
+    @POST("/advertisements")
     suspend fun create(@Body advertisement: AdvertisementDto): Advertisement
 
-    @PUT
+    @PUT("/advertisements")
     suspend fun update(@Body advertisement: AdvertisementDto): Advertisement
 
     // TODO: update the image file type
-    @PUT("{id}/image")
+    @PUT("/advertisements/{id}/image")
     suspend fun updateImage(
         @Path("id") id: String,
         @Query("image") imageFile: String
     ): Advertisement
 
-    @DELETE("{id}")
+    @DELETE("/advertisements/{id}")
     suspend fun delete(@Path("id") id: String)
 }

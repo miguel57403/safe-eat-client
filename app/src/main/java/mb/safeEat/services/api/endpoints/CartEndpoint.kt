@@ -4,18 +4,18 @@ import mb.safeEat.services.api.models.Cart
 import retrofit2.http.*
 
 sealed interface CartEndpoint {
-    @GET
+    @GET("/carts")
     suspend fun findAll(): List<Cart>
 
-    @GET("{id}")
+    @GET("/carts/{id}")
     suspend fun findById(@Path("id") id: String): Cart
 
-    @GET("user/{userId}")
+    @GET("/carts/user/{userId}")
     suspend fun findByUser(@Path("userId") userId: String): Cart
 
-    @GET("isEmpty")
+    @GET("/carts/isEmpty")
     suspend fun isEmpty(): Boolean
 
-    @PUT("empty")
+    @PUT("/carts/empty")
     suspend fun empty(): Cart
 }

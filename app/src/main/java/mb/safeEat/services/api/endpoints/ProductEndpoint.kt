@@ -5,35 +5,35 @@ import mb.safeEat.services.api.models.Product
 import retrofit2.http.*
 
 sealed interface ProductEndpoint {
-    @GET
+    @GET("/products")
     suspend fun findAll(): List<Product>
 
-    @GET("{id}")
+    @GET("/products/{id}")
     suspend fun findById(@Path("id") id: String): Product
 
-    @GET("restaurant/{restaurantId}")
+    @GET("/products/restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") restaurantId: String): List<Product>
 
-    @GET("restaurant/{restaurantId}/name/{name}")
+    @GET("/products/restaurant/{restaurantId}/name/{name}")
     suspend fun findAllByRestaurantAndName(
         @Path("restaurantId") restaurantId: String,
         @Path("name") name: String,
     ): List<Product>
 
-    @POST("restaurant/{restaurantId}")
+    @POST("/products/restaurant/{restaurantId}")
     suspend fun create(
         @Body product: ProductDto,
         @Path("restaurantId") restaurantId: String,
     ): Product
 
-    @PUT
+    @PUT("/products")
     suspend fun update(@Body product: ProductDto): Product
 
     // TODO: update the image file type
-    @PUT("{id}/image")
+    @PUT("/products/{id}/image")
     suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Product
 
-    @DELETE("{id}")
+    @DELETE("/products/{id}")
     suspend fun delete(@Path("id") id: String)
 }
 

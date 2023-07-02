@@ -5,24 +5,24 @@ import mb.safeEat.services.api.models.Feedback
 import retrofit2.http.*
 
 sealed interface FeedbackEndpoint {
-    @GET
+    @GET("/feedbacks")
     suspend fun findAll(): List<Feedback>
 
-    @GET("{id}")
+    @GET("/feedbacks/{id}")
     suspend fun findById(@Path("id") id: String): Feedback
 
-    @GET("order/{orderId}")
+    @GET("/feedbacks/order/{orderId}")
     suspend fun findByOrder(@Path("orderId") orderId: String): Feedback
 
-    @POST("order/{orderId}")
+    @POST("/feedbacks/order/{orderId}")
     suspend fun create(
         @Body feedback: FeedbackDto,
         @Path("orderId") orderId: String,
     ): Feedback
 
-    @PUT
+    @PUT("/feedbacks")
     suspend fun update(@Body feedback: FeedbackDto): Feedback
 
-    @DELETE("{id}")
+    @DELETE("/feedbacks/{id}")
     suspend fun delete(@Path("id") id: String)
 }

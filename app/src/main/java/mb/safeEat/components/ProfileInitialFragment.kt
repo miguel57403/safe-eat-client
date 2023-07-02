@@ -41,6 +41,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation)) }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
         paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation)) }
+        // TODO: Hidden this buttons
         settingsButton.setOnClickListener { }
         aboutUsButton.setOnClickListener { }
         exitButton.setOnClickListener { state.logout() }

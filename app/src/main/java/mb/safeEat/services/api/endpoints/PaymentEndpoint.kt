@@ -5,21 +5,21 @@ import mb.safeEat.services.api.models.Payment
 import retrofit2.http.*
 
 sealed interface PaymentEndpoint {
-    @GET
+    @GET("/payments")
     suspend fun findAll(): List<Payment>
 
-    @GET("{id}")
+    @GET("/payments/{id}")
     suspend fun findById(@Path("id") id: String): Payment
 
-    @GET("user/{userId}")
+    @GET("/payments/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Payment>
 
-    @POST
+    @POST("/payments")
     suspend fun create(@Body payment: PaymentDto): Payment
 
-    @PUT
+    @PUT("/payments")
     suspend fun update(@Body payment: PaymentDto): Payment
 
-    @DELETE("{id}")
+    @DELETE("/payments/{id}")
     suspend fun delete(@Path("id") id: String): Payment
 }

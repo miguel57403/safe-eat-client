@@ -5,24 +5,24 @@ import mb.safeEat.services.api.models.Delivery
 import retrofit2.http.*
 
 sealed interface DeliveryEndpoint {
-    @GET
+    @GET("/deliveries")
     suspend fun findAll(): List<Delivery>
 
-    @GET("{id}")
+    @GET("/deliveries/{id}")
     suspend fun findById(@Path("id") id: String): Delivery
 
-    @GET("restaurant/{restaurantId}")
+    @GET("/deliveries/restaurant/{restaurantId}")
     suspend fun findByAllRestaurant(@Path("restaurantId") restaurantId: String): List<Delivery>
 
-    @POST("restaurant/{restaurantId}")
+    @POST("/deliveries/restaurant/{restaurantId}")
     suspend fun create(
         @Body delivery: DeliveryDto,
         @Path("restaurantId") restaurantId: String,
     ): Delivery
 
-    @PUT
+    @PUT("/deliveries")
     suspend fun update(@Body delivery: DeliveryDto): Delivery
 
-    @DELETE("{id}")
+    @DELETE("/deliveries/{id}")
     suspend fun delete(@Path("id") id: String)
 }

@@ -8,19 +8,19 @@ sealed interface CategoryEndpoint {
     @GET("/categories")
     suspend fun findAll(): List<Category>
 
-    @GET("{id}")
+    @GET("/categories/{id}")
     suspend fun findById(@Path("id") id: String): Category
 
-    @POST
+    @POST("/categories")
     suspend fun create(@Body category: CategoryDto): Category
 
-    @PUT
+    @PUT("/categories")
     suspend fun update(@Body category: CategoryDto): Category
 
     // TODO: update the image file type
-    @PUT("{id}/image")
+    @PUT("/categories/{id}/image")
     suspend fun updateImage(@Path("id") id: String, @Query("image") imageFile: String): Category
 
-    @DELETE("{id}")
+    @DELETE("/categories/{id}")
     suspend fun delete(@Path("id") id: String?)
 }

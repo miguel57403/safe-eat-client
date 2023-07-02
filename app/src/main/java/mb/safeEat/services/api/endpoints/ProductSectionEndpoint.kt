@@ -5,24 +5,24 @@ import mb.safeEat.services.api.models.ProductSection
 import retrofit2.http.*
 
 sealed interface ProductSectionEndpoint {
-    @GET
+    @GET("/productSections")
     suspend fun findAll(): List<ProductSection>
 
-    @GET("{id}")
+    @GET("/productSections/{id}")
     suspend fun findById(@Path("id") id: String): ProductSection
 
-    @GET("restaurant/{restaurantId}")
+    @GET("/productSections/restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") restaurantId: String): List<ProductSection>
 
-    @POST("restaurant/{restaurantId}")
+    @POST("/productSections/restaurant/{restaurantId}")
     suspend fun create(
         @Body productSection: ProductSectionDto,
         @Path("restaurantId") restaurantId: String,
     ): ProductSection
 
-    @PUT
+    @PUT("/productSections")
     suspend fun update(@Body productSection: ProductSectionDto): ProductSection
 
-    @DELETE("{id}")
+    @DELETE("/productSections/{id}")
     suspend fun delete(@Path("id") id: String, @Query("restaurantId") restaurantId: String?)
 }

@@ -56,11 +56,10 @@ class RestaurantFragment(
         val deliveryPrice = view.findViewById<TextView>(R.id.restaurant_delivery_price)
         val restaurantName = view.findViewById<TextView>(R.id.restaurant_name)
         val restaurantImage = view.findViewById<ImageView>(R.id.restaurant_image)
+
         val searchButton = view.findViewById<MaterialCardView>(R.id.restaurant_search_button)
         val backButton = view.findViewById<MaterialCardView>(R.id.restaurant_back_button)
 
-        posterImage.setImageResource(R.drawable.sandwich)
-        restaurantImage.setImageResource(R.drawable.restaurant)
         searchButton.setOnClickListener { navigation.navigateTo(SearchProductFragment(navigation)) }
         backButton.setOnClickListener { navigation.onBackPressed() }
 

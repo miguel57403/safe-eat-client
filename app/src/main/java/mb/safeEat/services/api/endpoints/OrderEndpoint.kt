@@ -5,24 +5,24 @@ import mb.safeEat.services.api.models.Order
 import retrofit2.http.*
 
 sealed interface OrderEndpoint {
-    @GET
+    @GET("/orders")
     suspend fun findAll(): List<Order>
 
-    @GET("{id}")
+    @GET("/orders/{id}")
     suspend fun findById(@Path("id") id: String): Order
 
-    @GET("user/{userId}")
+    @GET("/orders/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Order>
 
-    @GET("restaurant/{restaurantId}")
+    @GET("/orders/restaurant/{restaurantId}")
     suspend fun findAllByRestaurant(@Path("restaurantId") userId: String): List<Order>
 
-    @POST
+    @POST("/orders")
     suspend fun create(@Body order: OrderDto): Order
 
-    @PUT("{id}")
+    @PUT("/orders/{id}")
     suspend fun updateStatus(@Path("id") id: String, @Query("status") status: String): Order
 
-    @DELETE("{id}")
+    @DELETE("/orders/{id}")
     suspend fun delete(@Path("id") id: String): Order
 }
