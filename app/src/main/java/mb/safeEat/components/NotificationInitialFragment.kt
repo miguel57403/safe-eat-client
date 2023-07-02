@@ -84,28 +84,32 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 OrderStatus.PREPARING
             ),
             Notification(
-                "Mimo's Pizza", "1 day ago", R.drawable.restaurant, "Promotion message", null
+                "Mimo's Pizza",
+                "1 day ago",
+                R.drawable.restaurant,
+                "Promotion message",
+                null,
             ),
             Notification(
                 "Gelados Maravilhosos",
                 "2 days ago",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "25 Apr at 12:45",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "23 Apr at 12:45",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
         )
     }
@@ -150,7 +154,9 @@ class NotificationAdapter(
                     navigation.navigateTo(
                         OrderDetailFragment(
                             navigation, OrderDetailParams(
-                                item.orderStatus, item.restaurant, item.arrivalTime
+                                item.orderStatus,
+                                item.restaurant,
+                                item.arrivalTime,
                             )
                         )
                     )
