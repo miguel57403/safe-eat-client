@@ -109,11 +109,7 @@ class SearchRestaurantAdapter(
             container.setOnClickListener {
                 navigation.navigateTo(
                     RestaurantFragment(
-                        navigation, RestaurantParams(
-                            item.name,
-                            item.price,
-                            item.time,
-                        )
+                        navigation, RestaurantParams("649f3335b743876fd72143b1")
                     )
                 )
             }

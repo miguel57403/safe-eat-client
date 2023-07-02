@@ -3,23 +3,34 @@ package mb.safeEat.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import mb.safeEat.R
+import mb.safeEat.extensions.AlertColors
+import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
 
 data class RestaurantParams(
-    val restaurant: String,
-    val deliveryPrice: String,
-    val deliveryTime: String,
+    val id: String,
+//    val restaurant: String,
+//    val deliveryPrice: String,
+//    val deliveryTime: String,
 )
 
 class RestaurantFragment(
@@ -49,12 +60,38 @@ class RestaurantFragment(
         val backButton = view.findViewById<MaterialCardView>(R.id.restaurant_back_button)
 
         posterImage.setImageResource(R.drawable.sandwich)
-        deliveryInterval.text = params.deliveryTime
-        deliveryPrice.text = params.deliveryPrice
-        restaurantName.text = params.restaurant
         restaurantImage.setImageResource(R.drawable.restaurant)
         searchButton.setOnClickListener { navigation.navigateTo(SearchProductFragment(navigation)) }
         backButton.setOnClickListener { navigation.onBackPressed() }
+
+        suspendToLiveData {
+            api.restaurants.findById(params.id)
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { restaurant ->
+                restaurantName.text = restaurant.name
+                val delivery = restaurant.deliveries?.get(0)
+                if (delivery != null) {
+                    // TODO: Fill delivery interval and price
+                    // deliveryInterval.text = params.deliveryTime
+                    // deliveryPrice.text = params.deliveryPrice
+                    // restaurantName.text = params.restaurant
+                }
+                Glide.with(this)
+                    .load(restaurant.logo) // Replace with your actual image URL
+                    .apply(RequestOptions().centerCrop())
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(restaurantImage)
+
+                Glide.with(this)
+                    .load(restaurant.cover) // Replace with your actual image URL
+                    .apply(RequestOptions().centerCrop())
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(posterImage)
+            }, onFailure = {
+                alertError("Internet Connection Error",view)
+                Log.d("Api Error", "$it")
+            })
+        }
     }
 
     private fun initAdapter(view: View) {
@@ -92,6 +129,16 @@ class RestaurantFragment(
                 )
             )
         )
+    }
+    
+
+    private fun alertError(message: String, view: View) {
+        CustomSnackbar.make(
+            view.findViewById<LinearLayout>(R.id.restaurant_container),
+            message,
+            Snackbar.LENGTH_SHORT,
+            AlertColors.error(view.context)
+        ).unwrap().show()
     }
 }
 

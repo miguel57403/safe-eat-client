@@ -73,6 +73,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                         HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
                             it.restaurantSection.restaurants!!.map { restaurant ->
                                 Restaurant(
+                                    id = restaurant.id!!,
                                     name = restaurant.name!!,
                                     // TODO: Set up url
                                     image = R.drawable.restaurant,
@@ -108,10 +109,10 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Popular", arrayListOf(
-                        Restaurant("Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant("Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
@@ -119,27 +120,27 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Best prices", arrayListOf(
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Lunch", arrayListOf(
-                        Restaurant("Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant("Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Breakfast", arrayListOf(
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
@@ -240,11 +241,7 @@ class HomeRestaurantAdapter(
             score.text = DecimalFormat("0.0").format(item.score)
             container.setOnClickListener {
                 navigation.navigateTo(
-                    RestaurantFragment(
-                        navigation, RestaurantParams(
-                            item.name, item.deliveryPrice, item.deliveryTime
-                        )
-                    )
+                    RestaurantFragment(navigation, RestaurantParams("649f3335b743876fd72143b1"))
                 )
             }
         }
@@ -257,6 +254,7 @@ data class HomeAdvertisement(
 ) : Serializable
 
 data class Restaurant(
+    val id: String?,
     val name: String,
     val image: Int,
     val score: Float,
