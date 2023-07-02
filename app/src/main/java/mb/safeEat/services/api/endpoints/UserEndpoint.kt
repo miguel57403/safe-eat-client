@@ -1,6 +1,6 @@
 package mb.safeEat.services.api.endpoints
 
-import mb.safeEat.services.api.dto.UserDto
+import mb.safeEat.services.api.dto.UserUpdateDto
 import mb.safeEat.services.api.models.User
 import retrofit2.http.*
 
@@ -15,7 +15,7 @@ sealed interface UserEndpoint {
     suspend fun findMe(): User
 
     @PUT("/users")
-    suspend fun update(@Body user: UserDto): User
+    suspend fun update(@Body user: UserUpdateDto): User
 
     // TODO: update the image file type
     @PUT("/users/me/image")

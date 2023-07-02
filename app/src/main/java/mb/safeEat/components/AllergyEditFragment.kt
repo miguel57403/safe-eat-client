@@ -19,9 +19,10 @@ import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
-import mb.safeEat.services.api.dto.UserDto
+import mb.safeEat.services.api.dto.UserUpdateDto
 
-class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(), Alertable  {
+class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(),
+    Alertable {
     // TODO: Create a fragment for allergies buttons
     private lateinit var items: RecyclerView
     private var data = ArrayList<Allergy>()
@@ -78,7 +79,7 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
         button.setOnClickListener {
             hideKeyboard(button)
             val selected = data.filter { it.selected }.map { it.id }
-            val body = UserDto(restrictionIds = selected)
+            val body = UserUpdateDto(restrictionIds = selected)
             suspendToLiveData { api.users.update(body) }.observe(viewLifecycleOwner) { result ->
                 result.fold(onSuccess = {
                     navigation.onBackPressed()

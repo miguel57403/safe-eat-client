@@ -26,16 +26,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circular_border_100"
-            android:clipToOutline="true"
-            android:contentDescription="@string/d_image_profile"
-            tools:src="@tools:sample/avatars"
-            tools:targetApi="s" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_image_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:contentDescription="@string/d_image_profile"
+                tools:src="@tools:sample/avatars"
+                tools:targetApi="s" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_icon_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="4dp"
+            android:padding="4dp"
+            app:cardCornerRadius="100dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/d_icon_edit"
+                android:padding="4dp"
+                android:src="@drawable/baseline_edit_24"
+                app:tint="@color/orange_500" />
+        </com.google.android.material.card.MaterialCardView>
     </FrameLayout>
 
     <TextView

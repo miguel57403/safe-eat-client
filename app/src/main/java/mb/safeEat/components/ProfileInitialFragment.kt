@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.services.state.state
@@ -26,6 +27,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun initScreenEvents(view: View) {
+        val profileImageCard = view.findViewById<MaterialCardView>(R.id.profile_image_card)
         val profileImage = view.findViewById<ImageView>(R.id.profile_image)
         val profileName = view.findViewById<TextView>(R.id.profile_name)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)
@@ -36,7 +38,7 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
         val exitButton = view.findViewById<Button>(R.id.profile_button_exit)
 
-        profileImage.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
+        profileImageCard.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
         addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation)) }
         restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation)) }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
