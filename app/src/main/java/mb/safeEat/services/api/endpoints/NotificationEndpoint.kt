@@ -4,7 +4,7 @@ import mb.safeEat.services.api.models.Notification
 import retrofit2.http.*
 
 interface NotificationEndpoint {
-    @GET
+    @GET("/notifications")
     suspend fun findAll(): List<Notification>
 
     @GET("{id}")

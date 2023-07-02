@@ -2,6 +2,7 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.TimeAgo
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
 
 class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment() {
     private lateinit var items: RecyclerView
@@ -33,8 +37,27 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as NotificationAdapter).loadInitialData(createList())
+        suspendToLiveData { api.notifications.findAll() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { notifications ->
+                val initialData = mapInitialData(notifications)
+                (items.adapter as NotificationAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                // TODO: Handle error
+                Log.d("Api Error", "$it")
+            })
+        }
+    }
+
+    private fun mapInitialData(notifications: List<mb.safeEat.services.api.models.Notification>): ArrayList<Notification> {
+        return notifications.map { notification ->
+            Notification(
+                restaurant = notification.order?.restaurant?.name ?: "#Erro#",
+                arrivalTime = TimeAgo.parse(notification.time!!).toString(),
+                imageId = R.drawable.restaurant,
+                message = notification.content ?: "#Erro#",
+                orderStatus = mapStatus(notification.order?.status)
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun createList(): ArrayList<Notification> {
@@ -65,28 +88,28 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 "1 day ago",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
             Notification(
                 "Gelados Maravilhosos",
                 "2 days ago",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "25 Apr at 12:45",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "23 Apr at 12:45",
                 R.drawable.restaurant,
                 "Promotion message",
-                null
+                null,
             ),
         )
     }
@@ -133,7 +156,7 @@ class NotificationAdapter(
                             navigation, OrderDetailParams(
                                 item.orderStatus,
                                 item.restaurant,
-                                item.arrivalTime
+                                item.arrivalTime,
                             )
                         )
                     )
@@ -152,3 +175,14 @@ data class Notification(
     val message: String,
     val orderStatus: OrderStatus?,
 )
+
+private fun mapStatus(status: String?): OrderStatus {
+    return when (status) {
+        "PREPARING" -> OrderStatus.PREPARING
+        "REGISTERED" -> OrderStatus.PREPARING // TODO: Update OrderStatus
+        "TRANSPORTING" -> OrderStatus.TRANSPORTING
+        "DELIVERED" -> OrderStatus.DELIVERED
+        "CANCELLED" -> OrderStatus.DELIVERED // TODO: Update OrderStatus
+        else -> throw Exception("Invalid status")
+    }
+}
