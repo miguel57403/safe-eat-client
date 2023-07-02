@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +72,7 @@ class OrderDetailFragment(
         progressBar.progressDrawable.setTint(
             ContextCompat.getColor(view.context, params.status.toResourceColor())
         )
-        progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
+        progressBar.progressDrawable.setTintMode(PorterDuff.Mode.SRC_ATOP)
         progressBar.progress = params.status.toProgress()
         if (params.status == OrderStatus.DELIVERED) {
             buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
@@ -134,24 +135,30 @@ data class OrderItem(
 )
 
 enum class OrderStatus {
-    PREPARING, TRANSPORTING, DELIVERED;
+    REGISTERED, PREPARING, TRANSPORTING, DELIVERED, CANCELED;
 
     fun toResourceString(context: Context): String = when (this) {
-        DELIVERED -> context.resources.getString(R.string.t_delivered)
-        TRANSPORTING -> context.resources.getString(R.string.t_transporting)
+        REGISTERED -> context.resources.getString(R.string.t_registered)
         PREPARING -> context.resources.getString(R.string.t_preparing)
+        TRANSPORTING -> context.resources.getString(R.string.t_transporting)
+        DELIVERED -> context.resources.getString(R.string.t_delivered)
+        CANCELED -> context.resources.getString(R.string.t_canceled)
     }
 
     @ColorRes
     fun toResourceColor(): Int = when (this) {
+        REGISTERED -> R.color.orange_500
         PREPARING -> R.color.orange_500
         TRANSPORTING -> R.color.orange_500
         DELIVERED -> R.color.green_500
+        CANCELED -> R.color.red_500
     }
 
     fun toProgress(): Int = when (this) {
-        PREPARING -> 33
-        TRANSPORTING -> 66
+        REGISTERED -> 25
+        PREPARING -> 50
+        TRANSPORTING -> 75
         DELIVERED -> 100
+        CANCELED -> 100
     }
 }

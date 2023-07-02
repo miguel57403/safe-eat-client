@@ -67,35 +67,35 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 "30 seconds ago",
                 R.drawable.restaurant,
                 "Your order has arrived",
-                OrderStatus.DELIVERED
+                OrderStatus.REGISTERED
             ),
             Notification(
                 "Sabor Brasileiro",
                 "5 min ago",
                 R.drawable.restaurant,
                 "Your order is out for delivery",
-                OrderStatus.TRANSPORTING
+                OrderStatus.PREPARING
             ),
             Notification(
                 "Sabor Brasileiro",
                 "15 min ago",
                 R.drawable.restaurant,
                 "Your order is in preparation",
-                OrderStatus.PREPARING
+                OrderStatus.TRANSPORTING
             ),
             Notification(
                 "Mimo's Pizza",
                 "1 day ago",
                 R.drawable.restaurant,
                 "Promotion message",
-                null,
+                OrderStatus.DELIVERED,
             ),
             Notification(
                 "Gelados Maravilhosos",
                 "2 days ago",
                 R.drawable.restaurant,
                 "Promotion message",
-                null,
+                OrderStatus.CANCELED,
             ),
             Notification(
                 "Sabor Brasileiro",
@@ -178,11 +178,11 @@ data class Notification(
 
 private fun mapStatus(status: String?): OrderStatus {
     return when (status) {
+        "REGISTERED" -> OrderStatus.REGISTERED
         "PREPARING" -> OrderStatus.PREPARING
-        "REGISTERED" -> OrderStatus.PREPARING // TODO: Update OrderStatus
         "TRANSPORTING" -> OrderStatus.TRANSPORTING
         "DELIVERED" -> OrderStatus.DELIVERED
-        "CANCELLED" -> OrderStatus.DELIVERED // TODO: Update OrderStatus
+        "CANCELLED" -> OrderStatus.CANCELED
         else -> throw Exception("Invalid status")
     }
 }
