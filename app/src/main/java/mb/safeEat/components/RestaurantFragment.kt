@@ -22,12 +22,7 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-data class RestaurantParams(
-    val id: String,
-//    val restaurant: String,
-//    val deliveryPrice: String,
-//    val deliveryTime: String,
-)
+data class RestaurantParams(val id: String)
 
 class RestaurantFragment(
     private val navigation: NavigationListener,
@@ -64,13 +59,8 @@ class RestaurantFragment(
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurant ->
                 restaurantName.text = restaurant.name
-                val delivery = restaurant.deliveries?.get(0)
-                if (delivery != null) {
-                    // TODO: Fill delivery interval and price
-                    // deliveryInterval.text = params.deliveryTime
-                    // deliveryPrice.text = params.deliveryPrice
-                    // restaurantName.text = params.restaurant
-                }
+                deliveryInterval.text = restaurant.formattedDeliveryInterval()
+                deliveryPrice.text = restaurant.formattedDeliveryPrice("€")
                 Glide.with(this)
                     .load(restaurant.logo) // Replace with your actual image URL
                     .apply(RequestOptions().centerCrop())

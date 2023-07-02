@@ -76,10 +76,8 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                                     imageUrl = restaurant.logo!!,
                                     // TODO: Remove score
                                     score = 4.0f,
-                                    // TODO: Format price with a function
-                                    deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
-                                    // TODO: Format time with a function
-                                    deliveryTime = "30 min",
+                                    deliveryPrice = restaurant.formattedDeliveryPrice("€"),
+                                    deliveryTime = restaurant.formattedDeliveryInterval(),
                                 )
                             })
                     )
