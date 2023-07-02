@@ -2,6 +2,7 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -18,6 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.models.Ingredient
+import mb.safeEat.services.api.models.Product
 
 class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
@@ -31,7 +37,8 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         initHeader(view)
         initAdapter(view)
         initScreenEvents(view)
-        loadInitialData()
+        changeVisiblityAlert(view, false)
+        loadInitialData(view,"649f54ad6665ea2c2dede4ee")
     }
 
     private fun initHeader(view: View) {
@@ -63,18 +70,54 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         }
     }
 
-    private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as ProductDetailAdapter).loadInitialData(createList())
+    private fun initDataProduct(view: View, idProduct:String) {
+        suspendToLiveData {
+            api.products.findById(idProduct)
+        }.observe(viewLifecycleOwner){result ->
+            result.fold(onSuccess = {product ->
+                val productName = view.findViewById<TextView>(R.id.product_details_content_card_title)
+                productName.text = product.name!!
+                val productPrice =
+                    view.findViewById<TextView>(R.id.product_details_content_card_price)
+                productPrice.text = product.price.toString()
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
     }
 
-    private fun createList(): java.util.ArrayList<ProductDetail> {
-        return arrayListOf(
-            ProductDetail("Carne moida bovina", false),
-            ProductDetail("Pimenta", true),
-        )
+    private fun changeVisiblityAlert(view: View, isVisible: Boolean){
+        view.findViewById<MaterialCardView>(R.id.product_details_content_alert).isVisible = isVisible
+    }
+
+    private fun verifyRestrictions(view: View, restrictionsProduct: List<Ingredient>) {
+        if (restrictionsProduct.any { it.isRestricted!! }){
+            changeVisiblityAlert(view, true)
+        }
+    }
+
+    private fun loadInitialData(view: View, idProduct: String) {
+        initDataProduct(view, idProduct)
+        suspendToLiveData {
+            api.ingredients.findByAllProduct(idProduct)
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { ingredients ->
+                val initData = getItemIngredient(ingredients)
+                verifyRestrictions(view, ingredients)
+                (items.adapter as ProductDetailAdapter).loadInitialData(initData)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun getItemIngredient(ingredients: List<mb.safeEat.services.api.models.Ingredient>): ArrayList<ProductDetail>{
+        return ingredients.map{ingredient ->
+            ProductDetail(ingredient.name!!, ingredient.isRestricted!!)
+        }.toCollection(ArrayList())
     }
 }
+
 
 class ProductDetailAdapter : RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
     private var data = ArrayList<ProductDetail>()
