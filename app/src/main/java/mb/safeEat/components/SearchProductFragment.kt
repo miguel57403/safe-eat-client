@@ -55,6 +55,7 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
 
     private fun loadInitialData() {
         // TODO: load data from API
+        // OBS: find all products by restaurant id
         (items.adapter as SearchProductAdapter).loadInitialData(createList())
     }
 

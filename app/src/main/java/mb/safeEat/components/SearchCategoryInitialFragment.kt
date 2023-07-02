@@ -59,24 +59,6 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
             )
         }.toCollection(ArrayList())
     }
-
-    private fun createList(): List<Category> {
-        // TODO: Add this to the database
-        return listOf(
-            Category("Sandwich", ""), // R.drawable.sandwich),
-            Category("Pizza", ""), // R.drawable.pizza),
-            Category("Burger", ""), // R.drawable.burger),
-            Category("Portions", ""), // R.drawable.portions),
-            Category("Meals", ""), // R.drawable.meals),
-            Category("Japanese", ""), // R.drawable.japanese),
-            Category("Drinks", ""), // R.drawable.drinks),
-            Category("Ice Cream", ""), // R.drawable.ice_cream),
-            Category("Donner", ""), // R.drawable.donner),
-            Category("Desserts", ""), // R.drawable.desserts),
-            Category("Vegan", ""), // R.drawable.vegan),
-            Category("Thai Foods", ""), // R.drawable.thai_foods)
-        )
-    }
 }
 
 class SearchCategoryAdapter(

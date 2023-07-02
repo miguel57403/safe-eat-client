@@ -56,6 +56,7 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
 
     private fun loadInitialData() {
         // TODO: load data from API
+        // OBS: find all restaurants by category
         (items.adapter as SearchRestaurantAdapter).loadInitialData(createList())
     }
 
