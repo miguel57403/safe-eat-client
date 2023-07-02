@@ -39,5 +39,3 @@ data class Restaurant(
 }
 
 val priceFormatter = DecimalFormat("#.00")
-
-// TODO: remove ignored properties?

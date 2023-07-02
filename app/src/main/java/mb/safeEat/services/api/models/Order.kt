@@ -16,5 +16,3 @@ data class Order(
     val feedback: Feedback? = null,
     val client: User? = null,
 )
-
-// TODO: remove ignored properties?

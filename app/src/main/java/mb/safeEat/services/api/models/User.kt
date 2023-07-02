@@ -17,5 +17,3 @@ data class User(
     val notifications: List<Notification> = ArrayList(),
     val restaurants: List<Restaurant> = ArrayList(),
 )
-
-// TODO: add ignored properties?

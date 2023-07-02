@@ -10,5 +10,3 @@ data class Product(
     val category: Category? = null,
     val ingredients: List<Ingredient>? = null,
 )
-
-// TODO: remove ignored properties?
