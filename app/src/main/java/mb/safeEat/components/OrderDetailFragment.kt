@@ -22,26 +22,37 @@ import mb.safeEat.R
 data class OrderDetailParams(
     val status: OrderStatus,
     val restaurant: String,
-    val date: String
+    val date: String,
 )
 
 class OrderDetailFragment(
-    private val navigation: NavigationListener,
-    private val params: OrderDetailParams
+    private val navigation: NavigationListener, private val params: OrderDetailParams
 ) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_order_detail, container, false)
-        if (view != null) onInit(view)
-        return view
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_order_detail, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initHeader(view)
+        initAdapter(view)
+        initScreenEvents(view)
+        loadInitialData()
     }
 
-    private fun onInit(view: View) {
-        initAdapter(view)
-        initHeader(view)
-        initScreenEvents(view)
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = resources.getString(R.string.t_order)
+        backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.order_detail_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = OrderDetailAdapter()
     }
 
     private fun initScreenEvents(view: View) {
@@ -69,17 +80,9 @@ class OrderDetailFragment(
         }
     }
 
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_order)
-        backButton.setOnClickListener { navigation.onBackPressed() }
-    }
-
-    private fun initAdapter(view: View) {
-        val items = view.findViewById<RecyclerView>(R.id.order_detail_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = OrderDetailAdapter(createList())
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as OrderDetailAdapter).loadInitialData(createList())
     }
 
     private fun createList(): ArrayList<OrderItem> {
@@ -91,8 +94,14 @@ class OrderDetailFragment(
     }
 }
 
-class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
-    RecyclerView.Adapter<OrderDetailAdapter.ViewHolder>() {
+class OrderDetailAdapter : RecyclerView.Adapter<OrderDetailAdapter.ViewHolder>() {
+    private var data = ArrayList<OrderItem>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<OrderItem>) {
+        data = newData
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_order_detail, parent, false)
@@ -109,7 +118,8 @@ class OrderDetailAdapter(private var data: ArrayList<OrderItem>) :
 
         @SuppressLint("SetTextI18n")
         fun bind(item: OrderItem) {
-            quantity.text = item.quantity.toString() + itemView.resources.getString(R.string.r_x_times)
+            quantity.text =
+                item.quantity.toString() + itemView.resources.getString(R.string.r_x_times)
             product.text = item.product
             price.text = item.price
         }

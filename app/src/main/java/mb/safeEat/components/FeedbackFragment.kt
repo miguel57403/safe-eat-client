@@ -15,15 +15,11 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment() 
     private var score = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_feedback, container, false)
-        onInit(view)
-        return view
-    }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_feedback, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         initStars(view)
         initScreenEvents(view)

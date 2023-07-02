@@ -16,16 +16,16 @@ import mb.safeEat.services.state.state
 
 class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile_initial, container, false)
-        if (view != null) onInit(view)
-        return view
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_profile_initial, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initScreenEvents(view)
     }
 
-    private fun onInit(view: View) {
+    private fun initScreenEvents(view: View) {
+        // TODO: Load view items to properties to split this function
         val profileImage = view.findViewById<ImageView>(R.id.profile_image)
         val profileName = view.findViewById<TextView>(R.id.profile_name)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)

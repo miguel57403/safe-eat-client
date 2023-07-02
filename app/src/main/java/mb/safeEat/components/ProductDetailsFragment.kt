@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,33 +19,18 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
 class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_product_details, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+    ): View? = inflater.inflate(R.layout.fragment_product_details, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         initAdapter(view)
         initScreenEvents(view)
-    }
-
-    private fun initScreenEvents(view: View) {
-        val addToCartButton = view.findViewById<Button>(R.id.product_detail_button)
-        addToCartButton.setOnClickListener {
-            val dialog = ProductAddedDialog()
-            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-            dialog.lifecycle.addObserver(object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    if (event == Lifecycle.Event.ON_DESTROY) {
-                        navigation.navigateTo(CartFragment(navigation))
-                    }
-                }
-            })
-        }
+        loadInitialData()
     }
 
     private fun initHeader(view: View) {
@@ -55,9 +41,29 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun initAdapter(view: View) {
-        val items = view.findViewById<RecyclerView>(R.id.product_detail_items)
+        items = view.findViewById(R.id.product_detail_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = ProductDetailAdapter(createList())
+        items.adapter = ProductDetailAdapter()
+    }
+
+    private fun initScreenEvents(view: View) {
+        val addToCartButton = view.findViewById<Button>(R.id.product_detail_button)
+        addToCartButton.setOnClickListener {
+            val dialog = ProductAddedDialog()
+            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+            dialog.lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        navigation.navigateTo(CartInitialFragment(navigation))
+                    }
+                }
+            })
+        }
+    }
+
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as ProductDetailAdapter).loadInitialData(createList())
     }
 
     private fun createList(): java.util.ArrayList<ProductDetail> {
@@ -68,8 +74,14 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
     }
 }
 
-class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
-    RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
+class ProductDetailAdapter : RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
+    private var data = ArrayList<ProductDetail>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<ProductDetail>) {
+        data = newData
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_product_detail, parent, false)

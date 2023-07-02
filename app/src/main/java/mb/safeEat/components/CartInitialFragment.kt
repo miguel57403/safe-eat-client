@@ -23,6 +23,7 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 
 class CartInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
     private var orderDto = OrderDto()
 
     val data = arrayListOf(
@@ -33,19 +34,51 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_cart_initial, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+    ): View? = inflater.inflate(R.layout.fragment_cart_initial, container, false)
 
-    private fun onInit(view: View) {
-        loadData(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
+        loadInitialData()
     }
 
-    private fun loadData(view: View) {
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.cart_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = CartAdapter()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initScreenEvents(view: View) {
+        val productsCount = view.findViewById<TextView>(R.id.cart_products_count)
+        val productsPrice = view.findViewById<TextView>(R.id.cart_products_price)
+        val button = view.findViewById<Button>(R.id.cart_button_submit)
+
+        val priceUnit = "€"
+        val hasWarnings = data.any { it.warn }
+        val totalPrice = data.sumOf { it.getTotalPrice().toDouble() }.toFloat()
+
+        productsCount.text = data.size.toString()
+        productsPrice.text = priceUnit + formatPrice(totalPrice)
+
+        button.setOnClickListener {
+            if (hasWarnings) {
+                val dialog = RestrictionAlertDialog()
+                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+                dialog.setOnConfirmListener { confirm ->
+                    if (confirm) confirmCart()
+                }
+            } else {
+                confirmCart()
+            }
+        }
+    }
+
+    private fun loadInitialData() {
+        // TODO: Load data from API
+        (items.adapter as CartAdapter).loadInitialData(data)
+
         val userId = state.user.value?.id
         if (userId != null) {
             suspendToLiveData { api.carts.findByUser(userId) }.observe(viewLifecycleOwner) { result ->
@@ -104,41 +137,9 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun initScreenEvents(view: View) {
-        val productsCount = view.findViewById<TextView>(R.id.cart_products_count)
-        val productsPrice = view.findViewById<TextView>(R.id.cart_products_price)
-        val button = view.findViewById<Button>(R.id.cart_button_submit)
-
-        val priceUnit = "€"
-        val hasWarnings = data.any { it.warn }
-        val totalPrice = data.sumOf { it.getTotalPrice().toDouble() }.toFloat()
-
-        productsCount.text = data.size.toString()
-        productsPrice.text = priceUnit + formatPrice(totalPrice)
-
-        button.setOnClickListener {
-            if (hasWarnings) {
-                val dialog = RestrictionAlertDialog()
-                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-                dialog.setOnConfirmListener { confirm ->
-                    if (confirm) confirmCart()
-                }
-            } else {
-                confirmCart()
-            }
-        }
-    }
-
     private fun confirmCart() {
         //suspendToLiveData { api.orders.create(orderDto) }
         navigateToPayment()
-    }
-
-    private fun initAdapter(view: View) {
-        val items = view.findViewById<RecyclerView>(R.id.cart_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = CartAdapter(data)
     }
 
     private fun navigateToPayment() {
@@ -146,8 +147,15 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
     }
 }
 
-class CartAdapter(private var data: ArrayList<Product>) :
-    RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+    private var data: ArrayList<Product> = ArrayList()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<Product>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
     )
