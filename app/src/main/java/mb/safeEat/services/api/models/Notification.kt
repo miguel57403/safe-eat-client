@@ -6,4 +6,5 @@ data class Notification(
     val time: String? = null,
     val isViewed: Boolean? = false,
     val order: Order? = null,
+    val restaurant: Restaurant? = null
 )
