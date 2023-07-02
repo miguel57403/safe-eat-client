@@ -55,7 +55,8 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment(), 
     }
 
     private fun loadInitialData() {
-        suspendToLiveData { api.addresses.findAll() }.observe(viewLifecycleOwner) { result ->
+        suspendToLiveData { api.addresses.findAll()
+        }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { addresses ->
                 val initialData = mapInitialData(addresses)
                 (items.adapter as AddressAdapter).loadInitialData(initialData)
