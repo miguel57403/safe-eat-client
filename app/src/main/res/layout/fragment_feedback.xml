@@ -98,6 +98,7 @@
             android:layout_height="wrap_content"
             android:gravity="top|start"
             android:hint="@string/t_observations"
+            android:id="@+id/text_comment"
             android:lines="8" />
     </com.google.android.material.textfield.TextInputLayout>
 
