@@ -2,29 +2,53 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.*
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.cleanIntentStack
+import mb.safeEat.functions.getSerializableExtra
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.dto.UserDto
+import java.io.Serializable
 
+data class AllergyParams(
+    val password: String,
+    val name: String,
+    val email: String,
+    val cellphone: String,
+): Serializable
+
+// Keep this implementation synchronized with AllergyEditFragment.kt
 class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
     override fun requireView(): View = findViewById(R.id.allergy_activity_container)
     override fun requireContext(): Context = this
 
+    private lateinit var params: AllergyParams
     private lateinit var items: RecyclerView
     private var data = ArrayList<Allergy>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_allergy)
+        loadParams()
         initAdapter()
         loadInitialData()
+        initScreenEvents()
+    }
+
+    private fun loadParams() {
+        params = getSerializableExtra(this, "params", AllergyParams::class.java)
     }
 
     private fun initAdapter() {
@@ -39,13 +63,59 @@ class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as AllergyAdapter).__feedData()
+        suspendToLiveData { api.restrictions.findAll() }.observe(this) {result ->
+            result.fold(onSuccess = { restrictions ->
+                val initialData = mapInitialData(restrictions)
+                data = initialData
+                (items.adapter as AllergyAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                alertThrowable(it)
+                Log.d("Api Error", "$it")
+            })
+        }
+    }
+
+    private fun mapInitialData(restrictions: List<mb.safeEat.services.api.models.Restriction>): ArrayList<Allergy> {
+        return restrictions.map { Allergy(it.id!!, it.name!!, false) }.toCollection(ArrayList())
+    }
+
+    private fun initScreenEvents() {
+        val button = findViewById<Button>(R.id.allergy_submit)
+        button.setOnClickListener {
+            hideKeyboard(button)
+            val body = UserDto(
+                password = params.password,
+                name = params.name,
+                email = params.email,
+                cellphone = params.cellphone,
+                restrictionIds = data.filter { it.selected }.map { it.id }
+            )
+            suspendToLiveData { api.auth.signup(body) }.observe(this) { result ->
+                result.fold(onSuccess = {
+                    navigateToLogin()
+                }, onFailure = {
+                    alertThrowable(it)
+                    Log.d("Api Error", "$it")
+                })
+            }
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        cleanIntentStack(intent)
+        startActivity(intent)
     }
 
     override fun onClickAllergy(allergy: Allergy, position: Int) {
         data[position] = allergy.copy(selected = !allergy.selected)
         (items.adapter as AllergyAdapter).updateItem(position, data[position])
+    }
+
+    private fun hideKeyboard(button: View) {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(button.windowToken, 0)
     }
 }
 
@@ -62,23 +132,6 @@ class AllergyAdapter(
     fun loadInitialData(newData: ArrayList<Allergy>) {
         data = newData
         notifyDataSetChanged()
-    }
-
-    // TODO: Remove this function
-    fun __feedData() {
-        val list = listOf(
-            "Halal",
-            "Kosher",
-            "Hypertension",
-            "Diabetes",
-            "Gluten intolerance",
-            "Seafood allergy",
-            "Lactose intolerance",
-            "Veganism",
-            "Vegetarianism"
-        )
-        val localData = list.map { Allergy(it, false) }.toCollection(ArrayList())
-        loadInitialData(localData)
     }
 
     fun updateItem(position: Int, allergy: Allergy) {
@@ -109,6 +162,7 @@ class AllergyAdapter(
 }
 
 data class Allergy(
+    val id: String,
     val value: String,
     val selected: Boolean
 )

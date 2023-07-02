@@ -26,7 +26,6 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun initScreenEvents(view: View) {
-        // TODO: Load view items to properties to split this function
         val profileImage = view.findViewById<ImageView>(R.id.profile_image)
         val profileName = view.findViewById<TextView>(R.id.profile_name)
         val addressButton = view.findViewById<Button>(R.id.profile_button_address)
@@ -42,9 +41,12 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation)) }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
         paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation)) }
-        // TODO: Hidden this buttons
-        settingsButton.setOnClickListener { }
-        aboutUsButton.setOnClickListener { }
+        settingsButton.setOnClickListener {
+            // TODO: Create settings fragment
+        }
+        aboutUsButton.setOnClickListener {
+            // TODO: Create about us fragment
+        }
         exitButton.setOnClickListener { state.logout() }
 
         state.user.observe(viewLifecycleOwner) { user ->

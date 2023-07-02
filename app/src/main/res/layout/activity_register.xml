@@ -34,7 +34,6 @@
 
         <!-- Name -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_material_name_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +41,7 @@
             app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_material_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="name"
@@ -54,7 +54,6 @@
 
         <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_material_email_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,6 +63,7 @@
             app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_material_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="emailAddress"
@@ -74,31 +74,8 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Address -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_material_address_input"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/t_address"
-            app:boxBackgroundColor="@color/white"
-            app:helperText="Street, 100, City, 55555-5555"
-            app:helperTextEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="postalAddress"
-                android:ellipsize="end"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:paddingHorizontal="16dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Cellphone -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_material_cellphone_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,6 +85,7 @@
             app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_material_cellphone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="phone"
@@ -120,7 +98,6 @@
 
         <!-- Password -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_material_password_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,6 +108,7 @@
             app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_material_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="password"
@@ -143,7 +121,6 @@
 
         <!-- Confirm Password -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_material_confirm_password_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,6 +131,7 @@
             app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_material_confirm_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="password"
@@ -187,7 +165,7 @@
         app:layout_constraintTop_toBottomOf="@+id/register_material_submit">
 
         <TextView
-            android:id="@+id/login_material_without_account"
+            android:id="@+id/register_material_without_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/m_with_account"
@@ -197,7 +175,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/login_material_sign_up"
+            android:id="@+id/register_material_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -205,8 +183,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/login_material_without_account"
-            app:layout_constraintTop_toTopOf="@+id/login_material_without_account" />
+            app:layout_constraintStart_toEndOf="@+id/register_material_without_account"
+            app:layout_constraintTop_toTopOf="@+id/register_material_without_account" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
