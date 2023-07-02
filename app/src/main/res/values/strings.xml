@@ -131,4 +131,5 @@
     <string name="t_transporting">Transporting</string>
     <string name="t_user">User</string>
     <string name="t_yes">Yes</string>
+    <string name="t_city">City</string>
 </resources>
