@@ -12,46 +12,35 @@ import com.google.android.flexbox.*
 import mb.safeEat.R
 
 class AllergyActivity : AllergyListener, AppCompatActivity() {
-    private lateinit var allergiesButtons: RecyclerView
-    private var allergyList = ArrayList<Allergy>()
+    private lateinit var items: RecyclerView
+    private var data = ArrayList<Allergy>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_allergy)
-        initAllergiesButtons()
-        updateInitialAllergies()
+        initAdapter()
+        loadInitialData()
     }
 
-    private fun initAllergiesButtons() {
-        allergiesButtons = findViewById(R.id.allergies_buttons)
-        allergiesButtons.layoutManager = FlexboxLayoutManager(this).apply {
+    private fun initAdapter() {
+        items = findViewById(R.id.allergies_buttons)
+        items.layoutManager = FlexboxLayoutManager(this).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
             justifyContent = JustifyContent.CENTER
         }
-        allergiesButtons.adapter = AllergyAdapter(this)
-        allergiesButtons.visibility = View.VISIBLE
+        items.adapter = AllergyAdapter(this)
+        items.visibility = View.VISIBLE
     }
 
-    private fun updateInitialAllergies() {
-        val list = listOf(
-            "Halal",
-            "Kosher",
-            "Hypertension",
-            "Diabetes",
-            "Gluten intolerance",
-            "Seafood allergy",
-            "Lactose intolerance",
-            "Veganism",
-            "Vegetarianism"
-        )
-        list.forEach { allergyList.add(Allergy(it, false)) }
-        (allergiesButtons.adapter as AllergyAdapter).updateData(allergyList)
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as AllergyAdapter).__feedData()
     }
 
     override fun onClickAllergy(allergy: Allergy, position: Int) {
-        allergyList[position] = allergy.copy(selected = !allergy.selected)
-        (allergiesButtons.adapter as AllergyAdapter).updateItem(position, allergyList[position])
+        data[position] = allergy.copy(selected = !allergy.selected)
+        (items.adapter as AllergyAdapter).updateItem(position, data[position])
     }
 }
 
@@ -64,11 +53,27 @@ class AllergyAdapter(
 ) : RecyclerView.Adapter<AllergyAdapter.ViewHolder>() {
     private var data: ArrayList<Allergy> = ArrayList()
 
-    // TODO: Rename and spread this method to other adapters
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newData: ArrayList<Allergy>) {
+    fun loadInitialData(newData: ArrayList<Allergy>) {
         data = newData
         notifyDataSetChanged()
+    }
+
+    // TODO: Remove this function
+    fun __feedData() {
+        val list = listOf(
+            "Halal",
+            "Kosher",
+            "Hypertension",
+            "Diabetes",
+            "Gluten intolerance",
+            "Seafood allergy",
+            "Lactose intolerance",
+            "Veganism",
+            "Vegetarianism"
+        )
+        val localData = list.map { Allergy(it, false) }.toCollection(ArrayList())
+        loadInitialData(localData)
     }
 
     fun updateItem(position: Int, allergy: Allergy) {

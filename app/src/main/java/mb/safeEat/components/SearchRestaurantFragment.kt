@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +18,10 @@ import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.functions.base64ToBitmap
 
+// TODO: Receive parameters (category, name) to do initial search
 class SearchRestaurantFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
@@ -26,6 +30,13 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
+        loadInitialData()
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.search_restaurant_list)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = SearchRestaurantAdapter(navigation)
     }
 
     private fun initScreenEvents(view: View) {
@@ -33,23 +44,18 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
         val searchLayout = view.findViewById<TextInputLayout>(R.id.search_restaurant_search_layout)
         val searchInput = view.findViewById<TextInputEditText>(R.id.search_restaurant_search_input)
 
-        searchLayout.setEndIconOnClickListener { submit(searchInput.text.toString()) }
+        searchLayout.setEndIconOnClickListener { searchAgain(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
-            if (enterClicked) submit(searchInput.text.toString())
+            if (enterClicked) searchAgain(searchInput.text.toString())
             enterClicked
         }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun submit(data: String) {
-        Log.d("Submit", data)
-    }
-
-    private fun initAdapter(view: View) {
-        val listItems = view.findViewById<RecyclerView>(R.id.search_restaurant_list)
-        listItems.layoutManager = LinearLayoutManager(view.context)
-        listItems.adapter = SearchRestaurantAdapter(navigation, createList())
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as SearchRestaurantAdapter).loadInitialData(createList())
     }
 
     private fun createList(): ArrayList<SearchRestaurant> {
@@ -60,12 +66,22 @@ class SearchRestaurantFragment(private val navigation: NavigationListener) : Fra
         )
     }
 
+    private fun searchAgain(input: String) {
+        // TODO: search with input
+        Log.d("Search", input)
+    }
 }
 
 class SearchRestaurantAdapter(
     private val navigation: NavigationListener,
-    private var data: ArrayList<SearchRestaurant>,
 ) : RecyclerView.Adapter<SearchRestaurantAdapter.ViewHolder>() {
+    private var data = ArrayList<SearchRestaurant>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<SearchRestaurant>) {
+        data = newData
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,

@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,18 +27,30 @@ import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 class HomeInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_home_initial, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO: Move this to a function
+        initAdapter(view)
+        loadInitialData(view)
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById<RecyclerView>(R.id.home_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = HomeAdapter(navigation)
+    }
+
+    private fun loadInitialData(view: View) {
         suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { home ->
                 if (home.content != null) {
-                    val results = mapResponseToHomeItemList(home)
-                    initAdapter(view, ArrayList(results))
+                    val initialData = mapResponseToHomeItemList(home)
+                    (items.adapter as HomeAdapter).loadInitialData(initialData)
                 }
             }, onFailure = {
                 alertError(view, "Internet Connection Error")
@@ -49,45 +62,44 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
     private fun mapResponseToHomeItemList(home: Home): ArrayList<HomeItem> {
         val results =
             home.content!!.filter { it.advertisement != null || it.restaurantSection != null }.map {
-                    if (it.advertisement != null) {
-                        HomeItem.createAdvertisement(
-                            HomeAdvertisement(
-                                it.advertisement.title ?: "#ERROR#", R.drawable.burger
-                            )
+                if (it.advertisement != null) {
+                    HomeItem.createAdvertisement(
+                        HomeAdvertisement(
+                            it.advertisement.title ?: "#ERROR#", R.drawable.burger
                         )
-                    } else if (it.restaurantSection != null) {
-                        HomeItem.createRestaurantList(
-                            HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
-                                it.restaurantSection.restaurants!!.map { restaurant ->
-                                    Restaurant(
-                                        name = restaurant.name!!,
-                                        image = R.drawable.restaurant,
-                                        score = 4.0f,
-                                        deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
-                                        deliveryTime = "30 min",
-                                    )
-                                })
-                        )
-                    } else {
-                        throw Exception("Invalid contents")
-                    }
+                    )
+                } else if (it.restaurantSection != null) {
+                    HomeItem.createRestaurantList(
+                        HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
+                            it.restaurantSection.restaurants!!.map { restaurant ->
+                                Restaurant(
+                                    name = restaurant.name!!,
+                                    // TODO: Set up url
+                                    image = R.drawable.restaurant,
+                                    // TODO: Remove score
+                                    score = 4.0f,
+                                    // TODO: Format price with a function
+                                    deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
+                                    // TODO: Format time with a function
+                                    deliveryTime = "30 min",
+                                )
+                            })
+                    )
+                } else {
+                    throw Exception("Invalid contents")
                 }
+            }
         return ArrayList(results)
     }
 
     private fun alertError(view: View, message: String) {
+        // TODO: Spread this logic between all fragments
         CustomSnackbar.make(
             view.findViewById<FrameLayout>(R.id.home_items_container),
             message,
             Snackbar.LENGTH_SHORT,
             AlertColors.error(view.context)
         ).unwrap().show()
-    }
-
-    private fun initAdapter(view: View, list: ArrayList<HomeItem>) {
-        val items = view.findViewById<RecyclerView>(R.id.home_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = HomeAdapter(navigation, list)
     }
 
     private fun createList(): ArrayList<HomeItem> {
@@ -138,8 +150,15 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
 
 class HomeAdapter(
     private val navigation: NavigationListener,
-    private var data: ArrayList<HomeItem>,
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    private var data = ArrayList<HomeItem>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<HomeItem>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         navigation, LayoutInflater.from(parent.context).inflate(R.layout.item_home, parent, false)
     )

@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
@@ -25,6 +26,8 @@ class RestaurantFragment(
     private val navigation: NavigationListener,
     private val params: RestaurantParams,
 ) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_restaurant, container, false)
@@ -33,6 +36,7 @@ class RestaurantFragment(
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
+        loadInitialData()
     }
 
     private fun initScreenEvents(view: View) {
@@ -54,9 +58,14 @@ class RestaurantFragment(
     }
 
     private fun initAdapter(view: View) {
-        val items = view.findViewById<RecyclerView>(R.id.restaurant_items)
+        items = view.findViewById(R.id.restaurant_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = RestaurantCategoryAdapter(navigation, createList())
+        items.adapter = RestaurantCategoryAdapter(navigation)
+    }
+
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as RestaurantCategoryAdapter).loadInitialData(createList())
     }
 
     private fun createList(): ArrayList<RestaurantCategory> {
@@ -87,9 +96,16 @@ class RestaurantFragment(
 }
 
 class RestaurantCategoryAdapter(
-    private val navigation: NavigationListener,
-    private val data: ArrayList<RestaurantCategory>,
+    private val navigation: NavigationListener
 ) : RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
+    private var data = ArrayList<RestaurantCategory>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<RestaurantCategory>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant, parent, false)
@@ -123,8 +139,7 @@ class RestaurantCategoryAdapter(
 class RestaurantProductAdapter(
     private val navigation: NavigationListener,
     private val data: ArrayList<RestaurantProduct>,
-) :
-    RecyclerView.Adapter<RestaurantProductAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RestaurantProductAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant_product, parent, false)

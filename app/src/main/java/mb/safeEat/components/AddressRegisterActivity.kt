@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
+// TODO: Rename file
 class AddressRegisterFragment(private val navigation: NavigationListener) : Fragment() {
 
     override fun onCreateView(

@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
 class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_product_details, container, false)
@@ -27,6 +30,20 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         initHeader(view)
         initAdapter(view)
         initScreenEvents(view)
+        loadInitialData()
+    }
+
+    private fun initHeader(view: View) {
+        val title = view.findViewById<TextView>(R.id.header_title)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
+        title.text = resources.getString(R.string.t_product_details)
+        backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.product_detail_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = ProductDetailAdapter()
     }
 
     private fun initScreenEvents(view: View) {
@@ -44,17 +61,9 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         }
     }
 
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_product_details)
-        backButton.setOnClickListener { navigation.onBackPressed() }
-    }
-
-    private fun initAdapter(view: View) {
-        val items = view.findViewById<RecyclerView>(R.id.product_detail_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = ProductDetailAdapter(createList())
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as ProductDetailAdapter).loadInitialData(createList())
     }
 
     private fun createList(): java.util.ArrayList<ProductDetail> {
@@ -65,8 +74,14 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
     }
 }
 
-class ProductDetailAdapter(private var data: ArrayList<ProductDetail>) :
-    RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
+class ProductDetailAdapter : RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
+    private var data = ArrayList<ProductDetail>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<ProductDetail>) {
+        data = newData
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_product_detail, parent, false)

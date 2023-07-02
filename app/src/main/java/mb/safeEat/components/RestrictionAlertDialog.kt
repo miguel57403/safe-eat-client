@@ -15,10 +15,8 @@ class RestrictionAlertDialog : DialogFragment() {
     private var onConfirmListener: OnConfirm = { _ -> }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? 
-    ): View? {
-        return inflater.inflate(R.layout.dialog_restriction_alert, container)
-    }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.dialog_restriction_alert, container)
 
     override fun onStart() {
         super.onStart()

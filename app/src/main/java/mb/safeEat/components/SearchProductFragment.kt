@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,8 @@ import mb.safeEat.R
 import mb.safeEat.functions.base64ToBitmap
 
 class SearchProductFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_search_product, container, false)
@@ -26,6 +29,13 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
+        loadInitialData()
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.search_product_list)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = SearchProductAdapter(navigation)
     }
 
     private fun initScreenEvents(view: View) {
@@ -33,23 +43,18 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
         val searchLayout = view.findViewById<TextInputLayout>(R.id.search_product_search_layout)
         val searchInput = view.findViewById<TextInputEditText>(R.id.search_product_search_input)
 
-        searchLayout.setEndIconOnClickListener { submit(searchInput.text.toString()) }
+        searchLayout.setEndIconOnClickListener { searchAgain(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
-            if (enterClicked) submit(searchInput.text.toString())
+            if (enterClicked) searchAgain(searchInput.text.toString())
             enterClicked
         }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun submit(data: String) {
-        Log.d("Submit", data)
-    }
-
-    private fun initAdapter(view: View) {
-        val listItems = view.findViewById<RecyclerView>(R.id.search_product_list)
-        listItems.layoutManager = LinearLayoutManager(view.context)
-        listItems.adapter = SearchProductAdapter(navigation, createList())
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as SearchProductAdapter).loadInitialData(createList())
     }
 
     private fun createList(): ArrayList<SearchProduct> {
@@ -59,10 +64,22 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
             SearchProduct(searchProductImage, "Product Name 3", "€2,99")
         )
     }
+
+    private fun searchAgain(input: String) {
+        // TODO: search with input
+        Log.d("Search", input)
+    }
 }
 
-class SearchProductAdapter(private val navigation: NavigationListener, private var data: ArrayList<SearchProduct>) :
+class SearchProductAdapter(private val navigation: NavigationListener) :
     RecyclerView.Adapter<SearchProductAdapter.ViewHolder>() {
+    private var data = ArrayList<SearchProduct>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<SearchProduct>) {
+        data = newData
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
