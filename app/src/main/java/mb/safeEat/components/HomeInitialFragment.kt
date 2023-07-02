@@ -1,10 +1,12 @@
 package mb.safeEat.components
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -12,28 +14,81 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import mb.safeEat.R
+import mb.safeEat.extensions.AlertColors
+import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.models.Home
 import java.io.Serializable
 import java.text.DecimalFormat
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class HomeInitialFragment(private val navigation: NavigationListener) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home_initial, container, false)
-        if (view != null) onInit(view)
-        return view
+        return inflater.inflate(R.layout.fragment_home_initial, container, false)
     }
 
-    private fun onInit(view: View) {
-        initAdapter(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { home ->
+                if (home.content != null) {
+                    val results = mapResponseToHomeItemList(home)
+                    initAdapter(view, ArrayList(results))
+                }
+            }, onFailure = {
+                alertError(view, "Internet Connection Error")
+                Log.d("Api Error", "$it")
+            })
+        }
     }
 
-    private fun initAdapter(view: View) {
+    private fun mapResponseToHomeItemList(home: Home): ArrayList<HomeItem> {
+        val results =
+            home.content!!.filter { it.advertisement != null || it.restaurantSection != null }.map {
+                    if (it.advertisement != null) {
+                        HomeItem.createAdvertisement(
+                            HomeAdvertisement(
+                                it.advertisement.title ?: "#ERROR#", R.drawable.burger
+                            )
+                        )
+                    } else if (it.restaurantSection != null) {
+                        HomeItem.createRestaurantList(
+                            HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
+                                it.restaurantSection.restaurants!!.map { restaurant ->
+                                    Restaurant(
+                                        name = restaurant.name!!,
+                                        image = R.drawable.restaurant,
+                                        score = 4.0f,
+                                        deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
+                                        deliveryTime = "30 min",
+                                    )
+                                })
+                        )
+                    } else {
+                        throw Exception("Invalid contents")
+                    }
+                }
+        return ArrayList(results)
+    }
+
+    private fun alertError(view: View, message: String) {
+        CustomSnackbar.make(
+            view.findViewById<FrameLayout>(R.id.home_items_container),
+            message,
+            Snackbar.LENGTH_SHORT,
+            AlertColors.error(view.context)
+        ).unwrap().show()
+    }
+
+    private fun initAdapter(view: View, list: ArrayList<HomeItem>) {
         val items = view.findViewById<RecyclerView>(R.id.home_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = HomeAdapter(navigation, createList())
+        items.adapter = HomeAdapter(navigation, list)
     }
 
     private fun createList(): ArrayList<HomeItem> {
