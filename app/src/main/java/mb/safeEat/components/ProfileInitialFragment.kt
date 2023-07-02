@@ -54,8 +54,11 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         state.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 if (user.image != null) {
-                    Glide.with(this).load(user.image).apply(RequestOptions.centerCropTransform())
-                        .transition(DrawableTransitionOptions.withCrossFade()).into(profileImage)
+                    Glide.with(this) //
+                        .load(user.image) //
+                        .apply(RequestOptions.centerCropTransform()) //
+                        .transition(DrawableTransitionOptions.withCrossFade()) //
+                        .into(profileImage)
                 }
                 profileName.text = user.name
             }

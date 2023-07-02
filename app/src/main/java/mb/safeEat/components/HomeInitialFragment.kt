@@ -12,6 +12,8 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
@@ -60,7 +62,8 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                 if (it.advertisement != null) {
                     HomeItem.createAdvertisement(
                         HomeAdvertisement(
-                            it.advertisement.title ?: "#ERROR#", R.drawable.burger
+                            it.advertisement.title ?: "#ERROR#",
+                            it.advertisement.image ?: "https://placehold.co/600x400",
                         )
                     )
                 } else if (it.restaurantSection != null) {
@@ -70,8 +73,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                                 Restaurant(
                                     id = restaurant.id!!,
                                     name = restaurant.name!!,
-                                    // TODO: Set up url
-                                    image = R.drawable.restaurant,
+                                    imageUrl = restaurant.logo!!,
                                     // TODO: Remove score
                                     score = 4.0f,
                                     // TODO: Format price with a function
@@ -89,7 +91,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
     }
 
     private fun createList(): ArrayList<HomeItem> {
-        val image = R.drawable.restaurant
+        val image = "https://placehold.co/600x400?text=Restaurant"
         return arrayListOf(
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
@@ -101,7 +103,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                     )
                 )
             ),
-            HomeItem.createAdvertisement(HomeAdvertisement("Marmitas caseiras", R.drawable.burger)),
+            HomeItem.createAdvertisement(HomeAdvertisement("Marmitas caseiras", image)),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Best prices", arrayListOf(
@@ -129,7 +131,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                     )
                 )
             ),
-            HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", R.drawable.burger)),
+            HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", image)),
         )
     }
 }
@@ -179,7 +181,10 @@ class HomeAdapter(
         private fun bindAdvertisement(item: HomeAdvertisement) {
             advertisement.visibility = LinearLayoutCompat.VISIBLE
             advertisementTitle.text = item.title
-            advertisementImage.setImageResource(item.imageId)
+            Glide.with(itemView) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions.centerCropTransform()) //
+                .into(advertisementImage)
         }
 
         private fun bindRestaurantList(item: HomeRestaurantList) {
@@ -221,7 +226,10 @@ class HomeRestaurantAdapter(
         private val score = itemView.findViewById<TextView>(R.id.restaurant_list_item_score)
 
         fun bind(item: Restaurant) {
-            image.setImageResource(item.image)
+            Glide.with(itemView) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions.centerCropTransform()) //
+                .into(image)
             restaurant.text = item.name
             score.text = DecimalFormat("0.0").format(item.score)
             container.setOnClickListener {
@@ -235,13 +243,13 @@ class HomeRestaurantAdapter(
 
 data class HomeAdvertisement(
     val title: String,
-    val imageId: Int,
+    val imageUrl: String,
 ) : Serializable
 
 data class Restaurant(
     val id: String?,
     val name: String,
-    val image: Int,
+    val imageUrl: String,
     val score: Float,
     val deliveryPrice: String,
     val deliveryTime: String,
