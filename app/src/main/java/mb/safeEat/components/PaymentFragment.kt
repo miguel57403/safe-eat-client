@@ -1,7 +1,6 @@
 package mb.safeEat.components
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 
 class PaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+//    private var orderDraft: OrderDraft? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_payment, container, false)
@@ -21,6 +22,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         initScreenEvents(view)
+        loadInitialData()
     }
 
     private fun initHeader(view: View) {
@@ -28,6 +30,10 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
         title.text = resources.getString(R.string.t_payment)
         backButton.setOnClickListener { navigation.onBackPressed() }
+    }
+
+    private fun loadInitialData() {
+        // TODO: load data from API
     }
 
     private fun initScreenEvents(view: View) {
@@ -41,15 +47,22 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
             navigation.navigateTo(AddressFragment(navigation))
         }
         deliveryOptionButton.setOnClickListener {
-            Log.d("Click", "Delivery Option Button Clicked")
-            // navigation.navigateTo(DeliveryOptionActivity(navigation))
+            // TODO: Feed params
+            val params = DeliveryOptionsParams(arrayListOf())
+            navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
         }
         paymentKindButton.setOnClickListener {
             navigation.navigateTo(PaymentOptionFragment(navigation))
         }
         submitButton.setOnClickListener {
             val dialog = OrderCompletedDialog()
-            dialog.setOnDismissListener { navigation.navigateTo(NotificationInitialFragment(navigation)) }
+            dialog.setOnDismissListener {
+                navigation.navigateTo(
+                    NotificationInitialFragment(
+                        navigation
+                    )
+                )
+            }
             dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
         }
     }
