@@ -73,7 +73,6 @@ class SearchProductFragment(
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { searchProduct ->
                 val initialData = mapInitialData(searchProduct)
-                Log.d("Debug", initialData.toString())
                 (items.adapter as SearchProductAdapter).loadInitialData(initialData)
             }, onFailure = {
                 alertThrowable(it)
