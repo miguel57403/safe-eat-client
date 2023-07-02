@@ -2,6 +2,7 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.state.state
@@ -59,11 +61,13 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
 
     private fun mapInitialData(order: List<mb.safeEat.services.api.models.Order>): ArrayList<Order> {
         return order.map {
-            Order(
+
+             Order(
                 image = it.restaurant?.logo ?: "",
                 restaurant = it.restaurant?.name ?: "",
-                date = "", // TODO: Use DateAgo extension
-                status = OrderStatus.DELIVERED, // TODO: Set correct status
+                date = TimeAgo.parse(it.time!!).toString(),
+                 status = OrderStatus.DELIVERED, // TODO: Set correct status
+                 //status = OrderStatus.valueOf(it.status!!)
                 products_number = it.quantity!!
             )
         }.toCollection(ArrayList())

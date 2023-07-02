@@ -154,4 +154,8 @@ enum class OrderStatus {
         TRANSPORTING -> 66
         DELIVERED -> 100
     }
+
+    //override fun toString() : String {
+    //    return
+    //}
 }
