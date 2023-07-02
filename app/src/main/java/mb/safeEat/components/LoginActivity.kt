@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
             state.user.postValue(userResponse)
             tokenResponse.token!!
         }.observe(this) { result ->
-            result.fold(onSuccess = { token ->
+            result.fold(onSuccess = {
                 navigateToHome()
             }, onFailure = {
                 alertError("Internet Connection Error")
@@ -121,8 +121,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn() {
-//        if (state.user.value != null) {
-//            navigateToHome()
-//        }
+        if (state.user.value != null) {
+            navigateToHome()
+        }
     }
 }

@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import mb.safeEat.R
 import mb.safeEat.functions.cleanIntentStack
-//import mb.safeEat.services.api.authorization
-//import mb.safeEat.services.state.state
+import mb.safeEat.services.api.authorization
+import mb.safeEat.services.state.state
 import java.lang.Exception
 
 // Bottom Navigation: https://www.youtube.com/watch?v=Bb8SgfI4Cm4&ab_channel=Foxandroid
@@ -34,22 +34,22 @@ class HomeActivity : AppCompatActivity(), NavigationListener {
         bottomNavigation.setOnItemSelectedListener {
             val fragment = when (it.itemId) {
                 R.id.menu_item_home -> HomeInitialFragment(this)
-                R.id.menu_item_search -> SearchCategoryFragment(this)
-                R.id.menu_item_cart -> CartFragment(this)
-                R.id.menu_item_user -> ProfileFragment(this)
-                R.id.menu_item_notification -> NotificationFragment(this)
+                R.id.menu_item_search -> SearchCategoryInitialFragment(this)
+                R.id.menu_item_cart -> CartInitialFragment(this)
+                R.id.menu_item_user -> ProfileInitialFragment(this)
+                R.id.menu_item_notification -> NotificationInitialFragment(this)
                 else -> throw Exception("Menu item id not defined")
             }
             navigateTo(fragment)
             true
         }
 
-//        state.user.observe(this) {
-//            if (it == null) {
-//                authorization.clearAuthorization()
-//                navigateToLogin()
-//            }
-//        }
+       state.user.observe(this) {
+           if (it == null) {
+               authorization.clearAuthorization()
+               navigateToLogin()
+           }
+       }
     }
 
     private fun navigateToLogin() {

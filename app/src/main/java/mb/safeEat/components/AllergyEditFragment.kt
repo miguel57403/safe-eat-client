@@ -16,22 +16,18 @@ import mb.safeEat.R
 
 class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment()  {
     // TODO: Create a fragment for allergies buttons
-    private lateinit var allergiesButtons: RecyclerView
-    private var allergyList = ArrayList<Allergy>()
+    private lateinit var items: RecyclerView
+    private var data = ArrayList<Allergy>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_allergy_edit, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_allergy_edit, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initHeader(view)
-        initAllergiesButtons(view)
-        updateInitialAllergies()
+        initialAdapter(view)
+        loadInitialData()
     }
 
     private fun initHeader(view: View) {
@@ -41,35 +37,24 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
-    private fun initAllergiesButtons(view: View) {
-        allergiesButtons = view.findViewById(R.id.allergies_buttons)
-        allergiesButtons.layoutManager = FlexboxLayoutManager(view.context).apply {
+    private fun initialAdapter(view: View) {
+        items = view.findViewById(R.id.allergies_buttons)
+        items.layoutManager = FlexboxLayoutManager(view.context).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
             justifyContent = JustifyContent.CENTER
         }
-        allergiesButtons.adapter = AllergyAdapter(this)
-        allergiesButtons.visibility = View.VISIBLE
+        items.adapter = AllergyAdapter(this)
+        items.visibility = View.VISIBLE
     }
 
-    private fun updateInitialAllergies() {
-        val list = listOf(
-            "Halal",
-            "Kosher",
-            "Hypertension",
-            "Diabetes",
-            "Gluten intolerance",
-            "Seafood allergy",
-            "Lactose intolerance",
-            "Veganism",
-            "Vegetarianism"
-        )
-        list.forEach { allergyList.add(Allergy(it, false)) }
-        (allergiesButtons.adapter as AllergyAdapter).updateData(allergyList)
+    private fun loadInitialData() {
+        // TODO: load data from API
+        (items.adapter as AllergyAdapter).__feedData()
     }
 
     override fun onClickAllergy(allergy: Allergy, position: Int) {
-        allergyList[position] = allergy.copy(selected = !allergy.selected)
-        (allergiesButtons.adapter as AllergyAdapter).updateItem(position, allergyList[position])
+        data[position] = allergy.copy(selected = !allergy.selected)
+        (items.adapter as AllergyAdapter).updateItem(position, data[position])
     }
 }

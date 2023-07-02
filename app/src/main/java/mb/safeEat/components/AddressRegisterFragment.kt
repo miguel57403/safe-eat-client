@@ -10,16 +10,12 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 
 class AddressRegisterFragment(private val navigation: NavigationListener) : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.activity_address_register, container, false)
-        if (view != null) onInit(view)
-        return view
-    }
+    ): View? = inflater.inflate(R.layout.activity_address_register, container, false)
 
-    private fun onInit(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initHeader(view)
     }
 

@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,42 +20,43 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
 class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_search_category_initial, container, false)
-        if (view != null) onInit(view)
-        return view
+    ): View? = inflater.inflate(R.layout.fragment_search_category_initial, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initAdapter(view)
+        loadInitialData()
     }
 
-    private fun onInit(view: View) {
-        onGetAllCategory(view)
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.search_categories_items)
+        items.layoutManager = GridLayoutManager(view.context, 2)
+        items.adapter = SearchCategoryAdapter(navigation)
     }
 
-    private fun onGetAllCategory(view: View) {
+    private fun loadInitialData() {
         suspendToLiveData { api.categories.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { categories ->
-                initAdapter(view, getItemList(categories))
+                val initialData = getItemList(categories)
+                (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
             }, onFailure = { failure ->
                 Log.d("Debug", "Failure $failure")
             })
         }
     }
 
-    private fun initAdapter(view: View, categories: List<Category>) {
-        val items = view.findViewById<RecyclerView>(R.id.search_categories_items)
-        items.layoutManager = GridLayoutManager(view.context, 2)
-        items.adapter = SearchCategoryAdapter(navigation, categories)
-    }
-
     // TODO: Change the mapper name to a standard name
-    private fun getItemList(categories: List<mb.safeEat.services.api.models.Category>): List<Category> {
+    private fun getItemList(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
         return categories.map { category ->
             Category(
                 category.name!!,
                 category.image ?: "https://placehold.co/600x400?text=${category.name}",
             )
-        }
+        }.toCollection(ArrayList())
     }
 
     private fun createList(): List<Category> {
@@ -78,8 +80,15 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
 
 class SearchCategoryAdapter(
     private val navigation: NavigationListener,
-    private val data: List<Category>,
 ) : RecyclerView.Adapter<SearchCategoryAdapter.ViewHolder>() {
+    private var data = ArrayList<Category>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<Category>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_search_category, parent, false)

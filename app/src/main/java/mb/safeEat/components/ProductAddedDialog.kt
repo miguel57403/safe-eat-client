@@ -11,12 +11,8 @@ import mb.safeEat.R
 
 class ProductAddedDialog : DialogFragment() {
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_product_added, container)
-    }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.dialog_product_added, container)
 
     override fun onStart() {
         super.onStart()

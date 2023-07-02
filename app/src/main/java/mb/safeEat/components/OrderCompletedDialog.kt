@@ -17,9 +17,7 @@ class OrderCompletedDialog : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_order_completed, container)
-    }
+    ): View? = inflater.inflate(R.layout.dialog_order_completed, container)
 
     override fun onStart() {
         super.onStart()

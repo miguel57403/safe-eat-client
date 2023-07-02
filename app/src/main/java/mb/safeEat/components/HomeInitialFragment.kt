@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,19 +27,30 @@ import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 class HomeInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home_initial, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_home_initial, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter(view)
+        loadInitialData(view)
+    }
+
+    private fun initAdapter(view: View) {
+        items = view.findViewById<RecyclerView>(R.id.home_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = HomeAdapter(navigation)
+    }
+
+    private fun loadInitialData(view: View) {
         suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { home ->
                 if (home.content != null) {
-                    val results = mapResponseToHomeItemList(home)
-                    initAdapter(view, ArrayList(results))
+                    val initialData = mapResponseToHomeItemList(home)
+                    (items.adapter as HomeAdapter).loadInitialData(initialData)
                 }
             }, onFailure = {
                 alertError(view, "Internet Connection Error")
@@ -50,33 +62,39 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
     private fun mapResponseToHomeItemList(home: Home): ArrayList<HomeItem> {
         val results =
             home.content!!.filter { it.advertisement != null || it.restaurantSection != null }.map {
-                    if (it.advertisement != null) {
-                        HomeItem.createAdvertisement(
-                            HomeAdvertisement(
-                                it.advertisement.title ?: "#ERROR#", R.drawable.burger
-                            )
+                if (it.advertisement != null) {
+                    HomeItem.createAdvertisement(
+                        HomeAdvertisement(
+                            it.advertisement.title ?: "#ERROR#", R.drawable.burger
                         )
-                    } else if (it.restaurantSection != null) {
-                        HomeItem.createRestaurantList(
-                            HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
-                                it.restaurantSection.restaurants!!.map { restaurant ->
-                                    Restaurant(
-                                        name = restaurant.name!!,
-                                        image = R.drawable.restaurant,
-                                        score = 4.0f,
-                                        deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
-                                        deliveryTime = "30 min",
-                                    )
-                                })
-                        )
-                    } else {
-                        throw Exception("Invalid contents")
-                    }
+                    )
+                } else if (it.restaurantSection != null) {
+                    HomeItem.createRestaurantList(
+                        HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
+                            it.restaurantSection.restaurants!!.map { restaurant ->
+                                Restaurant(
+                                    id = restaurant.id!!,
+                                    name = restaurant.name!!,
+                                    // TODO: Set up url
+                                    image = R.drawable.restaurant,
+                                    // TODO: Remove score
+                                    score = 4.0f,
+                                    // TODO: Format price with a function
+                                    deliveryPrice = "${restaurant.deliveries?.get(0)?.price}",
+                                    // TODO: Format time with a function
+                                    deliveryTime = "30 min",
+                                )
+                            })
+                    )
+                } else {
+                    throw Exception("Invalid contents")
                 }
+            }
         return ArrayList(results)
     }
 
     private fun alertError(view: View, message: String) {
+        // TODO: Spread this logic between all fragments
         CustomSnackbar.make(
             view.findViewById<FrameLayout>(R.id.home_items_container),
             message,
@@ -85,22 +103,16 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
         ).unwrap().show()
     }
 
-    private fun initAdapter(view: View, list: ArrayList<HomeItem>) {
-        val items = view.findViewById<RecyclerView>(R.id.home_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = HomeAdapter(navigation, list)
-    }
-
     private fun createList(): ArrayList<HomeItem> {
         val image = R.drawable.restaurant
         return arrayListOf(
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Popular", arrayListOf(
-                        Restaurant("Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant("Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
@@ -108,27 +120,27 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Best prices", arrayListOf(
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Lunch", arrayListOf(
-                        Restaurant("Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant("Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant("Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Breakfast", arrayListOf(
-                        Restaurant("Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant("Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
@@ -139,8 +151,15 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
 
 class HomeAdapter(
     private val navigation: NavigationListener,
-    private var data: ArrayList<HomeItem>,
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    private var data = ArrayList<HomeItem>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<HomeItem>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         navigation, LayoutInflater.from(parent.context).inflate(R.layout.item_home, parent, false)
     )
@@ -222,11 +241,7 @@ class HomeRestaurantAdapter(
             score.text = DecimalFormat("0.0").format(item.score)
             container.setOnClickListener {
                 navigation.navigateTo(
-                    RestaurantFragment(
-                        navigation, RestaurantParams(
-                            item.name, item.deliveryPrice, item.deliveryTime
-                        )
-                    )
+                    RestaurantFragment(navigation, RestaurantParams("649f3335b743876fd72143b1"))
                 )
             }
         }
@@ -239,6 +254,7 @@ data class HomeAdvertisement(
 ) : Serializable
 
 data class Restaurant(
+    val id: String?,
     val name: String,
     val image: Int,
     val score: Float,

@@ -1,5 +1,6 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,40 +18,46 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
 class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment() {
+    private lateinit var items: RecyclerView
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_notification_initial, container, false)
-        if (view != null) onInit(view)
-        return view
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_notification_initial, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initAdapter(view)
+        loadInitialData()
     }
 
-    private fun onInit(view: View) {
+    private fun initAdapter(view: View) {
+        items = view.findViewById(R.id.notification_items)
+        items.layoutManager = LinearLayoutManager(view.context)
+        items.adapter = NotificationAdapter(navigation)
+    }
+
+    private fun loadInitialData() {
         suspendToLiveData { api.notifications.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { notifications ->
-                val results = notifications
-                    .map { notification -> Notification(
-                        restaurant = notification.order?.restaurant?.name ?: "#Erro#",
-                        arrivalTime = TimeAgo.parse(notification.time!!).toString(),
-                        imageId = R.drawable.restaurant,
-                        message = notification.content ?: "#Erro#",
-                        orderStatus = mapStatus(notification.order?.status)
-                    ) }
-                Log.d("notification", "$notifications")
-                initAdapter(view, ArrayList(results))
+                val initialData = mapInitialData(notifications)
+                (items.adapter as NotificationAdapter).loadInitialData(initialData)
             }, onFailure = {
-//                alertError("Internet Connection Error")
+                // TODO: Handle error
                 Log.d("Api Error", "$it")
             })
         }
     }
 
-    private fun initAdapter(view: View, list: ArrayList<Notification>) {
-        val adapter = NotificationAdapter(navigation, list)
-        val items = view.findViewById<RecyclerView>(R.id.notification_items)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = adapter
+    private fun mapInitialData(notifications: List<mb.safeEat.services.api.models.Notification>): ArrayList<Notification> {
+        return notifications.map { notification ->
+            Notification(
+                restaurant = notification.order?.restaurant?.name ?: "#Erro#",
+                arrivalTime = TimeAgo.parse(notification.time!!).toString(),
+                imageId = R.drawable.restaurant,
+                message = notification.content ?: "#Erro#",
+                orderStatus = mapStatus(notification.order?.status)
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun createList(): ArrayList<Notification> {
@@ -77,11 +84,7 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 OrderStatus.PREPARING
             ),
             Notification(
-                "Mimo's Pizza",
-                "1 day ago",
-                R.drawable.restaurant,
-                "Promotion message",
-                null
+                "Mimo's Pizza", "1 day ago", R.drawable.restaurant, "Promotion message", null
             ),
             Notification(
                 "Gelados Maravilhosos",
@@ -110,9 +113,15 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
 
 class NotificationAdapter(
     private val navigation: NavigationListener,
-    private val data: ArrayList<Notification>
-) :
-    RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+    private var data = ArrayList<Notification>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadInitialData(newData: ArrayList<Notification>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
         LayoutInflater.from(parent.context).inflate(R.layout.item_notification, parent, false)
@@ -141,9 +150,7 @@ class NotificationAdapter(
                     navigation.navigateTo(
                         OrderDetailFragment(
                             navigation, OrderDetailParams(
-                                item.orderStatus,
-                                item.restaurant,
-                                item.arrivalTime
+                                item.orderStatus, item.restaurant, item.arrivalTime
                             )
                         )
                     )
