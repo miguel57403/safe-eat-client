@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".components.AddressRegisterActivity">
+    android:padding="16dp">
 
     <include layout="@layout/fragment_header" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="348dp"
-        android:layout_height="365dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="52dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_container">
+        app:layout_constraintTop_toBottomOf="@+id/header_container"
+        app:layout_constraintBottom_toTopOf="@id/address_register_button">
 
         <TextView
             android:id="@+id/new_address_name_label"
@@ -27,9 +27,7 @@
             android:layout_marginBottom="2dp"
             android:text="@string/t_name"
             android:textAlignment="textStart"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/new_address_name_input"
-            app:layout_constraintStart_toStartOf="@+id/new_address_name_input" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/new_address_name_input"
@@ -43,9 +41,30 @@
             android:minHeight="48dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/new_address_street_label"
-            app:layout_constraintStart_toStartOf="@+id/new_address_street_label"
-            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+
+        <TextView
+            android:id="@+id/new_address_city_label"
+            android:layout_width="55dp"
+            android:layout_marginTop="16dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="2dp"
+            android:text="@string/t_city"
+            android:textAlignment="textStart"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/new_address_city_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="nameAddress"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             tools:ignore="LabelFor" />
 
         <TextView
@@ -53,19 +72,16 @@
             android:layout_width="55dp"
             android:layout_height="24dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="2dp"
             android:text="@string/t_street"
             android:textAlignment="textStart"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/new_address_street_input"
-            app:layout_constraintStart_toStartOf="@+id/new_address_street_input" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/new_address_street_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:autofillHints="streetAddress"
             android:background="@drawable/edit_text_border"
             android:ems="10"
@@ -80,9 +96,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/address_postal_code"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/address_postal_code_left"
@@ -105,7 +121,7 @@
                     tools:layout_editor_absoluteY="6dp" />
 
                 <EditText
-                    android:id="@+id/address_register_number_input"
+                    android:id="@+id/new_address_number_input"
                     android:layout_width="match_parent"
                     android:layout_height="39dp"
                     android:autofillHints="complementAddress"
@@ -152,19 +168,16 @@
             android:layout_width="161dp"
             android:layout_height="24dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="2dp"
             android:text="@string/t_complement"
             android:textAlignment="textStart"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/new_address_street_input"
-            app:layout_constraintStart_toStartOf="@+id/new_address_street_input" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/new_address_complement_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:autofillHints="complementAddress"
             android:background="@drawable/edit_text_border"
             android:ems="10"
@@ -172,9 +185,6 @@
             android:minHeight="48dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/login_password_input"
-            app:layout_constraintStart_toStartOf="@+id/login_password_input"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="LabelFor" />
     </LinearLayout>
 

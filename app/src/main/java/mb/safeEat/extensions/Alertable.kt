@@ -25,6 +25,15 @@ interface Alertable {
         ).unwrap().show()
     }
 
+    fun alertSuccess(message: String) {
+        CustomSnackbar.make(
+            requireView(),
+            message,
+            Snackbar.LENGTH_SHORT,
+            AlertColors.success(requireContext())
+        ).unwrap().show()
+    }
+
     fun alertThrowable(throwable: Throwable) {
         val message = errorMessageFromThrowable(throwable)
         alertError(message)
