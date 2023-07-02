@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.OrderDto
@@ -22,7 +23,7 @@ import mb.safeEat.services.state.state
 import java.text.DecimalFormat
 import java.util.ArrayList
 
-class CartInitialFragment(private val navigation: NavigationListener) : Fragment() {
+class CartInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
     private var orderDto = OrderDto()
 
@@ -85,6 +86,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
                 result.fold(onSuccess = {
                     loadDataByCart(it)
                 }, onFailure = {
+                    alertError("Error: ${it.message}")
                     Log.d("Api Error", "$it")
                 })
             }
@@ -93,6 +95,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
                 result.fold(onSuccess = {
                     // TODO: Usar os endereços
                 }, onFailure = {
+                    alertError("Error: ${it.message}")
                     Log.d("Api Error", "$it")
                 })
             }
@@ -101,6 +104,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
                 result.fold(onSuccess = {
                     // TODO: Usar os pagamentos
                 }, onFailure = {
+                    alertError("Error: ${it.message}")
                     Log.d("Api Error", "$it")
                 })
             }
@@ -112,6 +116,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
             result.fold(onSuccess = {
                 // TODO: Usar os items
             }, onFailure = {
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
@@ -120,6 +125,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
             result.fold(onSuccess = {
                 loadDataByRestaurant(it)
             }, onFailure = {
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
@@ -132,6 +138,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
             result.fold(onSuccess = {
                 // TODO: Usar as entregas
             }, onFailure = {
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }

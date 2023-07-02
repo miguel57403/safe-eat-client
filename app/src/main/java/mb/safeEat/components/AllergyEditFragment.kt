@@ -13,8 +13,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
-class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment()  {
+class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(), Alertable  {
     // TODO: Create a fragment for allergies buttons
     private lateinit var items: RecyclerView
     private var data = ArrayList<Allergy>()

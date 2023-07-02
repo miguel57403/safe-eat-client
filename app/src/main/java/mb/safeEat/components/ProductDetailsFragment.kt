@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
-class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment() {
+class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(

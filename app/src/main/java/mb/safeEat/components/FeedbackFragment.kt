@@ -10,8 +10,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
-class FeedbackFragment(private val navigation: NavigationListener) : Fragment() {
+class FeedbackFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var score = 0
 
     override fun onCreateView(

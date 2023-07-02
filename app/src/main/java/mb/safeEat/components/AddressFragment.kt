@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class AddressFragment(private val navigation: NavigationListener) : Fragment(), AddressListener {
+class AddressFragment(private val navigation: NavigationListener) : Fragment(), AddressListener, Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -59,7 +60,8 @@ class AddressFragment(private val navigation: NavigationListener) : Fragment(), 
                 val initialData = mapInitialData(addresses)
                 (items.adapter as AddressAdapter).loadInitialData(initialData)
             }, onFailure = {
-                println("Api Error")
+                alertError("Error: ${it.message}")
+                Log.d("Api Error", "$it")
             })
         }
     }

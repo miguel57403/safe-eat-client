@@ -1,6 +1,7 @@
 package mb.safeEat.components
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.*
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
-class AllergyActivity : AllergyListener, AppCompatActivity() {
+class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
+    override fun requireView(): View = findViewById(R.id.allergy_activity_container)
+    override fun requireContext(): Context = this
+
     private lateinit var items: RecyclerView
     private var data = ArrayList<Allergy>()
 

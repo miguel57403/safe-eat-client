@@ -8,14 +8,11 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import mb.safeEat.R
-import mb.safeEat.extensions.AlertColors
-import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.cleanIntentStack
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -25,7 +22,10 @@ import mb.safeEat.services.state.state
 
 //import mb.safeEat.services.state.state
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), Alertable {
+    override fun requireView(): View = findViewById(R.id.login_material_container)
+    override fun requireContext(): Context = this
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
             result.fold(onSuccess = {
                 navigateToHome()
             }, onFailure = {
-                alertError("Internet Connection Error")
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
@@ -103,15 +103,6 @@ class LoginActivity : AppCompatActivity() {
             return false
         }
         return true
-    }
-
-    private fun alertError(message: String) {
-        CustomSnackbar.make(
-            findViewById<FrameLayout>(R.id.login_material_container),
-            message,
-            Snackbar.LENGTH_SHORT,
-            AlertColors.error(applicationContext)
-        ).unwrap().show()
     }
 
     private fun hideKeyboard(button: View) {

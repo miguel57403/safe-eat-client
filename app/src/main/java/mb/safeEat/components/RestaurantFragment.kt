@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,10 +18,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
 import mb.safeEat.R
-import mb.safeEat.extensions.AlertColors
-import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
@@ -36,7 +33,7 @@ data class RestaurantParams(
 class RestaurantFragment(
     private val navigation: NavigationListener,
     private val params: RestaurantParams,
-) : Fragment() {
+) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -87,7 +84,7 @@ class RestaurantFragment(
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(posterImage)
             }, onFailure = {
-                alertError("Internet Connection Error",view)
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
@@ -128,16 +125,6 @@ class RestaurantFragment(
                 )
             )
         )
-    }
-    
-
-    private fun alertError(message: String, view: View) {
-        CustomSnackbar.make(
-            view.findViewById<LinearLayout>(R.id.restaurant_container),
-            message,
-            Snackbar.LENGTH_SHORT,
-            AlertColors.error(view.context)
-        ).unwrap().show()
     }
 }
 

@@ -16,10 +16,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment() {
+class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment(),
+    Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -43,8 +45,9 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
             result.fold(onSuccess = { categories ->
                 val initialData = getItemList(categories)
                 (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
-            }, onFailure = { failure ->
-                Log.d("Debug", "Failure $failure")
+            }, onFailure = {
+                alertError("Error: ${it.message}")
+                Log.d("Api Error", "$it")
             })
         }
     }

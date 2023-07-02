@@ -16,10 +16,11 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.base64ToBitmap
 
 // TODO: Receive parameters (category, name) to do initial search
-class SearchRestaurantFragment(private val navigation: NavigationListener) : Fragment() {
+class SearchRestaurantFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(

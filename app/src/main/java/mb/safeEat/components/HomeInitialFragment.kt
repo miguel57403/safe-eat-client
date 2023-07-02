@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -15,10 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
 import mb.safeEat.R
-import mb.safeEat.extensions.AlertColors
-import mb.safeEat.extensions.CustomSnackbar
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Home
@@ -26,7 +23,7 @@ import java.io.Serializable
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
-class HomeInitialFragment(private val navigation: NavigationListener) : Fragment() {
+class HomeInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -53,7 +50,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                     (items.adapter as HomeAdapter).loadInitialData(initialData)
                 }
             }, onFailure = {
-                alertError(view, "Internet Connection Error")
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
@@ -91,16 +88,6 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                 }
             }
         return ArrayList(results)
-    }
-
-    private fun alertError(view: View, message: String) {
-        // TODO: Spread this logic between all fragments
-        CustomSnackbar.make(
-            view.findViewById<FrameLayout>(R.id.home_items_container),
-            message,
-            Snackbar.LENGTH_SHORT,
-            AlertColors.error(view.context)
-        ).unwrap().show()
     }
 
     private fun createList(): ArrayList<HomeItem> {

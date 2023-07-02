@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
 data class OrderDetailParams(
     val status: OrderStatus,
@@ -27,7 +28,7 @@ data class OrderDetailParams(
 
 class OrderDetailFragment(
     private val navigation: NavigationListener, private val params: OrderDetailParams
-) : Fragment() {
+) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(

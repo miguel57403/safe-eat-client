@@ -8,8 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 
-class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment() {
+class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

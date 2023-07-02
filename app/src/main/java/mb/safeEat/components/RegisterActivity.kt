@@ -1,14 +1,20 @@
 package mb.safeEat.components
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.cleanIntentStack
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(), Alertable {
+    override fun requireView(): View = findViewById(R.id.register_material_container)
+    override fun requireContext(): Context = this
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)

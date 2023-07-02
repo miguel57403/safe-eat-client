@@ -12,9 +12,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.services.state.state
 
-class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment() {
+class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_profile_initial, container, false)

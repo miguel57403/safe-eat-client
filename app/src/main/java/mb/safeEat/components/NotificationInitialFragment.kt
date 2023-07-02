@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment() {
+class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment(),
+    Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -42,7 +44,7 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
                 val initialData = mapInitialData(notifications)
                 (items.adapter as NotificationAdapter).loadInitialData(initialData)
             }, onFailure = {
-                // TODO: Handle error
+                alertError("Error: ${it.message}")
                 Log.d("Api Error", "$it")
             })
         }
