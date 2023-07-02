@@ -38,6 +38,7 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         initAdapter(view)
         initScreenEvents(view)
         changeVisiblityAlert(view, false)
+        // Insert a valid ID and remove the static ID
         loadInitialData(view,"649f54ad6665ea2c2dede4ee")
     }
 
