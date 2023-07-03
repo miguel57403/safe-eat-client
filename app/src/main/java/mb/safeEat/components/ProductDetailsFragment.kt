@@ -118,7 +118,6 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
     }
 }
 
-
 class ProductDetailAdapter : RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
     private var data = ArrayList<ProductDetail>()
 

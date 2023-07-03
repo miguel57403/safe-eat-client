@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
@@ -51,11 +54,11 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
     private fun mapInitialData(notifications: List<mb.safeEat.services.api.models.Notification>): ArrayList<Notification> {
         return notifications.map { notification ->
             Notification(
-                restaurant = notification.order?.restaurant?.name ?: "#Erro#",
+                restaurant = notification.restaurant?.name ?: "#Erro#",
                 arrivalTime = TimeAgo.parse(notification.time!!).toString(),
-                imageId = R.drawable.restaurant,
+                imageUrl = notification.restaurant?.logo ?: "",
                 message = notification.content ?: "#Erro#",
-                orderStatus = mapStatus(notification.order?.status)
+                orderStatus = OrderStatus.REGISTERED // TODO: Remove hardcode
             )
         }.toCollection(ArrayList())
     }
@@ -65,49 +68,49 @@ class NotificationInitialFragment(private val navigation: NavigationListener) : 
             Notification(
                 "Sabor Brasileiro",
                 "30 seconds ago",
-                R.drawable.restaurant,
+                "",
                 "Your order has arrived",
                 OrderStatus.REGISTERED
             ),
             Notification(
                 "Sabor Brasileiro",
                 "5 min ago",
-                R.drawable.restaurant,
+                "",
                 "Your order is out for delivery",
                 OrderStatus.PREPARING
             ),
             Notification(
                 "Sabor Brasileiro",
                 "15 min ago",
-                R.drawable.restaurant,
+                "",
                 "Your order is in preparation",
                 OrderStatus.TRANSPORTING
             ),
             Notification(
                 "Mimo's Pizza",
                 "1 day ago",
-                R.drawable.restaurant,
+                "",
                 "Promotion message",
                 OrderStatus.DELIVERED,
             ),
             Notification(
                 "Gelados Maravilhosos",
                 "2 days ago",
-                R.drawable.restaurant,
+                "",
                 "Promotion message",
                 OrderStatus.CANCELED,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "25 Apr at 12:45",
-                R.drawable.restaurant,
+                "",
                 "Promotion message",
                 null,
             ),
             Notification(
                 "Sabor Brasileiro",
                 "23 Apr at 12:45",
-                R.drawable.restaurant,
+                "",
                 "Promotion message",
                 null,
             ),
@@ -145,25 +148,25 @@ class NotificationAdapter(
         private val status = itemView.findViewById<TextView>(R.id.notification_order_status)
 
         fun bind(item: Notification) {
-            image.setImageResource(item.imageId)
             restaurant.text = item.restaurant
             timeArrival.text = item.arrivalTime
             status.text = item.message
             if (item.orderStatus != null) {
                 container.setOnClickListener {
-                    navigation.navigateTo(
-                        OrderDetailFragment(
-                            navigation, OrderDetailParams(
-                                item.orderStatus,
-                                item.restaurant,
-                                item.arrivalTime,
-                            )
-                        )
-                    )
+                    // TODO: Pass only orderId
+                    val params =
+                        OrderDetailParams(item.orderStatus, item.restaurant, item.arrivalTime)
+                    navigation.navigateTo(OrderDetailFragment(navigation, params))
                 }
             } else {
                 container.isClickable = false
             }
+
+            Glide.with(itemView) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions().centerCrop()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
+                .into(image)
         }
     }
 }
@@ -171,7 +174,7 @@ class NotificationAdapter(
 data class Notification(
     val restaurant: String,
     val arrivalTime: String,
-    val imageId: Int,
+    val imageUrl: String,
     val message: String,
     val orderStatus: OrderStatus?,
 )

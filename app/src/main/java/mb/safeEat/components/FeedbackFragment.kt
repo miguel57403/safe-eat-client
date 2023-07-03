@@ -104,10 +104,12 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
         val feedBackText = view.findViewById<TextView>(R.id.feedback_text)
         val imageFeedBack = view.findViewById<ImageView>(R.id.feedback_restaurant_image)
 
-        feedBackText.text = " How to as the ${order.restaurant?.name}"
+        feedBackText.text = "How to as the ${order.restaurant?.name}"
 
-        Glide.with(this).load(order.restaurant?.logo) // Replace with your actual image URL
-            .apply(RequestOptions().centerCrop())
-            .transition(DrawableTransitionOptions.withCrossFade()).into(imageFeedBack)
+        Glide.with(this) //
+            .load(order.restaurant?.logo) //
+            .apply(RequestOptions().centerCrop()) //
+            .transition(DrawableTransitionOptions.withCrossFade()) //
+            .into(imageFeedBack)
     }
 }
