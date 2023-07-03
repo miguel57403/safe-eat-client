@@ -74,9 +74,11 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
 
     private fun createList(): ArrayList<Order> {
         return arrayListOf(
+            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.REGISTERED, 10),
             Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.PREPARING, 10),
             Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.TRANSPORTING, 10),
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.DELIVERED, 10)
+            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.DELIVERED, 10),
+            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.CANCELED, 10)
         )
     }
 }

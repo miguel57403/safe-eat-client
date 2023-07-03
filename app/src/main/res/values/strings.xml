@@ -94,6 +94,8 @@
     <string name="t_continue">Continue</string>
     <string name="t_ddd">DDD</string>
     <string name="t_delivered">Delivered</string>
+    <string name="t_registered">Registered</string>
+    <string name="t_canceled">Canceled</string>
     <string name="t_delivery_option">Delivery Option</string>
     <string name="t_edit_allergies">Edit Allergies</string>
     <string name="t_edit_profile">Edit Profile</string>
