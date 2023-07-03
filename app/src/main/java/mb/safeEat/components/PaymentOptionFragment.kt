@@ -18,13 +18,13 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment(), PaymentListener, Alertable {
+class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment(),
+    PaymentListener, Alertable {
 
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_payment_option, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +68,13 @@ class PaymentOptionFragment(private val navigation: NavigationListener) : Fragme
     }
 
     private fun mapInitialData(payment: List<mb.safeEat.services.api.models.Payment>): ArrayList<Payment> {
-        return payment.map { Payment(it.name!!, false) }.toCollection(ArrayList())
+        return payment.map {
+            Payment(
+                id = it.id!!,
+                name = it.name!!,
+                isSelected = false,
+            )
+        }.toCollection(ArrayList())
     }
 
     override fun onPaymentSelected(payment: Payment) {
@@ -98,8 +104,7 @@ class PaymentAdapter(private val listener: PaymentListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        listener,
-        LayoutInflater.from(parent.context).inflate(R.layout.item_payment, parent, false)
+        listener, LayoutInflater.from(parent.context).inflate(R.layout.item_payment, parent, false)
     )
 
     override fun getItemCount(): Int = data.size
@@ -114,8 +119,9 @@ class PaymentAdapter(private val listener: PaymentListener) :
         private val editIcon = itemView.findViewById<MaterialCardView>(R.id.item_payment_icon2)
 
         fun bind(item: Payment) {
-            text.text = item.text
-            if (item.default) {
+            text.text = item.name
+            // TODO: Use check icon
+            if (item.isSelected) {
                 icon.setImageResource(R.drawable.baseline_home_24)
             } else {
                 icon.setImageResource(R.drawable.baseline_business_24)
@@ -127,6 +133,7 @@ class PaymentAdapter(private val listener: PaymentListener) :
 }
 
 data class Payment(
-    val text: String,
-    val default: Boolean
+    val id: String,
+    val name: String,
+    val isSelected: Boolean,
 )
