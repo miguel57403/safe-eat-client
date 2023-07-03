@@ -1,7 +1,7 @@
 package mb.safeEat.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +18,8 @@ import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
-import mb.safeEat.services.api.authorization
 import mb.safeEat.services.api.dto.FeedbackDto
-import mb.safeEat.services.state.state
+import mb.safeEat.services.api.models.Order
 
 class FeedbackFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var score = 0
@@ -34,44 +33,6 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
         initHeader(view)
         initStars(view)
         initScreenEvents(view)
-    }
-
-    private fun initScreenEvents(view: View) {
-        val comment = view.findViewById<TextInputEditText>(R.id.text_comment)
-        val orderId = "649ff0626e2e372aacc2638e"
-        val submitButton = view.findViewById<Button>(R.id.feedback_submit)
-        submitButton.setOnClickListener {
-            val body = FeedbackDto(rating = score, comment = comment.text.toString())
-            Log.d("DEBUG", body.toString())
-            suspendToLiveData {
-                api.feedbacks.create(body, orderId)
-            }.observe(viewLifecycleOwner) { result ->
-                result.fold(onSuccess = {
-                    navigation.onBackPressed()
-                }, onFailure = {
-                    alertThrowable(it)
-                })
-            }
-        }
-
-        suspendToLiveData {
-            api.orders.findById(orderId)
-        }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { order ->
-                val feedBackText = view.findViewById<TextView>(R.id.feedback_text)
-                val imageFeedBack = view.findViewById<ImageView>(R.id.feedback_restaurant_image)
-
-                feedBackText.text = " How to as the ${order.restaurant?.name}"
-
-                Glide.with(this)
-                    .load(order.restaurant?.logo) // Replace with your actual image URL
-                    .apply(RequestOptions().centerCrop())
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imageFeedBack)
-            }, onFailure = {
-                alertThrowable(it)
-            })
-        }
     }
 
     private fun initHeader(view: View) {
@@ -106,5 +67,47 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
         }
 
         updateScoreUI(3)
+    }
+
+    private fun initScreenEvents(view: View) {
+        // TODO: Create params for order id
+        val orderId = "649ff0626e2e372aacc2638e"
+
+        val submitButton = view.findViewById<Button>(R.id.feedback_submit)
+        submitButton.setOnClickListener { doFeedback(view, orderId) }
+
+        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { order ->
+                updateUi(view, order)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun doFeedback(view: View, orderId: String) {
+        val comment = view.findViewById<TextInputEditText>(R.id.feedback_comment_input)
+        val body = FeedbackDto(rating = score, comment = comment.text.toString())
+        suspendToLiveData {
+            api.feedbacks.create(body, orderId)
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                navigation.onBackPressed()
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateUi(view: View, order: Order) {
+        val feedBackText = view.findViewById<TextView>(R.id.feedback_text)
+        val imageFeedBack = view.findViewById<ImageView>(R.id.feedback_restaurant_image)
+
+        feedBackText.text = " How to as the ${order.restaurant?.name}"
+
+        Glide.with(this).load(order.restaurant?.logo) // Replace with your actual image URL
+            .apply(RequestOptions().centerCrop())
+            .transition(DrawableTransitionOptions.withCrossFade()).into(imageFeedBack)
     }
 }

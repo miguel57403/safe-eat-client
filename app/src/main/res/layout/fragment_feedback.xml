@@ -84,7 +84,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/feedback_observation"
+        android:id="@+id/feedback_comment_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,11 +94,11 @@
         app:layout_constraintTop_toBottomOf="@+id/feedback_stars">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/feedback_comment_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|start"
             android:hint="@string/t_observations"
-            android:id="@+id/text_comment"
             android:lines="8" />
     </com.google.android.material.textfield.TextInputLayout>
 

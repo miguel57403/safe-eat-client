@@ -149,12 +149,12 @@ class NotificationAdapter(
             restaurant.text = item.restaurant
             timeArrival.text = item.arrivalTime
             status.text = item.message
-            if (true || item.orderStatus != null) {
+            if (item.orderStatus != null) {
                 container.setOnClickListener {
                     navigation.navigateTo(
                         OrderDetailFragment(
                             navigation, OrderDetailParams(
-                                item.orderStatus ?: OrderStatus.DELIVERED,
+                                item.orderStatus,
                                 item.restaurant,
                                 item.arrivalTime,
                             )

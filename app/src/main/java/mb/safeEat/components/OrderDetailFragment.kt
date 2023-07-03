@@ -73,12 +73,12 @@ class OrderDetailFragment(
         )
         progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
         progressBar.progress = params.status.toProgress()
-//        if (params.status == OrderStatus.DELIVERED) {
+        if (params.status == OrderStatus.DELIVERED) {
             buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
             buttonFeedback.visibility = View.VISIBLE
-//        } else {
-//            buttonFeedback.visibility = View.GONE
-//        }
+        } else {
+            buttonFeedback.visibility = View.GONE
+        }
     }
 
     private fun loadInitialData() {
