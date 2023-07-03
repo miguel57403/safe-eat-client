@@ -20,7 +20,6 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.AddressDto
 
-// TODO: Use Material UI inputs
 class AddressRegisterFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var loading = false
 
@@ -53,12 +52,12 @@ class AddressRegisterFragment(private val navigation: NavigationListener) : Frag
         if (loading) return
 
         // TODO: Remove name property from address
-        val name = view.findViewById<EditText>(R.id.new_address_name_input)
-        val city = view.findViewById<EditText>(R.id.new_address_city_input)
-        val street = view.findViewById<EditText>(R.id.new_address_street_input)
-        val number = view.findViewById<EditText>(R.id.new_address_number_input)
-        val postalCode = view.findViewById<EditText>(R.id.new_address_postal_code_input)
-        val complement = view.findViewById<EditText>(R.id.new_address_complement_input)
+        val name = view.findViewById<EditText>(R.id.address_register_name_input)
+        val city = view.findViewById<EditText>(R.id.address_register_city_input)
+        val street = view.findViewById<EditText>(R.id.address_register_street_input)
+        val number = view.findViewById<EditText>(R.id.address_register_number_input)
+        val postalCode = view.findViewById<EditText>(R.id.address_register_postal_code_input)
+        val complement = view.findViewById<EditText>(R.id.address_register_complement_input)
 
         val address = AddressDto(
             null,
