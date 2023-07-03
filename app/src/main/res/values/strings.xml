@@ -107,6 +107,7 @@
     <string name="t_login">Login</string>
     <string name="t_name">Name</string>
     <string name="t_new_address">New address</string>
+    <string name="t_new_delivery_option">New delivery option</string>
     <string name="t_no">No</string>
     <string name="t_notifications">Notifications</string>
     <string name="t_number">Number</string>

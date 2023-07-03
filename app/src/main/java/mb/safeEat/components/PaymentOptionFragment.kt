@@ -18,9 +18,9 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
+// TODO: Rename to plural
 class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment(),
     PaymentListener, Alertable {
-
     private lateinit var items: RecyclerView
 
     override fun onCreateView(

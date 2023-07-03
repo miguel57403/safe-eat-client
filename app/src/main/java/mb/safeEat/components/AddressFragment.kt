@@ -18,6 +18,7 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
+// TODO: Rename to plural
 class AddressFragment(private val navigation: NavigationListener) : Fragment(), AddressListener,
     Alertable {
     private lateinit var items: RecyclerView
