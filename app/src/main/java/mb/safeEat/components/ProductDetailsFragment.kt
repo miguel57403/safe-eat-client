@@ -24,7 +24,12 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Ingredient
 
-class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+data class ProductDetailsParams(val productId: String)
+
+class ProductDetailsFragment(
+    private val navigation: NavigationListener,
+    private val params: ProductDetailsParams,
+) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -69,15 +74,14 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun loadInitialData(view: View) {
-        // TODO: Remove hardcode
-        val productId = "649f54ad6665ea2c2dede4ee"
-
-        loadProductData(view, productId)
-        loadIngredientsData(view, productId)
+        loadProductData(view)
+        loadIngredientsData(view)
     }
 
-    private fun loadProductData(view: View, productId: String) {
-        suspendToLiveData { api.products.findById(productId) }.observe(viewLifecycleOwner) { result ->
+    private fun loadProductData(view: View) {
+        suspendToLiveData {
+            api.products.findById(params.productId)
+        }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { product ->
                 val name = view.findViewById<TextView>(R.id.product_details_content_card_title)
                 val price = view.findViewById<TextView>(R.id.product_details_content_card_price)
@@ -91,8 +95,10 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         }
     }
 
-    private fun loadIngredientsData(view: View, productId: String) {
-        suspendToLiveData { api.ingredients.findByAllProduct(productId) }.observe(viewLifecycleOwner) { result ->
+    private fun loadIngredientsData(view: View) {
+        suspendToLiveData {
+            api.ingredients.findByAllProduct(params.productId)
+        }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { ingredients ->
                 val initData = mapInitialData(ingredients)
                 (items.adapter as ProductDetailAdapter).loadInitialData(initData)

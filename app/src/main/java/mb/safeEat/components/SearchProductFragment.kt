@@ -66,8 +66,8 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
         suspendToLiveData {
             api.products.findAllByRestaurant(restaurantId)
         }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { searchProduct ->
-                val initialData = mapInitialData(searchProduct)
+            result.fold(onSuccess = { products ->
+                val initialData = mapInitialData(products)
                 (items.adapter as SearchProductAdapter).loadInitialData(initialData)
             }, onFailure = {
                 alertThrowable(it)
@@ -75,9 +75,10 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
         }
     }
 
-    private fun mapInitialData(searchProduct: List<Product>): ArrayList<SearchProduct> {
-        return searchProduct.map {
+    private fun mapInitialData(products: List<Product>): ArrayList<SearchProduct> {
+        return products.map {
             SearchProduct(
+                id = it.id!!,
                 imageUrl = it.image!!,
                 name = it.name!!,
                 price = formatPrice("€", it.price),
@@ -87,9 +88,9 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
 
     private fun createList(): ArrayList<SearchProduct> {
         return arrayListOf(
-            SearchProduct("", "Product Name 1", "€2,99"),
-            SearchProduct("", "Product Name 2", "€2,99"),
-            SearchProduct("", "Product Name 3", "€2,99")
+            SearchProduct("", "", "Product Name 2", "€2,99"),
+            SearchProduct("", "", "Product Name 1", "€2,99"),
+            SearchProduct("", "", "Product Name 3", "€2,99")
         )
     }
 
@@ -125,20 +126,24 @@ class SearchProductAdapter(private val navigation: NavigationListener) :
         private val name = itemView.findViewById<TextView>(R.id.search_product_item_product)
         private val price = itemView.findViewById<TextView>(R.id.search_product_item_price)
 
-        fun bind(product: SearchProduct) {
-            name.text = product.name
-            price.text = product.price
+        fun bind(item: SearchProduct) {
+            name.text = item.name
+            price.text = item.price
             Glide.with(itemView) //
-                .load(product.imageUrl) //
+                .load(item.imageUrl) //
                 .apply(RequestOptions().centerCrop()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
-            container.setOnClickListener { navigation.navigateTo(ProductDetailsFragment(navigation)) }
+            container.setOnClickListener {
+                val params = ProductDetailsParams(item.id)
+                navigation.navigateTo(ProductDetailsFragment(navigation, params))
+            }
         }
     }
 }
 
 data class SearchProduct(
+    val id: String,
     val imageUrl: String,
     val name: String,
     val price: String,

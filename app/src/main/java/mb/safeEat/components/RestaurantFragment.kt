@@ -93,23 +93,23 @@ class RestaurantFragment(
         return arrayListOf(
             RestaurantCategory(
                 "Pizza", arrayListOf(
-                    RestaurantProduct(R.drawable.pizza, "Moda da casa", "€2,99", true),
-                    RestaurantProduct(R.drawable.pizza, "Presunto e Queijo", "€2,99", false),
-                    RestaurantProduct(R.drawable.pizza, "Marguerita", "€2,99", false),
-                    RestaurantProduct(R.drawable.pizza, "Frango com Catupiri", "€2,99", false),
+                    RestaurantProduct("", "", "Moda da casa", "€2,99", true),
+                    RestaurantProduct("", "", "Presunto e Queijo", "€2,99", false),
+                    RestaurantProduct("", "", "Marguerita", "€2,99", false),
+                    RestaurantProduct("", "", "Frango com Catupiri", "€2,99", false),
                 )
             ), RestaurantCategory(
                 "Sandwich", arrayListOf(
-                    RestaurantProduct(R.drawable.sandwich, "Misto Quente", "€2,99", false),
-                    RestaurantProduct(R.drawable.sandwich, "X-Tudo", "€2,99", true),
-                    RestaurantProduct(R.drawable.sandwich, "X-Salada", "€2,99", false),
-                    RestaurantProduct(R.drawable.sandwich, "X-Bacon", "€2,99", false),
+                    RestaurantProduct("", "", "Misto Quente", "€2,99", false),
+                    RestaurantProduct("", "", "X-Tudo", "€2,99", true),
+                    RestaurantProduct("", "", "X-Salada", "€2,99", false),
+                    RestaurantProduct("", "", "X-Bacon", "€2,99", false),
                 )
             ), RestaurantCategory(
                 "Drinks", arrayListOf(
-                    RestaurantProduct(R.drawable.drinks, "Coca-Cola", "€2,99", false),
-                    RestaurantProduct(R.drawable.drinks, "Sprite", "€2,99", true),
-                    RestaurantProduct(R.drawable.drinks, "Cerveja", "€2,99", false),
+                    RestaurantProduct("", "", "Coca-Cola", "€2,99", false),
+                    RestaurantProduct("", "", "Sprite", "€2,99", true),
+                    RestaurantProduct("", "", "Cerveja", "€2,99", false),
                 )
             )
         )
@@ -182,8 +182,6 @@ class RestaurantProductAdapter(
         fun bind(item: RestaurantProduct) {
             product.text = item.name
             price.text = item.price
-            image.setImageResource(item.imageId)
-
             if (item.restricted) {
                 warning.visibility = ImageView.VISIBLE
                 container.strokeColor = ContextCompat.getColor(itemView.context, R.color.red_500)
@@ -194,7 +192,15 @@ class RestaurantProductAdapter(
                     ContextCompat.getColor(itemView.context, android.R.color.transparent)
                 container.strokeWidth = dp2px(itemView.context, 0f).toInt()
             }
-            container.setOnClickListener { navigation.navigateTo(ProductDetailsFragment(navigation)) }
+            container.setOnClickListener {
+                val params = ProductDetailsParams(item.id)
+                navigation.navigateTo(ProductDetailsFragment(navigation, params))
+            }
+
+            Glide.with(itemView) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions.centerCropTransform()) //
+                .into(image)
         }
     }
 }
@@ -206,7 +212,8 @@ fun dp2px(context: Context, dp: Float): Float {
 }
 
 data class RestaurantProduct(
-    val imageId: Int,
+    val id: String,
+    val imageUrl: String,
     val name: String,
     val price: String,
     val restricted: Boolean,

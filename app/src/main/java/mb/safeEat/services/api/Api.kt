@@ -6,7 +6,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-// TODO: Update all endpoints
 class Api {
     val auth: AuthEndpoint = jsonApi(config.baseUrl).create(AuthEndpoint::class.java)
     val addresses: AddressEndpoint = jsonApi(config.baseUrl).create(AddressEndpoint::class.java)
