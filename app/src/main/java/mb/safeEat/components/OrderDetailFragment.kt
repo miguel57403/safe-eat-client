@@ -24,11 +24,7 @@ import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.*
-import mb.safeEat.services.api.models.Address
-import mb.safeEat.services.api.models.Category
 import mb.safeEat.services.api.models.Order
-import mb.safeEat.services.api.models.Restaurant
-import mb.safeEat.services.state.state
 
 data class OrderDetailParams(
     val status: OrderStatus,
@@ -37,7 +33,8 @@ data class OrderDetailParams(
 )
 
 class OrderDetailFragment(
-    private val navigation: NavigationListener, private val params: OrderDetailParams
+    private val navigation: NavigationListener,
+    private val params: OrderDetailParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
@@ -65,57 +62,58 @@ class OrderDetailFragment(
         items.adapter = OrderDetailAdapter()
     }
 
-    private fun mapInitialData( listOrderItem: List<Item>): ArrayList<OrderItem> {
-        return listOrderItem.map {orderItem ->
+    private fun loadInitialData(view: View) {
+        val orderId = "649ff0626e2e372aacc2638e"
+
+        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { order ->
+                updateUi(view, order)
+                val initialData = mapInitialData(order.items!!)
+                (items.adapter as OrderDetailAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun updateUi(view: View, order: Order) {
+        val image = view.findViewById<ImageView>(R.id.order_detail_restaurant_image)
+        val restaurant = view.findViewById<TextView>(R.id.order_detail_restaurant_name)
+        val date = view.findViewById<TextView>(R.id.order_detail_date)
+        val status = view.findViewById<TextView>(R.id.order_detail_status)
+        val progressBar = view.findViewById<ProgressBar>(R.id.order_detail_progress_bar)
+        val buttonFeedback = view.findViewById<Button>(R.id.order_detail_button_feedback)
+        val subTotal = view.findViewById<TextView>(R.id.order_detail_products_count)
+        val total = view.findViewById<TextView>(R.id.order_detail_products_price)
+
+        // TODO: Create a function to format the price
+        subTotal.text = DecimalFormat("€ 0.00").format(order.subtotal)
+        total.text = DecimalFormat("€ 0.00").format(order.total)
+        image.setImageResource(R.drawable.restaurant)
+        restaurant.text = order.restaurant?.name ?: ""
+        date.text = TimeAgo.parse(order.time!!).toString()
+        status.text = params.status.toResourceString(view.context)
+        progressBar.progressDrawable.setTint(
+            ContextCompat.getColor(view.context, params.status.toResourceColor())
+        )
+        progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
+        progressBar.progress = params.status.toProgress()
+        if (params.status == OrderStatus.DELIVERED) {
+            buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
+            buttonFeedback.visibility = View.VISIBLE
+        } else {
+            buttonFeedback.visibility = View.GONE
+        }
+    }
+
+    private fun mapInitialData(listOrderItem: List<Item>): ArrayList<OrderItem> {
+        return listOrderItem.map { orderItem ->
             OrderItem(
                 quantity = orderItem.quantity ?: 0,
                 product = orderItem.product?.name ?: "",
                 price = DecimalFormat("€ 0.00").format(orderItem.product?.price)
             )
         }.toCollection(ArrayList())
-    }
-
-    private fun loadInitialData(view: View) {
-        val orderId = "649ff0626e2e372aacc2638e"
-
-        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { order ->
-                val initialData = mapInitialData(order.items!!)
-                val subtotal = order.subtotal
-                (items.adapter as OrderDetailAdapter).loadInitialData(initialData)
-
-                val image = view.findViewById<ImageView>(R.id.order_detail_restaurant_image)
-                val restaurant = view.findViewById<TextView>(R.id.order_detail_restaurant_name)
-                val date = view.findViewById<TextView>(R.id.order_detail_date)
-                val status = view.findViewById<TextView>(R.id.order_detail_status)
-                val progressBar = view.findViewById<ProgressBar>(R.id.order_detail_progress_bar)
-                val buttonFeedback = view.findViewById<Button>(R.id.order_detail_button_feedback)
-                val subTotal = view.findViewById<TextView>(R.id.order_detail_products_count)
-                val total = view.findViewById<TextView>(R.id.order_detail_products_price)
-
-
-                subTotal.text = DecimalFormat("€ 0.00").format(order.subtotal)
-                total.text = DecimalFormat("€ 0.00").format(order.total)
-                image.setImageResource(R.drawable.restaurant)
-                restaurant.text = order.restaurant?.name ?: ""
-                date.text = TimeAgo.parse(order.time!!).toString()
-                status.text = params.status.toResourceString(view.context)
-                progressBar.progressDrawable.setTint(
-                    ContextCompat.getColor(view.context, params.status.toResourceColor())
-                )
-                progressBar.progressDrawable.setTintMode(PorterDuff.Mode.DARKEN)
-                progressBar.progress = params.status.toProgress()
-                if (params.status == OrderStatus.DELIVERED) {
-                    buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
-                    buttonFeedback.visibility = View.VISIBLE
-                } else {
-                    buttonFeedback.visibility = View.GONE
-                }
-
-            }, onFailure = {
-                alertThrowable(it)
-            })
-        }
     }
 
     private fun createList(): ArrayList<OrderItem> {
