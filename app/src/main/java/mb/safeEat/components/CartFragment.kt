@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.formatPrice
+import mb.safeEat.functions.hideNoData
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.state.state
@@ -48,17 +48,23 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     }
 
     private fun loadInitialData(view: View) {
+        val products = view.findViewById<TextView>(R.id.cart_products_value)
+        val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
+
         suspendToLiveData { api.orders.findDraft() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { draft ->
-                val products = view.findViewById<TextView>(R.id.cart_products_value)
-                val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
-
                 products.text = draft.quantity.toString()
                 subtotal.text = formatPrice("€", draft.subtotal)
 
                 // TODO: load data from api
                 (items.adapter as CartAdapter).loadInitialData(createList())
+
+                if (draft.quantity!! > 0) {
+                    hideNoData(view)
+                }
             }, onFailure = {
+                products.text = "0"
+                subtotal.text = formatPrice("€", 0.0)
                 alertThrowable(it)
             })
         }

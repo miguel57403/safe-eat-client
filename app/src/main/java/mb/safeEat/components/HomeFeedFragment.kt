@@ -18,6 +18,7 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.formatScore
+import mb.safeEat.functions.hideNoData
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Home
@@ -133,11 +134,6 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
             ),
             HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", "")),
         )
-    }
-
-    private fun hideNoData(view: View) {
-        val noData = view.findViewById<ConstraintLayout>(R.id.no_data_layout)
-        noData.visibility = View.GONE
     }
 }
 

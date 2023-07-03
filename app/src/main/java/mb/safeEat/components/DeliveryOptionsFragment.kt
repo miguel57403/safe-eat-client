@@ -37,7 +37,6 @@ class DeliveryOptionsFragment(
         loadInitialData()
     }
 
-
     private fun initHeader(view: View) {
         val title = view.findViewById<TextView>(R.id.header_title)
         val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
