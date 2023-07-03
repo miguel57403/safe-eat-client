@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.dialogs
 
 import android.content.DialogInterface
 import android.os.Bundle

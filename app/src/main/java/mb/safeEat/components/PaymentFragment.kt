@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.dialogs.OrderCompletedDialog
 import mb.safeEat.extensions.Alertable
 
 class PaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {

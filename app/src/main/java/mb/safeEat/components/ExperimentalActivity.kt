@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import mb.safeEat.R
+import mb.safeEat.dialogs.OrderCompletedDialog
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.dto.LoginDto
 import mb.safeEat.services.api.api

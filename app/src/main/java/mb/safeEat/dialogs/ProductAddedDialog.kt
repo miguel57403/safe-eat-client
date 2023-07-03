@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
