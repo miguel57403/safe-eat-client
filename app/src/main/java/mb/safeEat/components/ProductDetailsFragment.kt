@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Ingredient
-import mb.safeEat.services.api.models.Product
 
 class ProductDetailsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
@@ -37,9 +35,7 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         initHeader(view)
         initAdapter(view)
         initScreenEvents(view)
-        changeVisiblityAlert(view, false)
-        // Insert a valid ID and remove the static ID
-        loadInitialData(view,"649f54ad6665ea2c2dede4ee")
+        loadInitialData(view)
     }
 
     private fun initHeader(view: View) {
@@ -71,51 +67,54 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
         }
     }
 
-    private fun initDataProduct(view: View, idProduct:String) {
-        suspendToLiveData {
-            api.products.findById(idProduct)
-        }.observe(viewLifecycleOwner){result ->
-            result.fold(onSuccess = {product ->
-                val productName = view.findViewById<TextView>(R.id.product_details_content_card_title)
-                productName.text = product.name!!
-                val productPrice =
-                    view.findViewById<TextView>(R.id.product_details_content_card_price)
-                productPrice.text = product.price.toString()
+    private fun loadInitialData(view: View) {
+        // TODO: Remove hardcode
+        val productId = "649f54ad6665ea2c2dede4ee"
+
+        loadProductData(view, productId)
+        loadIngredientsData(view, productId)
+    }
+
+    private fun loadProductData(view: View, productId: String) {
+        suspendToLiveData { api.products.findById(productId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { product ->
+                val name = view.findViewById<TextView>(R.id.product_details_content_card_title)
+                val price = view.findViewById<TextView>(R.id.product_details_content_card_price)
+
+                name.text = product.name!!
+                price.text = product.price.toString()
+
             }, onFailure = {
                 alertThrowable(it)
             })
         }
     }
 
-    private fun changeVisiblityAlert(view: View, isVisible: Boolean){
-        view.findViewById<MaterialCardView>(R.id.product_details_content_alert).isVisible = isVisible
-    }
-
-    private fun verifyRestrictions(view: View, restrictionsProduct: List<Ingredient>) {
-        if (restrictionsProduct.any { it.isRestricted!! }){
-            changeVisiblityAlert(view, true)
-        }
-    }
-
-    private fun loadInitialData(view: View, idProduct: String) {
-        initDataProduct(view, idProduct)
-        suspendToLiveData {
-            api.ingredients.findByAllProduct(idProduct)
-        }.observe(viewLifecycleOwner) { result ->
+    private fun loadIngredientsData(view: View, productId: String) {
+        suspendToLiveData { api.ingredients.findByAllProduct(productId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { ingredients ->
-                val initData = getItemIngredient(ingredients)
-                verifyRestrictions(view, ingredients)
+                val initData = mapInitialData(ingredients)
                 (items.adapter as ProductDetailAdapter).loadInitialData(initData)
+
+                val alert = view.findViewById<MaterialCardView>(R.id.product_details_content_alert)
+                alert.isVisible = ingredients.any { it.isRestricted!! }
             }, onFailure = {
                 alertThrowable(it)
             })
         }
     }
 
-    private fun getItemIngredient(ingredients: List<mb.safeEat.services.api.models.Ingredient>): ArrayList<ProductDetail>{
-        return ingredients.map{ingredient ->
+    private fun mapInitialData(ingredients: List<Ingredient>): ArrayList<ProductDetail> {
+        return ingredients.map { ingredient ->
             ProductDetail(ingredient.name!!, ingredient.isRestricted!!)
         }.toCollection(ArrayList())
+    }
+
+    private fun createList(): java.util.ArrayList<ProductDetail> {
+        return arrayListOf(
+            ProductDetail("Carne moida bovina", false),
+            ProductDetail("Pimenta", true),
+        )
     }
 }
 
