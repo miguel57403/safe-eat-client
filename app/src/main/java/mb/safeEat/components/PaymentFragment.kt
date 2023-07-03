@@ -11,9 +11,15 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.dialogs.OrderCompletedDialog
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.dto.OrderDraftDto
 
 class PaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
-//    private var orderDraft: OrderDraft? = null
+    private var orderDraft: OrderDraftDto? = null
+
+    private fun isNotEmpty() = orderDraft != null
+    private fun isEmpty() = orderDraft == null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,7 +40,25 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
+        suspendToLiveData {
+            val isEmpty = api.carts.isEmpty()
+            if (isEmpty) {
+                null
+            } else {
+                api.orders.findDraft()
+            }
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { orderDraft ->
+                this.orderDraft = orderDraft
+                if (isEmpty()) {
+                    alertInfo(resources.getString(R.string.t_cart_is_empty))
+                } else {
+                    // TODO: Feed data to screen
+                }
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
     }
 
     private fun initScreenEvents(view: View) {
@@ -45,22 +69,46 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         val submitButton = view.findViewById<Button>(R.id.payment_button_submit)
 
         addressButton.setOnClickListener {
+            // TODO: Create params
             navigation.navigateTo(AddressesFragment(navigation))
         }
         deliveryOptionButton.setOnClickListener {
-            // TODO: Feed params
-            val params = DeliveryOptionsParams(arrayListOf())
-            navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
+            if (isNotEmpty()) {
+                val params = DeliveryOptionsParams(getDeliveryOptions())
+                navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
+            }
         }
         paymentKindButton.setOnClickListener {
+            // TODO: Create params
             navigation.navigateTo(PaymentOptionsFragment(navigation))
         }
         submitButton.setOnClickListener {
-            val dialog = OrderCompletedDialog()
-            dialog.setOnDismissListener {
-                navigation.navigateTo(NotificationsFragment(navigation))
+            if (isNotEmpty()) {
+                val dialog = OrderCompletedDialog()
+                dialog.setOnDismissListener {
+                    navigation.navigateTo(NotificationsFragment(navigation))
+                }
+                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
             }
-            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
         }
+    }
+
+    private fun getDeliveryOptions(): ArrayList<DeliveryOption> {
+        return orderDraft!!.deliveries!!.map {
+            DeliveryOption(
+                id = it.id!!,
+                name = it.name!!,
+                isSelected = it.id == orderDraft!!.deliveryId
+            )
+        }.toCollection(ArrayList())
+    }
+
+
+    private fun createDeliveryOptions(): ArrayList<DeliveryOption> {
+        return arrayListOf(
+            DeliveryOption("t", "Takeout", true),
+            DeliveryOption("e", "Economy", false),
+            DeliveryOption("x", "Express", false),
+        )
     }
 }

@@ -22,7 +22,6 @@ data class DeliveryOptionsParams(
 
 class DeliveryOptionsFragment(
     private val navigation: NavigationListener,
-    // TODO: Use deliveryOptions params
     private val params: DeliveryOptionsParams,
 ) : Fragment(), DeliveryOptionsListener, Alertable {
     private lateinit var items: RecyclerView
@@ -54,16 +53,7 @@ class DeliveryOptionsFragment(
     }
 
     private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as DeliveryOptionsAdapter).loadInitialData(createList())
-    }
-
-    private fun createList(): ArrayList<DeliveryOption> {
-        return arrayListOf(
-            DeliveryOption("t", "Takeout", true),
-            DeliveryOption("e", "Economy", false),
-            DeliveryOption("x", "Express", false),
-        )
+        (items.adapter as DeliveryOptionsAdapter).loadInitialData(params.deliveryOptions)
     }
 
     override fun onDeliveryOptionSelected(item: DeliveryOption) {

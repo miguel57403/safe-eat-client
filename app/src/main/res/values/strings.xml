@@ -85,6 +85,7 @@
     <string name="t_advertisement">Advertisement</string>
     <string name="t_cancel">Cancel</string>
     <string name="t_cart">Cart</string>
+    <string name="t_cart_is_empty">Your cart is empty</string>
     <string name="t_categories">Categories</string>
     <string name="t_cellphone">Cellphone</string>
     <string name="t_change_photo">Change Photo</string>
