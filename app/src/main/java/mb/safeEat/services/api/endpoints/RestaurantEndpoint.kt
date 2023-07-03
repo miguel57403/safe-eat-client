@@ -11,7 +11,7 @@ sealed interface RestaurantEndpoint {
     @GET("/restaurants/{id}")
     suspend fun findById(@Path("id") id: String): Restaurant
 
-    @GET("/restaurants/productCategory/{categoryId}")
+    @GET("/restaurants/category/{categoryId}")
     suspend fun findAllByCategory(@Path("categoryId") categoryId: String): List<Restaurant>
 
     @GET("/restaurants/owner/{userId}")

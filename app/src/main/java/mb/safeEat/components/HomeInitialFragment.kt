@@ -63,7 +63,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                     HomeItem.createAdvertisement(
                         HomeAdvertisement(
                             it.advertisement.title ?: "#ERROR#",
-                            it.advertisement.image ?: "https://placehold.co/600x400",
+                            it.advertisement.image ?: "",
                         )
                     )
                 } else if (it.restaurantSection != null) {
@@ -73,7 +73,7 @@ class HomeInitialFragment(private val navigation: NavigationListener) : Fragment
                                 Restaurant(
                                     id = restaurant.id!!,
                                     name = restaurant.name!!,
-                                    imageUrl = restaurant.logo!!,
+                                    imageUrl = restaurant.logo ?: "",
                                     // TODO: Remove score
                                     score = 4.0f,
                                     deliveryPrice = restaurant.formattedDeliveryPrice("€"),
