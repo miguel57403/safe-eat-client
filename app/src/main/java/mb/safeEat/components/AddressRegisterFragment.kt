@@ -20,6 +20,7 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.AddressDto
 
+// TODO: Use Material UI inputs
 class AddressRegisterFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var loading = false
 
@@ -49,10 +50,9 @@ class AddressRegisterFragment(private val navigation: NavigationListener) : Frag
     }
 
     private fun doCreate(button: Button, view: View) {
-        loading = true
-        button.isEnabled = false
-        alertInfo("Creating...")
+        if (loading) return
 
+        // TODO: Remove name property from address
         val name = view.findViewById<EditText>(R.id.new_address_name_input)
         val city = view.findViewById<EditText>(R.id.new_address_city_input)
         val street = view.findViewById<EditText>(R.id.new_address_street_input)
@@ -70,20 +70,21 @@ class AddressRegisterFragment(private val navigation: NavigationListener) : Frag
             postalCode.text.toString()
         )
 
-        suspendToLiveData {
-            api.addresses.create(address)
-        }.observe(viewLifecycleOwner) { result ->
+        loading = true
+        button.isEnabled = false
+        alertInfo("Loading...")
+        suspendToLiveData { api.addresses.create(address) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = {
                 alertSuccess("Address created!")
                 lifecycleScope.launch {
                     delay(1500)
+                    button.isEnabled = true
+                    loading = false
                     navigation.onBackPressed()
                 }
             }, onFailure = {
                 alertThrowable(it)
             })
-            button.isEnabled = true
-            loading = false
         }
     }
 

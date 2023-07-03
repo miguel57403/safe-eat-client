@@ -39,7 +39,8 @@ class LoginActivity : AppCompatActivity(), Alertable {
     }
 
     private fun initScreenEvents() {
-        val withoutAccountContainer = findViewById<ConstraintLayout>(R.id.login_material_without_account_container)
+        val withoutAccountContainer =
+            findViewById<ConstraintLayout>(R.id.login_material_without_account_container)
         val loginButton = findViewById<Button>(R.id.login_material_submit)
 
         withoutAccountContainer.setOnClickListener { navigateToRegister() }
