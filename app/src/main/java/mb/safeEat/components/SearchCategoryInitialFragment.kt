@@ -42,7 +42,7 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
     private fun loadInitialData() {
         suspendToLiveData { api.categories.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { categories ->
-                val initialData = getItemList(categories)
+                val initialData = mapInitialData(categories)
                 (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
             }, onFailure = {
                 alertThrowable(it)
@@ -50,13 +50,12 @@ class SearchCategoryInitialFragment(private val navigation: NavigationListener) 
         }
     }
 
-    // TODO: Change the mapper name to a standard name
-    private fun getItemList(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
+    private fun mapInitialData(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
         return categories.map { category ->
             Category(
-                category.id!!,
-                category.name!!,
-                category.image ?: "https://placehold.co/600x400?text=${category.name}",
+                id = category.id!!,
+                name = category.name!!,
+                imageUrl = category.image ?: "",
             )
         }.toCollection(ArrayList())
     }
@@ -96,8 +95,11 @@ class SearchCategoryAdapter(
                 .apply(RequestOptions().centerCrop()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
-            val params = RestaurantParams(category.id)
-            container.setOnClickListener { navigation.navigateTo(SearchRestaurantFragment(navigation,params)) }
+
+            container.setOnClickListener {
+                val params = RestaurantParams(category.id)
+                navigation.navigateTo(SearchRestaurantFragment(navigation, params))
+            }
         }
     }
 }
