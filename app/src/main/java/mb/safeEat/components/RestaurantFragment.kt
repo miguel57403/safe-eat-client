@@ -22,7 +22,7 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-data class RestaurantParams(val id: String)
+data class RestaurantParams(val categoryId: String)
 
 class RestaurantFragment(
     private val navigation: NavigationListener,
@@ -55,7 +55,7 @@ class RestaurantFragment(
         backButton.setOnClickListener { navigation.onBackPressed() }
 
         suspendToLiveData {
-            api.restaurants.findById(params.id)
+            api.restaurants.findById(params.categoryId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurant ->
                 restaurantName.text = restaurant.name
