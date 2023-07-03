@@ -71,12 +71,12 @@ class AddressesFragment(private val navigation: NavigationListener) : Fragment()
     }
 
     override fun onAddressSelected(address: Address) {
-        // TODO: Implement this
+        // TODO: Implement onAddressSelected
         Log.d("Click", "Address Clicked Selected")
     }
 
     override fun onAddressEdit(address: Address) {
-        // TODO: Implement this
+        // TODO: Implement onAddressEdit
         Log.d("Click", "Address Clicked Edit")
     }
 }

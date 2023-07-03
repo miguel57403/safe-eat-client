@@ -77,12 +77,12 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
     }
 
     override fun onPaymentSelected(payment: Payment) {
-        // TODO: Implement this
+        // TODO: Implement onPaymentSelected
         Log.d("Click", "Payment Clicked Selected")
     }
 
     override fun onPaymentEdit(payment: Payment) {
-        // TODO: Implement this
+        // TODO: Implement onPaymentEdit
         Log.d("Click", "Payment Clicked Edit")
     }
 }

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -23,6 +22,7 @@ data class DeliveryOptionsParams(
 
 class DeliveryOptionsFragment(
     private val navigation: NavigationListener,
+    // TODO: Use deliveryOptions params
     private val params: DeliveryOptionsParams,
 ) : Fragment(), DeliveryOptionsListener, Alertable {
     private lateinit var items: RecyclerView
@@ -35,7 +35,6 @@ class DeliveryOptionsFragment(
         super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         initAdapter(view)
-        initScreenEvents(view)
         loadInitialData()
     }
 
@@ -54,14 +53,6 @@ class DeliveryOptionsFragment(
         items.adapter = DeliveryOptionsAdapter(this)
     }
 
-    private fun initScreenEvents(view: View) {
-        val button = view.findViewById<Button>(R.id.delivery_options_submit)
-        button.setOnClickListener {
-            // TODO: Implement this
-            Log.d("Click", "Submit")
-        }
-    }
-
     private fun loadInitialData() {
         // TODO: load data from API
         (items.adapter as DeliveryOptionsAdapter).loadInitialData(createList())
@@ -75,14 +66,14 @@ class DeliveryOptionsFragment(
         )
     }
 
-    override fun onSelect(item: DeliveryOption) {
-        // TODO: Implement this
+    override fun onDeliveryOptionSelected(item: DeliveryOption) {
+        // TODO: Implement onDeliveryOptionSelected
         Log.d("Click", "Selected")
     }
 }
 
 interface DeliveryOptionsListener {
-    fun onSelect(item: DeliveryOption)
+    fun onDeliveryOptionSelected(item: DeliveryOption)
 }
 
 class DeliveryOptionsAdapter(private val listener: DeliveryOptionsListener) :
@@ -113,7 +104,7 @@ class DeliveryOptionsAdapter(private val listener: DeliveryOptionsListener) :
 
         fun bind(item: DeliveryOption) {
             text.text = item.name
-            container.setOnClickListener { listener.onSelect(item) }
+            container.setOnClickListener { listener.onDeliveryOptionSelected(item) }
             if (!item.isSelected) {
                 icon.imageTintList = ContextCompat.getColorStateList(itemView.context, android.R.color.transparent)
             }
