@@ -189,4 +189,5 @@ data class Product(
     fun getTotalPrice(): Float = amount * price
 }
 
+// TODO: Remove this
 fun formatPrice(price: Float): String = DecimalFormat("#.##").format(price)

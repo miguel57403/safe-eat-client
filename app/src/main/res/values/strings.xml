@@ -15,6 +15,7 @@
     <string name="d_icon_edit">Icon edit</string>
     <string name="d_icon_front_hand">Icon front hand</string>
     <string name="d_icon_for_address">Icon for Address</string>
+    <string name="d_icon_for_payment">Icon for Payment</string>
     <string name="d_icon_home">Icon home</string>
     <string name="d_icon_location">Icon location</string>
     <string name="d_icon_lunch">Icon lunch</string>
@@ -54,6 +55,7 @@
     <string name="k_location">[Location]</string>
     <string name="k_order_item_products_count">[0]</string>
     <string name="k_order_status">Your order has [status]</string>
+    <string name="k_payment_name">[Payment Name]</string>
     <string name="k_payment_products_count">[0]</string>
     <string name="k_price">[€0,00]</string>
     <string name="k_product">[Product]</string>
@@ -72,12 +74,13 @@
     <string name="m_feedback">Give a feedback</string>
     <string name="m_product_added">Your product has been added to the cart!</string>
     <string name="m_restriction_alert">Your order has product marked as restricted. Do you want to continue?</string>
-    <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
+    <string name="m_warning_message">Ingredient(s) matching with restrictions</string>
     <string name="m_with_account">Already have an account?</string>
     <string name="m_without_account">Don\'t have an account?</string>
     <string name="r_x_times">x</string>
     <string name="t_about">About us</string>
     <string name="t_add_to_cart">Add to Cart</string>
+    <string name="t_add_payment">Add Payment Method</string>
     <string name="t_address">Address</string>
     <string name="t_advertisement">Advertisement</string>
     <string name="t_cancel">Cancel</string>
@@ -91,6 +94,8 @@
     <string name="t_continue">Continue</string>
     <string name="t_ddd">DDD</string>
     <string name="t_delivered">Delivered</string>
+    <string name="t_registered">Registered</string>
+    <string name="t_canceled">Canceled</string>
     <string name="t_delivery_option">Delivery Option</string>
     <string name="t_edit_allergies">Edit Allergies</string>
     <string name="t_edit_profile">Edit Profile</string>
@@ -132,4 +137,5 @@
     <string name="t_transporting">Transporting</string>
     <string name="t_user">User</string>
     <string name="t_yes">Yes</string>
+    <string name="t_city">City</string>
 </resources>

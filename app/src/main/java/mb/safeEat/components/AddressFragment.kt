@@ -19,7 +19,8 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
 // TODO: Rename to plural
-class AddressFragment(private val navigation: NavigationListener) : Fragment(), AddressListener, Alertable {
+class AddressFragment(private val navigation: NavigationListener) : Fragment(), AddressListener,
+    Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -98,7 +99,7 @@ class AddressAdapter(private val listener: AddressListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         listener,
-        LayoutInflater.from(parent.context).inflate(R.layout.item_address, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_address, parent, false),
     )
 
     override fun getItemCount(): Int = data.size
@@ -127,5 +128,5 @@ class AddressAdapter(private val listener: AddressListener) :
 
 data class Address(
     val text: String,
-    val default: Boolean
+    val default: Boolean,
 )
