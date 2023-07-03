@@ -3,7 +3,6 @@ package mb.safeEat.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
-import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.TimeAgo
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.*
@@ -82,10 +82,8 @@ class OrderDetailFragment(
 
         val orderStatus = OrderStatus.fromApi(order.status)
 
-        // TODO: Create a function to format the price
-        subTotal.text = DecimalFormat("€ 0.00").format(order.subtotal)
-        total.text = DecimalFormat("€ 0.00").format(order.total)
-        image.setImageResource(R.drawable.restaurant)
+        subTotal.text = formatPrice("€", order.subtotal)
+        total.text = formatPrice("€", order.total)
         restaurant.text = order.restaurant?.name ?: ""
         date.text = TimeAgo.parse(order.time!!).toString()
         status.text = orderStatus.toResourceString(view.context)
@@ -100,6 +98,8 @@ class OrderDetailFragment(
         } else {
             buttonFeedback.visibility = View.GONE
         }
+        // TODO: Use Glide to load image
+        image.setImageResource(R.drawable.restaurant)
     }
 
     private fun mapInitialData(listOrderItem: List<Item>): ArrayList<OrderItem> {
@@ -107,7 +107,7 @@ class OrderDetailFragment(
             OrderItem(
                 quantity = orderItem.quantity ?: 0,
                 product = orderItem.product?.name ?: "",
-                price = DecimalFormat("€ 0.00").format(orderItem.product?.price)
+                price = formatPrice("€", orderItem.product?.price)
             )
         }.toCollection(ArrayList())
     }

@@ -17,11 +17,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.formatScore
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Home
 import java.io.Serializable
-import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
 class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
@@ -75,7 +75,7 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
                                     name = restaurant.name!!,
                                     imageUrl = restaurant.logo ?: "",
                                     // TODO: Remove score
-                                    score = 4.0f,
+                                    score = 4.0,
                                     deliveryPrice = restaurant.formattedDeliveryPrice("€"),
                                     deliveryTime = restaurant.formattedDeliveryInterval(),
                                 )
@@ -89,47 +89,46 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
     }
 
     private fun createList(): ArrayList<HomeItem> {
-        val image = "https://placehold.co/600x400?text=Restaurant"
         return arrayListOf(
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Popular", arrayListOf(
-                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", "", 4.3, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", "", 5.0, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", "", 4.0, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", "", 3.9, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
-            HomeItem.createAdvertisement(HomeAdvertisement("Marmitas caseiras", image)),
+            HomeItem.createAdvertisement(HomeAdvertisement("Marmitas caseiras", "")),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Best prices", arrayListOf(
-                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", "", 3.9, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", "", 4.9, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", "", 4.0, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Lunch", arrayListOf(
-                        Restaurant(null, "Sabor Brasileiro", image, 4.3F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Gelados Maravilhosos", image, 5F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Galinha da vizinha", image, 3.9F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Sabor Brasileiro", "", 4.3, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Gelados Maravilhosos", "", 5.0, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Galinha da vizinha", "", 3.9, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", "", 4.9, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
             HomeItem.createRestaurantList(
                 HomeRestaurantList(
                     "Breakfast", arrayListOf(
-                        Restaurant(null, "Mimo's pizza", image, 4.9F, "€2,99", "20 - 30 min"),
-                        Restaurant(null, "Pingo Doce", image, 4F, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Mimo's pizza", "", 4.9, "€2,99", "20 - 30 min"),
+                        Restaurant(null, "Pingo Doce", "", 4.0, "€2,99", "20 - 30 min"),
                     )
                 )
             ),
-            HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", image)),
+            HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", "")),
         )
     }
 }
@@ -229,7 +228,7 @@ class HomeRestaurantAdapter(
                 .apply(RequestOptions.centerCropTransform()) //
                 .into(image)
             restaurant.text = item.name
-            score.text = DecimalFormat("0.0").format(item.score)
+            score.text = formatScore(item.score)
             container.setOnClickListener {
                 navigation.navigateTo(
                     RestaurantFragment(navigation, RestaurantParams("649f3335b743876fd72143b1"))
@@ -248,7 +247,7 @@ data class Restaurant(
     val id: String?,
     val name: String,
     val imageUrl: String,
-    val score: Float,
+    val score: Double,
     val deliveryPrice: String,
     val deliveryTime: String,
 ) : Serializable

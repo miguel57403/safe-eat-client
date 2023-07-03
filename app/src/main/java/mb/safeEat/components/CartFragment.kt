@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
 import mb.safeEat.dialogs.RestrictionAlertDialog
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.OrderDto
 import mb.safeEat.services.api.models.Cart
 import mb.safeEat.services.state.state
-import java.text.DecimalFormat
 import java.util.ArrayList
 
 class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
@@ -28,9 +28,9 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     private var orderDto = OrderDto()
 
     val data = arrayListOf(
-        Product(product = "Pizza acebolada", amount = 3, price = 14.99f, warn = true),
-        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99f, warn = false),
-        Product(product = "Pizza de achova", amount = 2, price = 2.99f, warn = false)
+        Product(product = "Pizza acebolada", amount = 3, price = 14.99, warn = true),
+        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99, warn = false),
+        Product(product = "Pizza de achova", amount = 2, price = 2.99, warn = false)
     )
 
     override fun onCreateView(
@@ -58,10 +58,10 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
 
         val priceUnit = "€"
         val hasWarnings = data.any { it.warn }
-        val totalPrice = data.sumOf { it.getTotalPrice().toDouble() }.toFloat()
+        val totalPrice = data.sumOf { it.getTotalPrice() }
 
         productsCount.text = data.size.toString()
-        productsPrice.text = priceUnit + formatPrice(totalPrice)
+        productsPrice.text = formatPrice(priceUnit, totalPrice)
 
         button.setOnClickListener {
             if (hasWarnings) {
@@ -179,16 +179,16 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
             }
             product.text = item.product
             quantity.text = item.amount.toString()
-            price.text = formatPrice(item.price)
+            price.text = formatPrice("€", item.price)
         }
     }
 }
 
 data class Product(
-    val product: String, val amount: Int, val price: Float, val warn: Boolean
+    val product: String,
+    val amount: Int,
+    val price: Double,
+    val warn: Boolean,
 ) {
-    fun getTotalPrice(): Float = amount * price
+    fun getTotalPrice(): Double = amount * price
 }
-
-// TODO: Remove this
-fun formatPrice(price: Float): String = DecimalFormat("#.##").format(price)

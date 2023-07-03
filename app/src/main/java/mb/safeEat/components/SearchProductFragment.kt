@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Product
@@ -77,9 +78,9 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
     private fun mapInitialData(searchProduct: List<Product>): ArrayList<SearchProduct> {
         return searchProduct.map {
             SearchProduct(
-                it.image!!,
-                it.name!!,
-                mb.safeEat.functions.formatPrice("€", it.price), // TODO: Rename to formatPrice
+                imageUrl = it.image!!,
+                name = it.name!!,
+                price = formatPrice("€", it.price),
             )
         }.toCollection(ArrayList())
     }

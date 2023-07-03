@@ -1,6 +1,6 @@
 package mb.safeEat.services.api.models
 
-import java.text.DecimalFormat
+import mb.safeEat.functions.formatPrice
 
 data class Restaurant(
     val id: String? = null,
@@ -20,7 +20,7 @@ data class Restaurant(
     fun formattedDeliveryPrice(unit: String): String {
         val price = deliveries?.get(0)?.price
         return if (price != null) {
-            unit + priceFormatter.format(price)
+            formatPrice(unit, price)
         } else {
             "[N/A]"
         }
@@ -38,4 +38,3 @@ data class Restaurant(
     }
 }
 
-val priceFormatter = DecimalFormat("#.00")
