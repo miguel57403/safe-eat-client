@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.TimeAgo
+import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.state.state
@@ -30,16 +30,9 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initHeader(view)
+        initHeader(view, navigation, R.string.t_orders)
         initAdapter(view)
         loadInitialData()
-    }
-
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = view.resources.getString(R.string.t_orders)
-        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initAdapter(view: View) {

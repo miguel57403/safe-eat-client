@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.initHeader
 
 data class DeliveryOptionsParams(
     val deliveryOptions: ArrayList<DeliveryOption>,
@@ -32,17 +33,9 @@ class DeliveryOptionsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initHeader(view)
+        initHeader(view, navigation, R.string.t_delivery_option)
         initAdapter(view)
         loadInitialData()
-    }
-
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-
-        title.text = resources.getString(R.string.t_delivery_option)
-        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initAdapter(view: View) {

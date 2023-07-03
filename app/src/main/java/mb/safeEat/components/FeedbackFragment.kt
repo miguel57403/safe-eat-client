@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.FeedbackDto
@@ -30,16 +30,9 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initHeader(view)
+        initHeader(view, navigation, R.string.t_feedback)
         initStars(view)
         initScreenEvents(view)
-    }
-
-    private fun initHeader(view: View) {
-        val title = view.findViewById<TextView>(R.id.header_title)
-        val backButton = view.findViewById<MaterialCardView>(R.id.header_back_button)
-        title.text = resources.getString(R.string.t_feedback)
-        backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun initStars(view: View) {
