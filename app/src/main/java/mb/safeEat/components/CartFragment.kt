@@ -13,25 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
-import mb.safeEat.dialogs.RestrictionAlertDialog
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
-import mb.safeEat.services.api.dto.OrderDto
-import mb.safeEat.services.api.models.Cart
-import mb.safeEat.services.state.state
 import java.util.ArrayList
 
 class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
-    private var orderDto = OrderDto()
-
-    val data = arrayListOf(
-        Product(product = "Pizza acebolada", amount = 3, price = 14.99, warn = true),
-        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99, warn = false),
-        Product(product = "Pizza de achova", amount = 2, price = 2.99, warn = false)
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,7 +30,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         initScreenEvents(view)
-        loadInitialData()
+        loadInitialData(view)
     }
 
     private fun initAdapter(view: View) {
@@ -52,100 +41,36 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
 
     @SuppressLint("SetTextI18n")
     private fun initScreenEvents(view: View) {
-        val productsCount = view.findViewById<TextView>(R.id.cart_products_count)
-        val productsPrice = view.findViewById<TextView>(R.id.cart_products_price)
         val button = view.findViewById<Button>(R.id.cart_button_submit)
-
-        val priceUnit = "€"
-        val hasWarnings = data.any { it.warn }
-        val totalPrice = data.sumOf { it.getTotalPrice() }
-
-        productsCount.text = data.size.toString()
-        productsPrice.text = formatPrice(priceUnit, totalPrice)
-
-        button.setOnClickListener {
-            if (hasWarnings) {
-                val dialog = RestrictionAlertDialog()
-                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-                dialog.setOnConfirmListener { confirm ->
-                    if (confirm) confirmCart()
-                }
-            } else {
-                confirmCart()
-            }
-        }
+        button.setOnClickListener { navigateToPayment() }
     }
 
-    private fun loadInitialData() {
-        // TODO: Load data from API
-        (items.adapter as CartAdapter).loadInitialData(data)
+    private fun loadInitialData(view: View) {
+        suspendToLiveData { api.orders.findDraft() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { draft ->
+                val products = view.findViewById<TextView>(R.id.cart_products_value)
+                val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
 
-        val userId = state.user.value?.id
-        if (userId != null) {
-            suspendToLiveData { api.carts.findByUser(userId) }.observe(viewLifecycleOwner) { result ->
-                result.fold(onSuccess = {
-                    loadDataByCart(it)
-                }, onFailure = {
-                    alertThrowable(it)
-                })
-            }
+                products.text = draft.quantity.toString()
+                subtotal.text = formatPrice("€", draft.subtotal)
 
-            suspendToLiveData { api.addresses.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
-                result.fold(onSuccess = {
-                    // TODO: Usar os endereços
-                }, onFailure = {
-                    alertThrowable(it)
-                })
-            }
-
-            suspendToLiveData { api.payments.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
-                result.fold(onSuccess = {
-                    // TODO: Usar os pagamentos
-                }, onFailure = {
-                    alertThrowable(it)
-                })
-            }
-        }
-    }
-
-    private fun loadDataByCart(cart: Cart) {
-        suspendToLiveData { api.items.findAllByCart(cart.id!!) }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = {
-                // TODO: Usar os items
+                // TODO: load data from api
+                (items.adapter as CartAdapter).loadInitialData(createList())
             }, onFailure = {
                 alertThrowable(it)
             })
         }
-
-        suspendToLiveData { api.restaurants.findByCart() }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = {
-                loadDataByRestaurant(it)
-            }, onFailure = {
-                alertThrowable(it)
-            })
-        }
-    }
-
-    private fun loadDataByRestaurant(restaurant: mb.safeEat.services.api.models.Restaurant) {
-        suspendToLiveData { api.deliveries.findByAllRestaurant(restaurant.id!!) }.observe(
-            viewLifecycleOwner
-        ) { result ->
-            result.fold(onSuccess = {
-                // TODO: Usar as entregas
-            }, onFailure = {
-                alertThrowable(it)
-            })
-        }
-    }
-
-    private fun confirmCart() {
-        //suspendToLiveData { api.orders.create(orderDto) }
-        navigateToPayment()
     }
 
     private fun navigateToPayment() {
         navigation.navigateTo(PaymentFragment(navigation))
     }
+
+    private fun createList() = arrayListOf(
+        Product(product = "Pizza acebolada", amount = 3, price = 14.99, warn = true),
+        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99, warn = false),
+        Product(product = "Pizza de achova", amount = 2, price = 2.99, warn = false)
+    )
 }
 
 class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {

@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/cart_products_name"
+            android:id="@+id/cart_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/t_products"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/cart_products_count"
+            android:id="@+id/cart_products_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/k_cart_products_count"
@@ -55,7 +55,7 @@
             android:background="@color/orange_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cart_products_name" />
+            app:layout_constraintTop_toBottomOf="@+id/cart_products" />
 
         <TextView
             android:id="@+id/cart_products_subtotal"
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/cart_products_divider" />
 
         <TextView
-            android:id="@+id/cart_products_price"
+            android:id="@+id/cart_products_subtotal_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -85,8 +85,8 @@
 
     <Button
         android:id="@+id/cart_button_submit"
-        android:layout_width="279dp"
-        android:layout_height="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/t_payment"
         app:layout_constraintBottom_toBottomOf="parent"
