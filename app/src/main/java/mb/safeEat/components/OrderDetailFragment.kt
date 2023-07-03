@@ -3,6 +3,7 @@ package mb.safeEat.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
+import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.TimeAgo
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
+import mb.safeEat.services.api.models.*
+import mb.safeEat.services.api.models.Order
 
 data class OrderDetailParams(
     val status: OrderStatus,
@@ -27,7 +33,8 @@ data class OrderDetailParams(
 )
 
 class OrderDetailFragment(
-    private val navigation: NavigationListener, private val params: OrderDetailParams
+    private val navigation: NavigationListener,
+    private val params: OrderDetailParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
@@ -39,8 +46,7 @@ class OrderDetailFragment(
         super.onViewCreated(view, savedInstanceState)
         initHeader(view)
         initAdapter(view)
-        initScreenEvents(view)
-        loadInitialData()
+        loadInitialData(view)
     }
 
     private fun initHeader(view: View) {
@@ -56,17 +62,36 @@ class OrderDetailFragment(
         items.adapter = OrderDetailAdapter()
     }
 
-    private fun initScreenEvents(view: View) {
+    private fun loadInitialData(view: View) {
+        val orderId = "649ff0626e2e372aacc2638e"
+
+        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { order ->
+                updateUi(view, order)
+                val initialData = mapInitialData(order.items!!)
+                (items.adapter as OrderDetailAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun updateUi(view: View, order: Order) {
         val image = view.findViewById<ImageView>(R.id.order_detail_restaurant_image)
         val restaurant = view.findViewById<TextView>(R.id.order_detail_restaurant_name)
         val date = view.findViewById<TextView>(R.id.order_detail_date)
         val status = view.findViewById<TextView>(R.id.order_detail_status)
         val progressBar = view.findViewById<ProgressBar>(R.id.order_detail_progress_bar)
         val buttonFeedback = view.findViewById<Button>(R.id.order_detail_button_feedback)
+        val subTotal = view.findViewById<TextView>(R.id.order_detail_products_count)
+        val total = view.findViewById<TextView>(R.id.order_detail_products_price)
 
+        // TODO: Create a function to format the price
+        subTotal.text = DecimalFormat("€ 0.00").format(order.subtotal)
+        total.text = DecimalFormat("€ 0.00").format(order.total)
         image.setImageResource(R.drawable.restaurant)
-        restaurant.text = params.restaurant
-        date.text = params.date
+        restaurant.text = order.restaurant?.name ?: ""
+        date.text = TimeAgo.parse(order.time!!).toString()
         status.text = params.status.toResourceString(view.context)
         progressBar.progressDrawable.setTint(
             ContextCompat.getColor(view.context, params.status.toResourceColor())
@@ -81,9 +106,14 @@ class OrderDetailFragment(
         }
     }
 
-    private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as OrderDetailAdapter).loadInitialData(createList())
+    private fun mapInitialData(listOrderItem: List<Item>): ArrayList<OrderItem> {
+        return listOrderItem.map { orderItem ->
+            OrderItem(
+                quantity = orderItem.quantity ?: 0,
+                product = orderItem.product?.name ?: "",
+                price = DecimalFormat("€ 0.00").format(orderItem.product?.price)
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun createList(): ArrayList<OrderItem> {
