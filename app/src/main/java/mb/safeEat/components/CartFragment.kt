@@ -2,6 +2,7 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
+import mb.safeEat.services.state.state
 import java.util.ArrayList
 
 class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
@@ -56,6 +58,14 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
 
                 // TODO: load data from api
                 (items.adapter as CartAdapter).loadInitialData(createList())
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+        val cartId = state.user.value!!.cartId!!
+        suspendToLiveData { api.carts.findById(cartId) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+
             }, onFailure = {
                 alertThrowable(it)
             })

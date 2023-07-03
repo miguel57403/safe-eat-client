@@ -14,10 +14,11 @@ sealed interface UserEndpoint {
     @GET("/users/me")
     suspend fun findMe(): User
 
-    @PUT("/users")
+    @PUT("/users/me")
     suspend fun update(@Body user: UserUpdateDto): User
 
     // TODO: update the image file type
+    @Multipart
     @PUT("/users/me/image")
     suspend fun updateImage(@Query("image") imageFile: String): User
 

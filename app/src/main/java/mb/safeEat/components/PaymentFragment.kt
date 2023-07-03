@@ -129,7 +129,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
             DeliveryOption(
                 id = it.id!!,
                 name = it.name!!,
-                isSelected = it.id == orderDraft!!.deliveryId
+                isSelected = it.isSelected!!
             )
         }.toCollection(ArrayList())
     }

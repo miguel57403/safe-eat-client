@@ -5,5 +5,4 @@ data class Ingredient(
     val name: String? = null,
     val description: String? = null,
     val isRestricted: Boolean? = null,
-    val restrictions: List<Restriction>? = null,
 )

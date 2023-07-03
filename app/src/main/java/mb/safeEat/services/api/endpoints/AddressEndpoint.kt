@@ -20,6 +20,9 @@ sealed interface AddressEndpoint {
     @PUT("/addresses")
     suspend fun update(@Body address: AddressDto): Address
 
+    @PUT("/addresses/select/{id}")
+    suspend fun select(@Path("id") id: String): Address
+
     @DELETE("/addresses/{id}")
     suspend fun delete(@Path("id") id: String)
 }
