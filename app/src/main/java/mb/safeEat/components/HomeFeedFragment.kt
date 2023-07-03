@@ -34,7 +34,7 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
-        loadInitialData()
+        loadInitialData(view)
     }
 
     private fun initAdapter(view: View) {
@@ -43,12 +43,15 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
         items.adapter = HomeAdapter(navigation)
     }
 
-    private fun loadInitialData() {
+    private fun loadInitialData(view: View) {
         suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { home ->
                 if (home.content != null) {
                     val initialData = mapResponseToHomeItemList(home)
                     (items.adapter as HomeAdapter).loadInitialData(initialData)
+                    if (home.content.isNotEmpty()) {
+                        hideNoData(view)
+                    }
                 }
             }, onFailure = {
                 alertThrowable(it)
@@ -130,6 +133,11 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
             ),
             HomeItem.createAdvertisement(HomeAdvertisement("Padaria Gourmet", "")),
         )
+    }
+
+    private fun hideNoData(view: View) {
+        val noData = view.findViewById<ConstraintLayout>(R.id.no_data_layout)
+        noData.visibility = View.GONE
     }
 }
 
