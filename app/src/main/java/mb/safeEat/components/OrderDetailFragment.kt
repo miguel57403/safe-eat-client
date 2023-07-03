@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.icu.text.DecimalFormat
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +26,7 @@ import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.*
 import mb.safeEat.services.api.models.Order
 
-data class OrderDetailParams(
-    val status: OrderStatus,
-    val restaurant: String,
-    val date: String,
-)
+data class OrderDetailParams(val orderId: String)
 
 class OrderDetailFragment(
     private val navigation: NavigationListener,
@@ -64,9 +59,7 @@ class OrderDetailFragment(
     }
 
     private fun loadInitialData(view: View) {
-        val orderId = "649ff0626e2e372aacc2638e"
-
-        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
+        suspendToLiveData { api.orders.findById(params.orderId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { order ->
                 updateUi(view, order)
                 val initialData = mapInitialData(order.items!!)
@@ -87,19 +80,21 @@ class OrderDetailFragment(
         val subTotal = view.findViewById<TextView>(R.id.order_detail_products_count)
         val total = view.findViewById<TextView>(R.id.order_detail_products_price)
 
+        val orderStatus = OrderStatus.fromApi(order.status)
+
         // TODO: Create a function to format the price
         subTotal.text = DecimalFormat("€ 0.00").format(order.subtotal)
         total.text = DecimalFormat("€ 0.00").format(order.total)
         image.setImageResource(R.drawable.restaurant)
         restaurant.text = order.restaurant?.name ?: ""
         date.text = TimeAgo.parse(order.time!!).toString()
-        status.text = params.status.toResourceString(view.context)
+        status.text = orderStatus.toResourceString(view.context)
         progressBar.progressDrawable.setTint(
-            ContextCompat.getColor(view.context, params.status.toResourceColor())
+            ContextCompat.getColor(view.context, orderStatus.toResourceColor())
         )
         progressBar.progressDrawable.setTintMode(PorterDuff.Mode.SRC_ATOP)
-        progressBar.progress = params.status.toProgress()
-        if (params.status == OrderStatus.DELIVERED) {
+        progressBar.progress = orderStatus.toProgress()
+        if (orderStatus == OrderStatus.DELIVERED) {
             buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
             buttonFeedback.visibility = View.VISIBLE
         } else {
@@ -190,5 +185,18 @@ enum class OrderStatus {
         TRANSPORTING -> 75
         DELIVERED -> 100
         CANCELED -> 100
+    }
+
+    companion object {
+        fun fromApi(status: String?): OrderStatus {
+            return when (status) {
+                "REGISTERED" -> REGISTERED
+                "PREPARING" -> PREPARING
+                "TRANSPORTING" -> TRANSPORTING
+                "DELIVERED" -> DELIVERED
+                "CANCELLED" -> CANCELED
+                else -> throw Exception("Invalid status")
+            }
+        }
     }
 }

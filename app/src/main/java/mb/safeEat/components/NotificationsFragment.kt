@@ -19,9 +19,9 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
+import mb.safeEat.services.state.state
 
-class NotificationsFragment(private val navigation: NavigationListener) : Fragment(),
-    Alertable {
+class NotificationsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -41,7 +41,8 @@ class NotificationsFragment(private val navigation: NavigationListener) : Fragme
     }
 
     private fun loadInitialData() {
-        suspendToLiveData { api.notifications.findAll() }.observe(viewLifecycleOwner) { result ->
+        val userId = state.user.value!!.id!!
+        suspendToLiveData { api.notifications.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { notifications ->
                 val initialData = mapInitialData(notifications)
                 (items.adapter as NotificationAdapter).loadInitialData(initialData)
@@ -58,62 +59,20 @@ class NotificationsFragment(private val navigation: NavigationListener) : Fragme
                 arrivalTime = TimeAgo.parse(notification.time!!).toString(),
                 imageUrl = notification.restaurant?.logo ?: "",
                 message = notification.content ?: "#Erro#",
-                orderStatus = OrderStatus.REGISTERED // TODO: Remove hardcode
+                orderId = notification.orderId ?: ""
             )
         }.toCollection(ArrayList())
     }
 
     private fun createList(): ArrayList<Notification> {
         return arrayListOf(
-            Notification(
-                "Sabor Brasileiro",
-                "30 seconds ago",
-                "",
-                "Your order has arrived",
-                OrderStatus.REGISTERED
-            ),
-            Notification(
-                "Sabor Brasileiro",
-                "5 min ago",
-                "",
-                "Your order is out for delivery",
-                OrderStatus.PREPARING
-            ),
-            Notification(
-                "Sabor Brasileiro",
-                "15 min ago",
-                "",
-                "Your order is in preparation",
-                OrderStatus.TRANSPORTING
-            ),
-            Notification(
-                "Mimo's Pizza",
-                "1 day ago",
-                "",
-                "Promotion message",
-                OrderStatus.DELIVERED,
-            ),
-            Notification(
-                "Gelados Maravilhosos",
-                "2 days ago",
-                "",
-                "Promotion message",
-                OrderStatus.CANCELED,
-            ),
-            Notification(
-                "Sabor Brasileiro",
-                "25 Apr at 12:45",
-                "",
-                "Promotion message",
-                null,
-            ),
-            Notification(
-                "Sabor Brasileiro",
-                "23 Apr at 12:45",
-                "",
-                "Promotion message",
-                null,
-            ),
+            Notification("Sabor Brasileiro", "30 seconds ago", "", "Your order has arrived", ""),
+            Notification("Sabor Brasileiro", "5 min ago", "", "Your order is out for delivery", ""),
+            Notification("Sabor Brasileiro", "15 min ago", "", "Your order is in preparation", ""),
+            Notification("Mimo's Pizza", "1 day ago", "", "Promotion message", ""),
+            Notification("Gelados Maravilhosos", "2 days ago", "", "Promotion message", ""),
+            Notification("Sabor Brasileiro", "25 Apr at 12:45", "", "Promotion message", ""),
+            Notification("Sabor Brasileiro", "23 Apr at 12:45", "", "Promotion message", ""),
         )
     }
 }
@@ -151,15 +110,9 @@ class NotificationAdapter(
             restaurant.text = item.restaurant
             timeArrival.text = item.arrivalTime
             status.text = item.message
-            if (item.orderStatus != null) {
-                container.setOnClickListener {
-                    // TODO: Pass only orderId
-                    val params =
-                        OrderDetailParams(item.orderStatus, item.restaurant, item.arrivalTime)
-                    navigation.navigateTo(OrderDetailFragment(navigation, params))
-                }
-            } else {
-                container.isClickable = false
+            container.setOnClickListener {
+                val params = OrderDetailParams(item.orderId)
+                navigation.navigateTo(OrderDetailFragment(navigation, params))
             }
 
             Glide.with(itemView) //
@@ -176,17 +129,5 @@ data class Notification(
     val arrivalTime: String,
     val imageUrl: String,
     val message: String,
-    val orderStatus: OrderStatus?,
+    val orderId: String,
 )
-
-// TODO: Extract to a file
-private fun mapStatus(status: String?): OrderStatus {
-    return when (status) {
-        "REGISTERED" -> OrderStatus.REGISTERED
-        "PREPARING" -> OrderStatus.PREPARING
-        "TRANSPORTING" -> OrderStatus.TRANSPORTING
-        "DELIVERED" -> OrderStatus.DELIVERED
-        "CANCELLED" -> OrderStatus.CANCELED
-        else -> throw Exception("Invalid status")
-    }
-}
