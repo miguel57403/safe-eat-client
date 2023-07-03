@@ -44,7 +44,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         val submitButton = view.findViewById<Button>(R.id.payment_button_submit)
 
         addressButton.setOnClickListener {
-            navigation.navigateTo(AddressFragment(navigation))
+            navigation.navigateTo(AddressesFragment(navigation))
         }
         deliveryOptionButton.setOnClickListener {
             // TODO: Feed params
@@ -52,16 +52,12 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
             navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
         }
         paymentKindButton.setOnClickListener {
-            navigation.navigateTo(PaymentOptionFragment(navigation))
+            navigation.navigateTo(PaymentOptionsFragment(navigation))
         }
         submitButton.setOnClickListener {
             val dialog = OrderCompletedDialog()
             dialog.setOnDismissListener {
-                navigation.navigateTo(
-                    NotificationInitialFragment(
-                        navigation
-                    )
-                )
+                navigation.navigateTo(NotificationsFragment(navigation))
             }
             dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
         }

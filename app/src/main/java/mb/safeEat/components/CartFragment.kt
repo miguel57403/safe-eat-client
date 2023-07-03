@@ -22,7 +22,7 @@ import mb.safeEat.services.state.state
 import java.text.DecimalFormat
 import java.util.ArrayList
 
-class CartInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
     private var orderDto = OrderDto()
 
@@ -34,7 +34,7 @@ class CartInitialFragment(private val navigation: NavigationListener) : Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_cart_initial, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_cart, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -20,13 +20,13 @@ import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class NotificationInitialFragment(private val navigation: NavigationListener) : Fragment(),
+class NotificationsFragment(private val navigation: NavigationListener) : Fragment(),
     Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_notification_initial, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_notifications, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -179,6 +179,7 @@ data class Notification(
     val orderStatus: OrderStatus?,
 )
 
+// TODO: Extract to a file
 private fun mapStatus(status: String?): OrderStatus {
     return when (status) {
         "REGISTERED" -> OrderStatus.REGISTERED

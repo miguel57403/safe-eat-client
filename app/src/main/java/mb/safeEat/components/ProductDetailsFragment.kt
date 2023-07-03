@@ -60,7 +60,7 @@ class ProductDetailsFragment(private val navigation: NavigationListener) : Fragm
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     // TODO: Try remove this observer
                     if (event == Lifecycle.Event.ON_DESTROY) {
-                        navigation.navigateTo(CartInitialFragment(navigation))
+                        navigation.navigateTo(CartFragment(navigation))
                     }
                 }
             })

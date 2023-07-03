@@ -88,7 +88,7 @@ class RegisterActivity : AppCompatActivity(), Alertable {
     }
 
     private fun navigateToAllergies(params: AllergyParams) {
-        val intent = Intent(this, AllergyActivity::class.java)
+        val intent = Intent(this, RestrictionsActivity::class.java)
         intent.putExtra("params", params)
         startActivity(intent)
     }

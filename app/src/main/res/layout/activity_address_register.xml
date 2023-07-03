@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <include layout="@layout/fragment_header" />
+    <include layout="@layout/component_header" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

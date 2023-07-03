@@ -21,7 +21,7 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.UserUpdateDto
 
-class AllergyEditFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(),
+class RestrictionsFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(),
     Alertable {
     // TODO: Create a fragment for allergies buttons
     private lateinit var items: RecyclerView
@@ -29,7 +29,7 @@ class AllergyEditFragment(private val navigation: NavigationListener) : AllergyL
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_allergy_edit, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_restrictions, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

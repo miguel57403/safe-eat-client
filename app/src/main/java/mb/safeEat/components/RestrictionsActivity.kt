@@ -28,8 +28,8 @@ data class AllergyParams(
     val cellphone: String,
 ): Serializable
 
-// Keep this implementation synchronized with AllergyEditFragment.kt
-class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
+// Keep this implementation synchronized with RestrictionsFragment.kt
+class RestrictionsActivity : AllergyListener, AppCompatActivity(), Alertable {
     override fun requireView(): View = findViewById(R.id.allergy_activity_container)
     override fun requireContext(): Context = this
 
@@ -39,7 +39,7 @@ class AllergyActivity : AllergyListener, AppCompatActivity(), Alertable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_allergy)
+        setContentView(R.layout.activity_restrictions)
         loadParams()
         initAdapter()
         loadInitialData()
@@ -137,7 +137,7 @@ class AllergyAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.button_allergy, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.component_button_restriction, parent, false)
     )
 
     override fun getItemCount(): Int = data.size

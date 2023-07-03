@@ -18,14 +18,13 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-// TODO: Rename to plural
-class PaymentOptionFragment(private val navigation: NavigationListener) : Fragment(),
+class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragment(),
     PaymentListener, Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_payment_option, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_payment_options, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

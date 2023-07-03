@@ -16,10 +16,10 @@ import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.services.state.state
 
-class ProfileInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class ProfileFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_profile_initial, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,10 +39,10 @@ class ProfileInitialFragment(private val navigation: NavigationListener) : Fragm
         val exitButton = view.findViewById<Button>(R.id.profile_button_exit)
 
         profileImageCard.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
-        addressButton.setOnClickListener { navigation.navigateTo(AddressFragment(navigation)) }
-        restrictionsButton.setOnClickListener { navigation.navigateTo(AllergyEditFragment(navigation)) }
+        addressButton.setOnClickListener { navigation.navigateTo(AddressesFragment(navigation)) }
+        restrictionsButton.setOnClickListener { navigation.navigateTo(RestrictionsFragment(navigation)) }
         ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
-        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionFragment(navigation)) }
+        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionsFragment(navigation)) }
         settingsButton.setOnClickListener {
             // TODO: Create settings fragment
         }

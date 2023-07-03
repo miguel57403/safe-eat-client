@@ -5,31 +5,25 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <include layout="@layout/fragment_header" />
+    <include layout="@layout/component_header" />
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/payment_select_items"
         android:layout_width="match_parent"
-        android:layout_height="453dp"
-        android:paddingVertical="30dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/allergy_submit"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/payment_select_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_container">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/allergies_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/header_container" />
 
     <Button
-        android:id="@+id/allergy_submit"
+        android:id="@+id/payment_select_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
-        android:text="@string/t_continue"
+        android:layout_marginBottom="32dp"
+        android:paddingVertical="8dp"
+        android:text="@string/t_add_payment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

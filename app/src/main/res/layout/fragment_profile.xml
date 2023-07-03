@@ -1,9 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/user_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".components.ProfileFragment">
+    android:layout_height="match_parent">
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/profile_image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/circular_border_100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_image_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:contentDescription="@string/d_image_profile"
+                tools:src="@tools:sample/avatars"
+                tools:targetApi="s" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_icon_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="4dp"
+            android:padding="4dp"
+            app:cardCornerRadius="100dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/d_icon_edit"
+                android:padding="4dp"
+                android:src="@drawable/baseline_edit_24"
+                app:tint="@color/orange_500" />
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="32dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/k_profile_name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#FF9800"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_container" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_name">
+
+        <Button
+            android:id="@+id/profile_button_address"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/location_on_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_address"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_restrictions"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/block_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_restrictions"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_orders"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/order_approve_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_orders"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_payment"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/wallet_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_payment"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_settings"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/settings_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_settings"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_about_us"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/info_48px"
+            android:drawableRight="@drawable/arrow_forward_ios_48px"
+            android:text="@string/t_about"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/profile_button_exit"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:drawableLeft="@drawable/baseline_exit_to_app_24"
+            android:text="@string/t_exit"
+            android:textAlignment="textStart"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

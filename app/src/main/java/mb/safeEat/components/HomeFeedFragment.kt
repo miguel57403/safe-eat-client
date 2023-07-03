@@ -24,12 +24,12 @@ import java.io.Serializable
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
-class HomeInitialFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_home_initial, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_home_feed, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

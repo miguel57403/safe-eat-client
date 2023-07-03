@@ -19,13 +19,13 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class SearchCategoryInitialFragment(private val navigation: NavigationListener) : Fragment(),
+class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment(),
     Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_search_category_initial, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_search_category, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
