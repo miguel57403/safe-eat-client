@@ -74,7 +74,7 @@
     <string name="m_feedback">Give a feedback</string>
     <string name="m_product_added">Your product has been added to the cart!</string>
     <string name="m_restriction_alert">Your order has product marked as restricted. Do you want to continue?</string>
-    <string name="m_warning_message">This product contains some ingredients that are in its restriction.</string>
+    <string name="m_warning_message">Ingredient(s) matching with restrictions</string>
     <string name="m_with_account">Already have an account?</string>
     <string name="m_without_account">Don\'t have an account?</string>
     <string name="r_x_times">x</string>
