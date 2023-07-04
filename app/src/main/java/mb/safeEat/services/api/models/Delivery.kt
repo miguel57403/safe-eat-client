@@ -3,7 +3,7 @@ package mb.safeEat.services.api.models
 import mb.safeEat.functions.formatPrice
 
 data class Delivery(
-    val id: String? = null,
+    val id: String,
     val name: String? = null,
     val price: Double? = null,
     val minimumTime: String? = null,

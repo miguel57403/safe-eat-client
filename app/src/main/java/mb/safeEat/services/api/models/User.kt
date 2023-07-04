@@ -2,7 +2,7 @@ package mb.safeEat.services.api.models
 
 
 data class User(
-    val id: String? = null,
+    val id: String,
     val image: String? = null,
     val name: String? = null,
     val email: String? = null,

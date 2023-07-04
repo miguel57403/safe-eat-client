@@ -1,7 +1,7 @@
 package mb.safeEat.services.api.models
 
 data class Restaurant(
-    val id: String? = null,
+    val id: String,
     val name: String? = null,
     val logo: String? = null,
     val cover: String? = null,

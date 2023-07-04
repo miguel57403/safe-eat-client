@@ -1,7 +1,7 @@
 package mb.safeEat.services.api.models
 
 data class Address(
-    val id: String? = null,
+    val id: String,
     val name: String? = null,
     val street: String? = null,
     val number: String? = null,

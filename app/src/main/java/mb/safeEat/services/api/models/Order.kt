@@ -1,7 +1,7 @@
 package mb.safeEat.services.api.models
 
 data class Order(
-    val id: String? = null,
+    val id: String,
     val status: String? = null,
     val time: String? = null,
     val subtotal: Double? = null,
