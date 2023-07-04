@@ -19,10 +19,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
+import mb.safeEat.services.api.models.ProductSection
 
-data class RestaurantParams(val categoryId: String)
+data class RestaurantParams(val restaurantId: String)
 
 class RestaurantFragment(
     private val navigation: NavigationListener,
@@ -37,11 +39,15 @@ class RestaurantFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
-        initScreenEvents(view)
-        loadInitialData()
+        loadInitialData(view)
     }
 
-    private fun initScreenEvents(view: View) {
+    private fun loadInitialData(view: View) {
+        loadRestaurantData(view)
+        loadProductsSectionsData()
+    }
+
+    private fun loadRestaurantData(view: View) {
         val posterImage = view.findViewById<ImageView>(R.id.restaurant_poster_image)
         val deliveryInterval = view.findViewById<TextView>(R.id.restaurant_delivery_interval)
         val deliveryPrice = view.findViewById<TextView>(R.id.restaurant_delivery_price)
@@ -51,26 +57,29 @@ class RestaurantFragment(
         val searchButton = view.findViewById<MaterialCardView>(R.id.restaurant_search_button)
         val backButton = view.findViewById<MaterialCardView>(R.id.restaurant_back_button)
 
-        searchButton.setOnClickListener { navigation.navigateTo(SearchProductFragment(navigation)) }
+        searchButton.setOnClickListener {
+            val params = SearchProductParams(restaurantId = params.restaurantId)
+            navigation.navigateTo(SearchProductFragment(navigation, params))
+        }
         backButton.setOnClickListener { navigation.onBackPressed() }
 
         suspendToLiveData {
-            api.restaurants.findById(params.categoryId)
+            api.restaurants.findById(params.restaurantId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurant ->
                 restaurantName.text = restaurant.name
                 deliveryInterval.text = restaurant.formattedDeliveryInterval()
                 deliveryPrice.text = restaurant.formattedDeliveryPrice("€")
-                Glide.with(this)
-                    .load(restaurant.logo) // Replace with your actual image URL
-                    .apply(RequestOptions().centerCrop())
-                    .transition(DrawableTransitionOptions.withCrossFade())
+                Glide.with(this) //
+                    .load(restaurant.logo) //
+                    .apply(RequestOptions().centerCrop()) //
+                    .transition(DrawableTransitionOptions.withCrossFade()) //
                     .into(restaurantImage)
 
-                Glide.with(this)
-                    .load(restaurant.cover) // Replace with your actual image URL
-                    .apply(RequestOptions().centerCrop())
-                    .transition(DrawableTransitionOptions.withCrossFade())
+                Glide.with(this) //
+                    .load(restaurant.cover) //
+                    .apply(RequestOptions().centerCrop()) //
+                    .transition(DrawableTransitionOptions.withCrossFade()) //
                     .into(posterImage)
             }, onFailure = {
                 alertThrowable(it)
@@ -78,15 +87,40 @@ class RestaurantFragment(
         }
     }
 
+    private fun loadProductsSectionsData() {
+        suspendToLiveData {
+            api.productSections.findAllByRestaurant(params.restaurantId)
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { sections ->
+                val initialData = mapInitialData(sections)
+                (items.adapter as RestaurantCategoryAdapter).loadInitialData(initialData)
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    private fun mapInitialData(items: List<ProductSection>): ArrayList<RestaurantCategory> {
+        return items.map { item ->
+            RestaurantCategory(
+                name = item.name!!,
+                products = item.products!!.map {
+                    RestaurantProduct(
+                        id = it.id!!,
+                        imageUrl = it.image!!,
+                        name = it.name!!,
+                        price = formatPrice("€", it.price!!),
+                        restricted = it.isRestricted!!,
+                    )
+                }.toCollection(ArrayList()),
+            )
+        }.toCollection(ArrayList())
+    }
+
     private fun initAdapter(view: View) {
         items = view.findViewById(R.id.restaurant_items)
         items.layoutManager = LinearLayoutManager(view.context)
         items.adapter = RestaurantCategoryAdapter(navigation)
-    }
-
-    private fun loadInitialData() {
-        // TODO: load data from API
-        (items.adapter as RestaurantCategoryAdapter).loadInitialData(createList())
     }
 
     private fun createList(): ArrayList<RestaurantCategory> {

@@ -22,10 +22,11 @@ import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-data class RestaurantParam(val id: String)
+data class SearchRestaurantParams(val categoryId: String)
 
 class SearchRestaurantFragment(
-    private val navigation: NavigationListener, private val params: RestaurantParams
+    private val navigation: NavigationListener,
+    private val params: SearchRestaurantParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
@@ -75,6 +76,7 @@ class SearchRestaurantFragment(
     private fun getItemList(restaurants: List<mb.safeEat.services.api.models.Restaurant>): ArrayList<SearchRestaurant> {
         return restaurants.map { restaurant ->
             SearchRestaurant(
+                id = restaurant.id!!,
                 imageUrl = restaurant.logo!!,
                 name = restaurant.name!!,
                 price = restaurant.formattedDeliveryPrice("€"),
@@ -98,11 +100,12 @@ class SearchRestaurantFragment(
         (items.adapter as SearchRestaurantAdapter).loadInitialData(initialData)
     }
 
+    // TODO: Suppress mock data
     private fun createList(): ArrayList<SearchRestaurant> {
         return arrayListOf(
-            SearchRestaurant("", "Sabor Brasileiro", "€2,99", "10 - 20 min"),
-            SearchRestaurant("", "Marmita Caseira", "€2,99", "10 - 20 min"),
-            SearchRestaurant("", "Galinha da vizinha", "€2,99", "10 - 20 min"),
+            SearchRestaurant("", "", "Sabor Brasileiro", "€2,99", "10 - 20 min"),
+            SearchRestaurant("", "", "Marmita Caseira", "€2,99", "10 - 20 min"),
+            SearchRestaurant("", "", "Galinha da vizinha", "€2,99", "10 - 20 min"),
         )
     }
 }
@@ -146,17 +149,15 @@ class SearchRestaurantAdapter(
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
             container.setOnClickListener {
-                navigation.navigateTo(
-                    RestaurantFragment(
-                        navigation, RestaurantParams("649f3335b743876fd72143b1")
-                    )
-                )
+                val params = RestaurantParams(item.id)
+                navigation.navigateTo(RestaurantFragment(navigation, params))
             }
         }
     }
 }
 
 data class SearchRestaurant(
+    val id: String,
     val imageUrl: String,
     val name: String,
     val price: String,

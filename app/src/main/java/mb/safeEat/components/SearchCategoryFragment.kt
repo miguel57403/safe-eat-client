@@ -31,6 +31,7 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
         super.onViewCreated(view, savedInstanceState)
         initAdapter(view)
         loadInitialData()
+        // TODO: Redirect to restaurant if cart is not empty
     }
 
     private fun initAdapter(view: View) {
@@ -97,7 +98,7 @@ class SearchCategoryAdapter(
                 .into(image)
 
             container.setOnClickListener {
-                val params = RestaurantParams(category.id)
+                val params = SearchRestaurantParams(categoryId = category.id)
                 navigation.navigateTo(SearchRestaurantFragment(navigation, params))
             }
         }

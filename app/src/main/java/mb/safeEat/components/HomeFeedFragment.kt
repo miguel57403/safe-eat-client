@@ -234,9 +234,8 @@ class HomeRestaurantAdapter(
             restaurant.text = item.name
             score.text = formatScore(item.score)
             container.setOnClickListener {
-                navigation.navigateTo(
-                    RestaurantFragment(navigation, RestaurantParams("649f3335b743876fd72143b1"))
-                )
+                val params = RestaurantParams(restaurantId = item.id!!)
+                navigation.navigateTo(RestaurantFragment(navigation, params))
             }
         }
     }

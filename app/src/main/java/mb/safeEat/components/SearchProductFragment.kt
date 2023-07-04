@@ -25,7 +25,12 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Product
 
-class SearchProductFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+data class SearchProductParams(val restaurantId: String)
+
+class SearchProductFragment(
+    private val navigation: NavigationListener,
+    private val params: SearchProductParams,
+) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -60,11 +65,8 @@ class SearchProductFragment(private val navigation: NavigationListener) : Fragme
     }
 
     private fun loadInitialData() {
-        // TODO: Replace with real restaurant id
-        val restaurantId = "649f3335b743876fd72143b1"
-
         suspendToLiveData {
-            api.products.findAllByRestaurant(restaurantId)
+            api.products.findAllByRestaurant(params.restaurantId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { products ->
                 val initialData = mapInitialData(products)
