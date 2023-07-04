@@ -21,7 +21,12 @@ import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.FeedbackDto
 import mb.safeEat.services.api.models.Order
 
-class FeedbackFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+data class FeedbackParams(val orderId: String)
+
+class FeedbackFragment(
+    private val navigation: NavigationListener,
+    private val params: FeedbackParams
+) : Fragment(), Alertable {
     private var score = 0
 
     override fun onCreateView(
@@ -33,6 +38,7 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
         initHeader(view, navigation, R.string.t_feedback)
         initStars(view)
         initScreenEvents(view)
+        loadInitialData(view)
     }
 
     private fun initStars(view: View) {
@@ -63,13 +69,12 @@ class FeedbackFragment(private val navigation: NavigationListener) : Fragment(),
     }
 
     private fun initScreenEvents(view: View) {
-        // TODO: Create params for order id
-        val orderId = "649ff0626e2e372aacc2638e"
-
         val submitButton = view.findViewById<Button>(R.id.feedback_submit)
-        submitButton.setOnClickListener { doFeedback(view, orderId) }
+        submitButton.setOnClickListener { doFeedback(view, params.orderId) }
+    }
 
-        suspendToLiveData { api.orders.findById(orderId) }.observe(viewLifecycleOwner) { result ->
+    private fun loadInitialData(view: View) {
+        suspendToLiveData { api.orders.findById(params.orderId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { order ->
                 updateUi(view, order)
             }, onFailure = {

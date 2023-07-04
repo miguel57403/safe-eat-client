@@ -86,7 +86,10 @@ class OrderDetailFragment(
         progressBar.progressDrawable.setTintMode(PorterDuff.Mode.SRC_ATOP)
         progressBar.progress = orderStatus.toProgress()
         if (orderStatus == OrderStatus.DELIVERED) {
-            buttonFeedback.setOnClickListener { navigation.navigateTo(FeedbackFragment(navigation)) }
+            buttonFeedback.setOnClickListener {
+                val params = FeedbackParams(orderId = order.id!!)
+                navigation.navigateTo(FeedbackFragment(navigation, params))
+            }
             buttonFeedback.visibility = View.VISIBLE
         } else {
             buttonFeedback.visibility = View.GONE
