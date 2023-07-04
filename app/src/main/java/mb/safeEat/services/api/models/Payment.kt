@@ -7,4 +7,5 @@ data class Payment(
     val number: Int? = null,
     val expirationDate: String? = null,
     val cvv: Int? = null,
+    val isSelected: Boolean? = null,
 )

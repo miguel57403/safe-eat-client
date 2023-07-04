@@ -19,7 +19,15 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.AddressDto
 
-class AddressRegisterFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+data class AddressRegisterParams(val initialData: Address?) {
+    fun isEdit() = initialData != null
+}
+
+class AddressRegisterFragment(
+    private val navigation: NavigationListener,
+    private val params: AddressRegisterParams,
+) : Fragment(), Alertable {
+    private lateinit var binding: AddressBinding
     private var loading = false
 
     override fun onCreateView(
@@ -28,45 +36,46 @@ class AddressRegisterFragment(private val navigation: NavigationListener) : Frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initHeader(view, navigation, R.string.t_new_address)
+        binding = AddressBinding.fromView(view)
+        val title = if (params.isEdit()) R.string.m_address_edit else R.string.m_address_new
+        initHeader(view, navigation, title)
         initScreenEvents(view)
     }
 
     private fun initScreenEvents(view: View) {
-        val createButton = view.findViewById<Button>(R.id.address_register_button)
-        createButton.setOnClickListener {
+        val submitButton = view.findViewById<Button>(R.id.address_register_button)
+        submitButton.setOnClickListener {
             hideKeyboard(it)
-            doCreate(createButton, view)
+            submit(submitButton)
+        }
+
+        if (params.isEdit()) {
+            binding.update(params.initialData!!)
         }
     }
 
-    private fun doCreate(button: Button, view: View) {
+    private fun submit(button: Button) {
         if (loading) return
 
-        // TODO: Remove name property from address
-        val name = view.findViewById<EditText>(R.id.address_register_name_input)
-        val city = view.findViewById<EditText>(R.id.address_register_city_input)
-        val street = view.findViewById<EditText>(R.id.address_register_street_input)
-        val number = view.findViewById<EditText>(R.id.address_register_number_input)
-        val postalCode = view.findViewById<EditText>(R.id.address_register_postal_code_input)
-        val complement = view.findViewById<EditText>(R.id.address_register_complement_input)
-
-        val address = AddressDto(
-            null,
-            name.text.toString(),
-            street.text.toString(),
-            number.text.toString(),
-            complement.text.toString(),
-            city.text.toString(),
-            postalCode.text.toString()
-        )
+        val body = binding.toDto(params.initialData?.id)
+        if (!validateBody(body)) return
 
         loading = true
         button.isEnabled = false
         alertInfo("Loading...")
-        suspendToLiveData { api.addresses.create(address) }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = {
-                alertSuccess("Address created!")
+        suspendToLiveData {
+            params.isEdit().let {
+                if (it) {
+                    api.addresses.update(body)
+                    "Address updated!"
+                } else {
+                    api.addresses.create(body)
+                    "Address created!"
+                }
+            }
+        }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { message ->
+                alertSuccess(message)
                 lifecycleScope.launch {
                     delay(1500)
                     button.isEnabled = true
@@ -75,13 +84,84 @@ class AddressRegisterFragment(private val navigation: NavigationListener) : Frag
                 }
             }, onFailure = {
                 alertThrowable(it)
+                button.isEnabled = true
+                loading = false
             })
         }
+    }
+
+    private fun validateBody(body: AddressDto): Boolean {
+        if (body.name.isNullOrBlank()) {
+            alertError("Name is required")
+            return false
+        }
+        if (body.city.isNullOrBlank()) {
+            alertError("City is required")
+            return false
+        }
+        if (body.street.isNullOrBlank()) {
+            alertError("Street is required")
+            return false
+        }
+        if (body.number.isNullOrBlank()) {
+            alertError("Number is required")
+            return false
+        }
+        if (body.postalCode.isNullOrBlank()) {
+            alertError("Postal code is required")
+            return false
+        }
+        if (body.complement.isNullOrBlank()) {
+            alertError("Complement is required")
+            return false
+        }
+        return true
     }
 
     private fun hideKeyboard(button: View) {
         val inputMethodManager =
             ContextCompat.getSystemService(button.context, InputMethodManager::class.java)!!
         inputMethodManager.hideSoftInputFromWindow(button.windowToken, 0)
+    }
+}
+
+data class AddressBinding(
+    val name: EditText,
+    val city: EditText,
+    val street: EditText,
+    val number: EditText,
+    val postalCode: EditText,
+    val complement: EditText,
+) {
+    fun update(address: Address) {
+        name.setText(address.name)
+        city.setText(address.city)
+        street.setText(address.street)
+        number.setText(address.number)
+        postalCode.setText(address.postalCode)
+        complement.setText(address.complement)
+    }
+
+    fun toDto(id: String?) = AddressDto(
+        id,
+        name.text.toString(),
+        street.text.toString(),
+        number.text.toString(),
+        complement.text.toString(),
+        city.text.toString(),
+        postalCode.text.toString()
+    )
+
+    companion object {
+        fun fromView(view: View): AddressBinding {
+            return AddressBinding(
+                name = view.findViewById(R.id.address_register_name_input),
+                city = view.findViewById(R.id.address_register_city_input),
+                street = view.findViewById(R.id.address_register_street_input),
+                number = view.findViewById(R.id.address_register_number_input),
+                postalCode = view.findViewById(R.id.address_register_postal_code_input),
+                complement = view.findViewById(R.id.address_register_complement_input),
+            )
+        }
     }
 }

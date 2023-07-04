@@ -14,6 +14,9 @@ sealed interface AddressEndpoint {
     @GET("/addresses/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Address>
 
+    @GET("/addresses/user/me")
+    suspend fun findMe(): List<Address>
+
     @POST("/addresses")
     suspend fun create(@Body address: AddressDto): Address
 

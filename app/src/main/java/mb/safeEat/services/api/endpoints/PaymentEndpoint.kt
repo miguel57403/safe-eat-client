@@ -14,6 +14,9 @@ sealed interface PaymentEndpoint {
     @GET("/payments/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Payment>
 
+    @GET("/payments/user/me")
+    suspend fun findMe(): List<Payment>
+
     @POST("/payments")
     suspend fun create(@Body payment: PaymentDto): Payment
 

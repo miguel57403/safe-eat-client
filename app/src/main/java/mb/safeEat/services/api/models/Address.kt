@@ -9,4 +9,6 @@ data class Address(
     val city: String? = null,
     val postalCode: String? = null,
     val isSelected: Boolean? = null,
-)
+) {
+    fun fullAddress() = "$street, $number, $complement, $city, $postalCode"
+}

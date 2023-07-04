@@ -18,10 +18,11 @@ import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.hideNoData
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
-import mb.safeEat.services.state.state
-import java.util.ArrayList
+import mb.safeEat.services.api.dto.ItemDto
+import kotlin.collections.ArrayList
 
-class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable,
+    CartListener {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -38,7 +39,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     private fun initAdapter(view: View) {
         items = view.findViewById(R.id.cart_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = CartAdapter()
+        items.adapter = CartAdapter(this)
     }
 
     @SuppressLint("SetTextI18n")
@@ -51,16 +52,15 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
         val products = view.findViewById<TextView>(R.id.cart_products_value)
         val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
 
-        suspendToLiveData { api.orders.findDraft() }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { draft ->
-                products.text = draft.quantity.toString()
-                subtotal.text = formatPrice("€", draft.subtotal)
+        suspendToLiveData { api.carts.findMe() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { cart ->
+                products.text = cart.quantity.toString()
+                subtotal.text = formatPrice("€", cart.subtotal)
 
-                // TODO: load data from api
-                (items.adapter as CartAdapter).loadInitialData(createList())
-
-                if (draft.quantity!! > 0) {
+                if (cart.quantity!! > 0) {
                     hideNoData(view)
+                    val initialData = mapInitialData(cart.items ?: listOf())
+                    (items.adapter as CartAdapter).loadInitialData(initialData)
                 }
             }, onFailure = {
                 products.text = "0"
@@ -68,28 +68,62 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
                 alertThrowable(it)
             })
         }
-        val cartId = state.user.value!!.cartId!!
-        suspendToLiveData { api.carts.findById(cartId) }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = {
+    }
 
-            }, onFailure = {
-                alertThrowable(it)
-            })
-        }
+    private fun mapInitialData(items: List<mb.safeEat.services.api.models.Item>): ArrayList<Product> {
+        return items.map {
+            Product(
+                id = it.id!!,
+                amount = it.quantity!!,
+                productId = it.product!!.id!!,
+                product = it.product.name!!,
+                price = it.product.price!!,
+                warn = it.product.isRestricted!!
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun navigateToPayment() {
         navigation.navigateTo(PaymentFragment(navigation))
     }
 
-    private fun createList() = arrayListOf(
-        Product(product = "Pizza acebolada", amount = 3, price = 14.99, warn = true),
-        Product(product = "Pizza 4 queijos", amount = 1, price = 2.99, warn = false),
-        Product(product = "Pizza de achova", amount = 2, price = 2.99, warn = false)
-    )
+    private fun createList(): ArrayList<Product> {
+        return arrayListOf(
+            Product("", "", "Pizza acebolada", 3, 14.99, true),
+            Product("", "", "Pizza 4 queijos", 1, 2.99, false),
+            Product("", "", "Pizza de achova", 2, 2.99, false),
+        )
+    }
+
+    override fun onItemDelete(item: Product) {
+        suspendToLiveData { api.items.delete(item.id) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                loadInitialData(requireView())
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
+
+    override fun onItemQuantityChange(item: Product) {
+        val body = ItemDto(id = item.id, productId = item.productId, quantity = item.amount)
+        suspendToLiveData { api.items.update(body) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                loadInitialData(requireView())
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+    }
 }
 
-class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+interface CartListener {
+    fun onItemDelete(item: Product)
+    fun onItemQuantityChange(item: Product)
+}
+
+class CartAdapter(private val listener: CartListener) :
+    RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private var data: ArrayList<Product> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -99,37 +133,42 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
+        listener, LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
     )
 
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val listener: CartListener, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
         private val container = itemView.findViewById<ConstraintLayout>(R.id.cart_item_container)
         private val product = itemView.findViewById<TextView>(R.id.cart_item_name)
         private val quantity = itemView.findViewById<TextView>(R.id.cart_item_quantity)
         private val price = itemView.findViewById<TextView>(R.id.cart_item_price)
         private val icon = itemView.findViewById<ImageView>(R.id.cart_item_alert)
+        private val delete = itemView.findViewById<ImageView>(R.id.cart_item_button_delete)
 
         fun bind(item: Product) {
             if (item.warn) {
                 container.setBackgroundResource(R.drawable.border_item_warning)
                 icon.visibility = View.VISIBLE
+                icon.imageTintList = itemView.context.getColorStateList(R.color.red_500)
             }
             product.text = item.product
             quantity.text = item.amount.toString()
             price.text = formatPrice("€", item.price)
+            delete.setOnClickListener { listener.onItemDelete(item) }
+            // TODO: Call listener.onItemQuantityChange()
         }
     }
 }
 
 data class Product(
+    val id: String,
+    val productId: String,
     val product: String,
     val amount: Int,
     val price: Double,
     val warn: Boolean,
-) {
-    fun getTotalPrice(): Double = amount * price
-}
+)

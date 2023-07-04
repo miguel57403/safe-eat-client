@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
@@ -16,12 +17,10 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.OrderDraftDto
 
+// TODO: Rename to CartPaymentFragment
 class PaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var orderDraft: OrderDraftDto? = null
     private var loading = false
-
-    private fun isNotEmpty() = orderDraft != null
-    private fun isEmpty() = orderDraft == null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,10 +30,10 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         super.onViewCreated(view, savedInstanceState)
         initHeader(view, navigation, R.string.t_payment)
         initScreenEvents(view)
-        loadInitialData()
+        loadInitialData(view)
     }
 
-    private fun loadInitialData() {
+    private fun loadInitialData(view: View) {
         suspendToLiveData {
             val isEmpty = api.carts.isEmpty()
             if (isEmpty) {
@@ -45,10 +44,24 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { orderDraft ->
                 this.orderDraft = orderDraft
-                if (isEmpty()) {
+                if (orderDraft == null) {
                     alertInfo(resources.getString(R.string.t_cart_is_empty))
                 } else {
-                    // TODO: Feed selected data to screen
+                    val address = view.findViewById<TextView>(R.id.payment_address_name)
+                    val addressValue = view.findViewById<TextView>(R.id.payment_address_value)
+                    val delivery = view.findViewById<TextView>(R.id.payment_delivery_option_name)
+                    val deliveryValue = view.findViewById<TextView>(R.id.payment_delivery_option_value)
+                    val payment = view.findViewById<TextView>(R.id.payment_kind_name)
+
+                    val selectedPayment = orderDraft.payments?.first { it.isSelected!! }!!
+                    val selectedDelivery = orderDraft.deliveries?.first { it.isSelected!! }!!
+                    val selectedAddress = orderDraft.addresses?.first { it.isSelected!! }!!
+
+                    address.text = selectedAddress.name
+                    addressValue.text = selectedAddress.fullAddress()
+                    delivery.text = selectedDelivery.name
+                    deliveryValue.text = selectedDelivery.formattedDeliveryInterval()
+                    payment.text = selectedPayment.name
                 }
             }, onFailure = {
                 alertThrowable(it)
@@ -64,24 +77,22 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         val submitButton = view.findViewById<Button>(R.id.payment_button_submit)
 
         addressButton.setOnClickListener {
-            // TODO: Create params
-            navigation.navigateTo(AddressesFragment(navigation))
+            navigation.navigateTo(AddressesFragment(navigation, AddressAction.DO_SELECT))
         }
         deliveryOptionButton.setOnClickListener {
-            if (isNotEmpty()) {
+            if (orderDraft != null) {
                 val params = DeliveryOptionsParams(getDeliveryOptions())
                 navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
             }
         }
         paymentKindButton.setOnClickListener {
-            // TODO: Create params
             navigation.navigateTo(PaymentOptionsFragment(navigation))
         }
         submitButton.setOnClickListener { submit(submitButton) }
     }
 
     private fun submit(button: Button) {
-        if (isEmpty()) return
+        if (orderDraft == null) return
         if (loading) return
 
         val hasWarnings = true // TODO: Check if there are warnings
@@ -122,7 +133,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
             DeliveryOption(
                 id = it.id!!,
                 name = it.name!!,
-                isSelected = it.isSelected!!
+                isSelected = it.isSelected!!,
             )
         }.toCollection(ArrayList())
     }

@@ -38,11 +38,21 @@ class ProfileFragment(private val navigation: NavigationListener) : Fragment(), 
         val aboutUsButton = view.findViewById<Button>(R.id.profile_button_about_us)
         val exitButton = view.findViewById<Button>(R.id.profile_button_exit)
 
-        profileImageCard.setOnClickListener { navigation.navigateTo(ProfileEditFragment(navigation)) }
-        addressButton.setOnClickListener { navigation.navigateTo(AddressesFragment(navigation)) }
-        restrictionsButton.setOnClickListener { navigation.navigateTo(RestrictionsFragment(navigation)) }
-        ordersButton.setOnClickListener { navigation.navigateTo(OrdersFragment(navigation)) }
-        paymentButton.setOnClickListener { navigation.navigateTo(PaymentOptionsFragment(navigation)) }
+        profileImageCard.setOnClickListener {
+            navigation.navigateTo(ProfileEditFragment(navigation))
+        }
+        addressButton.setOnClickListener {
+            navigation.navigateTo(AddressesFragment(navigation, AddressAction.GO_REGISTER))
+        }
+        restrictionsButton.setOnClickListener {
+            navigation.navigateTo(RestrictionsFragment(navigation))
+        }
+        ordersButton.setOnClickListener {
+            navigation.navigateTo(OrdersFragment(navigation))
+        }
+        paymentButton.setOnClickListener {
+            navigation.navigateTo(PaymentOptionsFragment(navigation))
+        }
         settingsButton.setOnClickListener {
             // TODO: Create settings fragment
         }

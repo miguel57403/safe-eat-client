@@ -141,7 +141,7 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <!-- Street -->
+        <!-- Complement -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/address_register_complement_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

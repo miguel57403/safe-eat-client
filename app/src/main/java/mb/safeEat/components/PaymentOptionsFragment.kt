@@ -49,7 +49,7 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun loadInitialData() {
-        suspendToLiveData { api.payments.findAll() }.observe(viewLifecycleOwner) { result ->
+        suspendToLiveData { api.payments.findMe() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { payments ->
                 val initialData = mapInitialData(payments)
                 (items.adapter as PaymentAdapter).loadInitialData(initialData)

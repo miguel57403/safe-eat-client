@@ -107,7 +107,8 @@
     <string name="t_ingredients">Ingredients</string>
     <string name="t_login">Login</string>
     <string name="t_name">Name</string>
-    <string name="t_new_address">New address</string>
+    <string name="m_address_new">New address</string>
+    <string name="m_address_edit">Edit address</string>
     <string name="t_new_delivery_option">New delivery option</string>
     <string name="t_no">No</string>
     <string name="t_notifications">Notifications</string>

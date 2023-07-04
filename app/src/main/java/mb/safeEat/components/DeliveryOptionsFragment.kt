@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.initHeader
+import mb.safeEat.functions.suspendToLiveData
+import mb.safeEat.services.api.api
 
 data class DeliveryOptionsParams(
     val deliveryOptions: ArrayList<DeliveryOption>,
@@ -49,8 +50,13 @@ class DeliveryOptionsFragment(
     }
 
     override fun onDeliveryOptionSelected(item: DeliveryOption) {
-        // TODO: Implement onDeliveryOptionSelected
-        Log.d("Click", "Selected")
+        suspendToLiveData { api.deliveries.select(item.id) }.observe(viewLifecycleOwner) {result ->
+            result.fold(onSuccess = {
+                navigation.onBackPressed()
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
     }
 }
 

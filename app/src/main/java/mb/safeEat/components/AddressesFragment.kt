@@ -2,13 +2,13 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +19,15 @@ import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class AddressesFragment(private val navigation: NavigationListener) : Fragment(), AddressListener,
-    Alertable {
+
+enum class AddressAction {
+    GO_REGISTER, DO_SELECT
+}
+
+class AddressesFragment(
+    private val navigation: NavigationListener,
+    private val action: AddressAction,
+) : Fragment(), Alertable, AddressListener {
     private lateinit var items: RecyclerView
 
     override fun onCreateView(
@@ -44,12 +51,13 @@ class AddressesFragment(private val navigation: NavigationListener) : Fragment()
     private fun initScreenEvents(view: View) {
         val button = view.findViewById<Button>(R.id.address_submit)
         button.setOnClickListener {
-            navigation.navigateTo(AddressRegisterFragment(navigation))
+            val params = AddressRegisterParams(null)
+            navigation.navigateTo(AddressRegisterFragment(navigation, params))
         }
     }
 
     private fun loadInitialData() {
-        suspendToLiveData { api.addresses.findAll() }.observe(viewLifecycleOwner) { result ->
+        suspendToLiveData { api.addresses.findMe() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { addresses ->
                 val initialData = mapInitialData(addresses)
                 (items.adapter as AddressAdapter).loadInitialData(initialData)
@@ -60,23 +68,42 @@ class AddressesFragment(private val navigation: NavigationListener) : Fragment()
     }
 
     private fun mapInitialData(address: List<mb.safeEat.services.api.models.Address>): ArrayList<Address> {
-        return address.map { Address(it.name!!, false) }.toCollection(ArrayList())
+        return address.map {
+            Address(
+                id = it.id!!,
+                name = it.name!!,
+                street = it.street!!,
+                number = it.number!!,
+                complement = it.complement!!,
+                city = it.city!!,
+                postalCode = it.postalCode!!,
+                isSelected = it.isSelected!!,
+            )
+        }.toCollection(ArrayList())
     }
 
-    override fun onAddressSelected(address: Address) {
-        // TODO: Implement onAddressSelected
-        Log.d("Click", "Address Clicked Selected")
-    }
+    override fun onAddressClicked(address: Address) {
+        when (action) {
+            AddressAction.DO_SELECT -> {
+                suspendToLiveData { api.addresses.select(address.id) }.observe(viewLifecycleOwner) { result ->
+                    result.fold(onSuccess = {
+                        navigation.onBackPressed()
+                    }, onFailure = {
+                        alertThrowable(it)
+                    })
+                }
+            }
 
-    override fun onAddressEdit(address: Address) {
-        // TODO: Implement onAddressEdit
-        Log.d("Click", "Address Clicked Edit")
+            AddressAction.GO_REGISTER -> {
+                val params = AddressRegisterParams(address)
+                navigation.navigateTo(AddressRegisterFragment(navigation, params))
+            }
+        }
     }
 }
 
 interface AddressListener {
-    fun onAddressSelected(address: Address)
-    fun onAddressEdit(address: Address)
+    fun onAddressClicked(address: Address)
 }
 
 class AddressAdapter(private val listener: AddressListener) :
@@ -103,22 +130,25 @@ class AddressAdapter(private val listener: AddressListener) :
         private val container = itemView.findViewById<MaterialCardView>(R.id.item_address_container)
         private val text = itemView.findViewById<TextView>(R.id.item_address_text)
         private val icon = itemView.findViewById<ImageView>(R.id.item_address_icon1)
-        private val editIcon = itemView.findViewById<MaterialCardView>(R.id.item_address_icon2)
 
         fun bind(item: Address) {
-            text.text = item.text
-            if (item.default) {
-                icon.setImageResource(R.drawable.baseline_home_24)
-            } else {
-                icon.setImageResource(R.drawable.baseline_business_24)
+            text.text = item.name
+            if (!item.isSelected) {
+                icon.imageTintList =
+                    ContextCompat.getColorStateList(itemView.context, android.R.color.transparent)
             }
-            container.setOnClickListener { listener.onAddressSelected(item) }
-            editIcon.setOnClickListener { listener.onAddressEdit(item) }
+            container.setOnClickListener { listener.onAddressClicked(item) }
         }
     }
 }
 
 data class Address(
-    val text: String,
-    val default: Boolean,
+    val id: String,
+    val name: String,
+    val street: String,
+    val number: String,
+    val complement: String,
+    val city: String,
+    val postalCode: String,
+    val isSelected: Boolean,
 )
