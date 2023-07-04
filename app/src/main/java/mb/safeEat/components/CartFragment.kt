@@ -84,7 +84,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     }
 
     private fun navigateToPayment() {
-        navigation.navigateTo(PaymentFragment(navigation))
+        navigation.navigateTo(CartPaymentFragment(navigation))
     }
 
     private fun createList(): ArrayList<Product> {

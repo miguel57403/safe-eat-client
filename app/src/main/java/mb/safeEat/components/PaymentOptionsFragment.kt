@@ -44,7 +44,7 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
     private fun initScreenEvents(view: View) {
         val button = view.findViewById<Button>(R.id.payment_select_submit)
         button.setOnClickListener {
-            navigation.navigateTo(PaymentFragment(navigation))
+            // TODO: Navigate to PaymentRegisterFragment
         }
     }
 

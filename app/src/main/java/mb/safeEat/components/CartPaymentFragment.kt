@@ -17,14 +17,13 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.OrderDraftDto
 
-// TODO: Rename to CartPaymentFragment
-class PaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class CartPaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private var orderDraft: OrderDraftDto? = null
     private var loading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_payment, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_cart_payment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,6 +80,7 @@ class PaymentFragment(private val navigation: NavigationListener) : Fragment(), 
         }
         deliveryOptionButton.setOnClickListener {
             if (orderDraft != null) {
+                // TODO: Pass restaurantId to params only
                 val params = DeliveryOptionsParams(getDeliveryOptions())
                 navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
             }
