@@ -2,7 +2,6 @@ package mb.safeEat.components
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,18 +54,23 @@ class SearchProductFragment(
         val searchLayout = view.findViewById<TextInputLayout>(R.id.search_product_search_layout)
         val searchInput = view.findViewById<TextInputEditText>(R.id.search_product_search_input)
 
-        searchLayout.setEndIconOnClickListener { searchAgain(searchInput.text.toString()) }
+        searchLayout.setEndIconOnClickListener { doSearch(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
-            if (enterClicked) searchAgain(searchInput.text.toString())
+            if (enterClicked) doSearch(searchInput.text.toString())
             enterClicked
         }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun loadInitialData() {
+        doSearch("")
+    }
+
+    private fun doSearch(input: String) {
         suspendToLiveData {
-            api.products.findAllByRestaurant(params.restaurantId)
+            if (input.isEmpty()) api.products.findAllByRestaurant(params.restaurantId)
+            else api.products.findAllByRestaurantAndName(params.restaurantId, input)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { products ->
                 val initialData = mapInitialData(products)
@@ -80,8 +84,8 @@ class SearchProductFragment(
     private fun mapInitialData(products: List<Product>): ArrayList<SearchProduct> {
         return products.map {
             SearchProduct(
-                id = it.id!!,
-                imageUrl = it.image!!,
+                id = it.id,
+                imageUrl = it.image ?: "",
                 name = it.name!!,
                 price = formatPrice("€", it.price),
             )
@@ -95,11 +99,6 @@ class SearchProductFragment(
             SearchProduct("", "", "Product Name 1", "€2,99"),
             SearchProduct("", "", "Product Name 3", "€2,99")
         )
-    }
-
-    private fun searchAgain(input: String) {
-        // TODO: search with input
-        Log.d("Search", input)
     }
 }
 

@@ -76,8 +76,8 @@ class SearchRestaurantFragment(
     private fun getItemList(restaurants: List<mb.safeEat.services.api.models.Restaurant>): ArrayList<SearchRestaurant> {
         return restaurants.map { restaurant ->
             SearchRestaurant(
-                id = restaurant.id!!,
-                imageUrl = restaurant.logo!!,
+                id = restaurant.id,
+                imageUrl = restaurant.logo ?: "",
                 name = restaurant.name!!,
                 price = restaurant.formattedDeliveryPrice("€"),
                 time = restaurant.formattedDeliveryInterval()
