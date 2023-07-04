@@ -30,6 +30,7 @@ import okhttp3.RequestBody
 import java.io.File
 
 class ProfileEditFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+    private lateinit var binding: ProfileEditBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
@@ -40,9 +41,7 @@ class ProfileEditFragment(private val navigation: NavigationListener) : Fragment
         super.onAttach(context)
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val image = requireView().findViewById<ImageView>(R.id.profile_edit_photo)
                 val uri = result.data?.data
-
                 uri?.path?.also { path ->
                     val file = File(path)
                     val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
@@ -51,7 +50,7 @@ class ProfileEditFragment(private val navigation: NavigationListener) : Fragment
                     suspendToLiveData { api.users.updateImage(photoPart) }.observe(viewLifecycleOwner) { result ->
                         result.fold(onSuccess = {
                             state.user.postValue(it)
-                            image.setImageURI(uri)
+                            binding.image.setImageURI(uri)
                         }, onFailure = {
                             alertThrowable(it)
                         })
@@ -63,45 +62,34 @@ class ProfileEditFragment(private val navigation: NavigationListener) : Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = ProfileEditBinding.fromView(view)
         initHeader(view, navigation, R.string.t_edit_profile)
         loadInitialData(view)
     }
 
     private fun loadInitialData(view: View) {
-        // TODO: Create ProfileEditBinding
-        val name = view.findViewById<TextView>(R.id.profile_edit_name_input)
-        val email = view.findViewById<TextView>(R.id.profile_edit_email_input)
-        val cellphone = view.findViewById<TextView>(R.id.profile_edit_cellphone_input)
-        val password = view.findViewById<TextView>(R.id.profile_edit_password_input)
-        val confirmPassword = view.findViewById<TextView>(R.id.profile_edit_confirm_password_input)
-        val image = view.findViewById<ImageView>(R.id.profile_edit_photo)
-        val changePhoto = view.findViewById<Button>(R.id.profile_edit_photo_change)
-
-        val cancelButton = view.findViewById<Button>(R.id.profile_edit_cancel_button)
-        val saveButton = view.findViewById<Button>(R.id.profile_edit_save_button)
-
         state.user.observe(viewLifecycleOwner) { user ->
             // TODO: Remove overused nullables from api models
-            name.text = user!!.name
-            email.text = user.email
-            cellphone.text = user.cellphone
+            binding.name.text = user!!.name
+            binding.email.text = user.email
+            binding.cellphone.text = user.cellphone
             Glide.with(view) //
                 .load(user.image) //
                 .apply(RequestOptions().centerCrop()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
-                .into(image)
+                .into(binding.image)
         }
 
-        changePhoto.setOnClickListener { openPhotoPicker() }
-        cancelButton.setOnClickListener { navigation.onBackPressed() }
-        saveButton.setOnClickListener {
+        binding.changePhoto.setOnClickListener { openPhotoPicker() }
+        binding.cancelButton.setOnClickListener { navigation.onBackPressed() }
+        binding.saveButton.setOnClickListener {
             val body = UserUpdateDto(
-                password = password.text.toString(),
-                name = name.text.toString(),
-                email = email.text.toString(),
-                cellphone = cellphone.text.toString(),
+                password = binding.password.text.toString(),
+                name = binding.name.text.toString(),
+                email = binding.email.text.toString(),
+                cellphone = binding.cellphone.text.toString(),
             )
-            doEditProfile(body, confirmPassword.text.toString())
+            doEditProfile(body, binding.confirmPassword.text.toString())
         }
     }
 
@@ -140,5 +128,33 @@ class ProfileEditFragment(private val navigation: NavigationListener) : Fragment
     private fun openPhotoPicker() {
         val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activityResultLauncher.launch(photoPickerIntent)
+    }
+}
+
+data class ProfileEditBinding(
+    val name: TextView,
+    val email: TextView,
+    val cellphone: TextView,
+    val password: TextView,
+    val confirmPassword: TextView,
+    val image: ImageView,
+    val changePhoto: Button,
+    val cancelButton: Button,
+    val saveButton: Button,
+) {
+    companion object {
+        fun fromView(view: View): ProfileEditBinding {
+            return ProfileEditBinding(
+                name = view.findViewById(R.id.profile_edit_name_input),
+                email = view.findViewById(R.id.profile_edit_email_input),
+                cellphone = view.findViewById(R.id.profile_edit_cellphone_input),
+                password = view.findViewById(R.id.profile_edit_password_input),
+                confirmPassword = view.findViewById(R.id.profile_edit_confirm_password_input),
+                image = view.findViewById(R.id.profile_edit_photo),
+                changePhoto = view.findViewById(R.id.profile_edit_photo_change),
+                cancelButton = view.findViewById(R.id.profile_edit_cancel_button),
+                saveButton = view.findViewById(R.id.profile_edit_save_button),
+            )
+        }
     }
 }
