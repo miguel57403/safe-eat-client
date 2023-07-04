@@ -111,7 +111,8 @@ class ProductDetailsFragment(
         }.toCollection(ArrayList())
     }
 
-    private fun createList(): java.util.ArrayList<ProductDetail> {
+    @Suppress("unused")
+    private fun createMockData(): java.util.ArrayList<ProductDetail> {
         return arrayListOf(
             ProductDetail("Carne moida bovina", false),
             ProductDetail("Pimenta", true),

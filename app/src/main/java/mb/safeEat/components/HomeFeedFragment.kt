@@ -92,7 +92,8 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
         return ArrayList(results)
     }
 
-    private fun createList(): ArrayList<HomeItem> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<HomeItem> {
         return arrayListOf(
             HomeItem.createRestaurantList(
                 HomeRestaurantList(

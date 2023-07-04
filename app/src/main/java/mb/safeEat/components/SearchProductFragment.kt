@@ -88,7 +88,8 @@ class SearchProductFragment(
         }.toCollection(ArrayList())
     }
 
-    private fun createList(): ArrayList<SearchProduct> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<SearchProduct> {
         return arrayListOf(
             SearchProduct("", "", "Product Name 2", "€2,99"),
             SearchProduct("", "", "Product Name 1", "€2,99"),

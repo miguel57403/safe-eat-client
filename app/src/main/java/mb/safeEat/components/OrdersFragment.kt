@@ -65,7 +65,8 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
         }.toCollection(ArrayList())
     }
 
-    private fun createList(): ArrayList<Order> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<Order> {
         return arrayListOf(
             Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.REGISTERED, 10),
             Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.PREPARING, 10),

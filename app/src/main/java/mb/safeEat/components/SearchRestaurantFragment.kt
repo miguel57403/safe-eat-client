@@ -100,8 +100,8 @@ class SearchRestaurantFragment(
         (items.adapter as SearchRestaurantAdapter).loadInitialData(initialData)
     }
 
-    // TODO: Suppress mock data
-    private fun createList(): ArrayList<SearchRestaurant> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<SearchRestaurant> {
         return arrayListOf(
             SearchRestaurant("", "", "Sabor Brasileiro", "€2,99", "10 - 20 min"),
             SearchRestaurant("", "", "Marmita Caseira", "€2,99", "10 - 20 min"),

@@ -123,7 +123,8 @@ class RestaurantFragment(
         items.adapter = RestaurantCategoryAdapter(navigation)
     }
 
-    private fun createList(): ArrayList<RestaurantCategory> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<RestaurantCategory> {
         return arrayListOf(
             RestaurantCategory(
                 "Pizza", arrayListOf(

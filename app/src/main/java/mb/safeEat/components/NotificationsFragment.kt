@@ -64,7 +64,8 @@ class NotificationsFragment(private val navigation: NavigationListener) : Fragme
         }.toCollection(ArrayList())
     }
 
-    private fun createList(): ArrayList<Notification> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<Notification> {
         return arrayListOf(
             Notification("Sabor Brasileiro", "30 seconds ago", "", "Your order has arrived", ""),
             Notification("Sabor Brasileiro", "5 min ago", "", "Your order is out for delivery", ""),

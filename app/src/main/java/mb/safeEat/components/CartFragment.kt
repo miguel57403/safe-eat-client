@@ -87,7 +87,8 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
         navigation.navigateTo(CartPaymentFragment(navigation))
     }
 
-    private fun createList(): ArrayList<Product> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<Product> {
         return arrayListOf(
             Product("", "", "Pizza acebolada", 3, 14.99, true),
             Product("", "", "Pizza 4 queijos", 1, 2.99, false),

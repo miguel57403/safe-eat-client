@@ -108,7 +108,8 @@ class OrderDetailFragment(
         }.toCollection(ArrayList())
     }
 
-    private fun createList(): ArrayList<OrderItem> {
+    @Suppress("unused")
+    private fun createMockData(): ArrayList<OrderItem> {
         return arrayListOf(
             OrderItem(10, "Hot-dog combo", "€10,00"),
             OrderItem(10, "Hot-dog combo", "€10,00"),
