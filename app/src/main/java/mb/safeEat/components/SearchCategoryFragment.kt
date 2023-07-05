@@ -16,12 +16,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
 class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment(),
     Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,6 +31,7 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
         loadInitialData()
         // TODO: Redirect to restaurant if cart is not empty
@@ -41,11 +44,14 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.categories.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { categories ->
+                dataStateIndicator.toggle(categories.isNotEmpty())
                 val initialData = mapInitialData(categories)
                 (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -54,7 +60,7 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
     private fun mapInitialData(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
         return categories.map { category ->
             Category(
-                id = category.id!!,
+                id = category.id,
                 name = category.name!!,
                 imageUrl = category.image ?: "",
             )

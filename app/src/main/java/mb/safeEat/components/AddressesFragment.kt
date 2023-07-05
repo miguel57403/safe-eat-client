@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -29,6 +30,7 @@ class AddressesFragment(
     private val action: AddressAction,
 ) : Fragment(), Alertable, AddressListener {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,6 +38,7 @@ class AddressesFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initHeader(view, navigation, R.string.t_address)
         initAdapter(view)
         initScreenEvents(view)
@@ -57,11 +60,14 @@ class AddressesFragment(
     }
 
     private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.addresses.findMe() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { addresses ->
+                dataStateIndicator.toggle(addresses.isNotEmpty())
                 val initialData = mapInitialData(addresses)
                 (items.adapter as AddressAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -70,7 +76,7 @@ class AddressesFragment(
     private fun mapInitialData(address: List<mb.safeEat.services.api.models.Address>): ArrayList<Address> {
         return address.map {
             Address(
-                id = it.id!!,
+                id = it.id,
                 name = it.name!!,
                 street = it.street!!,
                 number = it.number!!,

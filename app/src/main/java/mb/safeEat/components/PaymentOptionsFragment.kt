@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -22,6 +23,7 @@ import mb.safeEat.services.api.api
 class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragment(),
     PaymentListener, Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,6 +31,7 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initHeader(view, navigation, R.string.t_payment)
         initAdapter(view)
         initScreenEvents(view)
@@ -49,11 +52,14 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.payments.findMe() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { payments ->
+                dataStateIndicator.toggle(payments.isNotEmpty())
                 val initialData = mapInitialData(payments)
                 (items.adapter as PaymentAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -62,7 +68,7 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
     private fun mapInitialData(payment: List<mb.safeEat.services.api.models.Payment>): ArrayList<Payment> {
         return payment.map {
             Payment(
-                id = it.id!!,
+                id = it.id,
                 name = it.name!!,
                 isSelected = false,
             )

@@ -106,8 +106,8 @@ class RestaurantFragment(
                 name = item.name!!,
                 products = item.products!!.map {
                     RestaurantProduct(
-                        id = it.id!!,
-                        imageUrl = it.image!!,
+                        id = it.id,
+                        imageUrl = it.image ?: "",
                         name = it.name!!,
                         price = formatPrice("€", it.price!!),
                         restricted = it.isRestricted!!,

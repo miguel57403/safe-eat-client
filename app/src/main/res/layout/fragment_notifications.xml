@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <include layout="@layout/component_data_state_indicator" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_items"
         android:layout_width="match_parent"

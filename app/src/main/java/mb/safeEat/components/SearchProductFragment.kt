@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -31,6 +32,7 @@ class SearchProductFragment(
     private val params: SearchProductParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,6 +40,7 @@ class SearchProductFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
         initScreenEvents(view)
         loadInitialData()
@@ -68,14 +71,17 @@ class SearchProductFragment(
     }
 
     private fun doSearch(input: String) {
+        dataStateIndicator.showLoading()
         suspendToLiveData {
             if (input.isEmpty()) api.products.findAllByRestaurant(params.restaurantId)
             else api.products.findAllByRestaurantAndName(params.restaurantId, input)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { products ->
+                dataStateIndicator.toggle(products.isNotEmpty())
                 val initialData = mapInitialData(products)
                 (items.adapter as SearchProductAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }

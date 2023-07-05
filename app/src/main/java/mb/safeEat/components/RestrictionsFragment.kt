@@ -15,17 +15,18 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.UserUpdateDto
 
 class RestrictionsFragment(private val navigation: NavigationListener) : AllergyListener,
-    Fragment(),
-    Alertable {
+    Fragment(), Alertable {
     // TODO: Create a fragment for allergies buttons
     private lateinit var items: RecyclerView
     private var data = ArrayList<Allergy>()
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,6 +34,7 @@ class RestrictionsFragment(private val navigation: NavigationListener) : Allergy
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initHeader(view, navigation, R.string.t_edit_allergies)
         initialAdapter(view)
         loadInitialData()
@@ -51,13 +53,15 @@ class RestrictionsFragment(private val navigation: NavigationListener) : Allergy
     }
 
     private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.restrictions.findAll() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restrictions ->
+                dataStateIndicator.toggle(restrictions.isNotEmpty())
                 val initialData = mapInitialData(restrictions)
                 data = initialData
                 (items.adapter as AllergyAdapter).loadInitialData(initialData)
             }, onFailure = {
-                // TODO: Spread this error handling to other places
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -68,7 +72,7 @@ class RestrictionsFragment(private val navigation: NavigationListener) : Allergy
             Allergy(
                 id = it.id,
                 value = it.name!!,
-                selected = it.isRestricted!!
+                selected = it.isRestricted!!,
             )
         }.toCollection(ArrayList())
     }

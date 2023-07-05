@@ -7,6 +7,8 @@
     android:paddingHorizontal="15dp"
     android:paddingVertical="40dp">
 
+    <include layout="@layout/component_data_state_indicator" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_product_header"
         android:layout_width="match_parent"

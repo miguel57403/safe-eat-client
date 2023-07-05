@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
@@ -23,6 +24,7 @@ import mb.safeEat.services.state.state
 
 class OrdersFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,6 +32,7 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initHeader(view, navigation, R.string.t_orders)
         initAdapter(view)
         loadInitialData()
@@ -42,12 +45,15 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
     }
 
     private fun loadInitialData() {
-        val userId = state.user.value!!.id!!
+        dataStateIndicator.showLoading()
+        val userId = state.user.value!!.id
         suspendToLiveData { api.orders.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { orders ->
+                dataStateIndicator.toggle(orders.isNotEmpty())
                 val initialData = mapInitialData(orders)
                 (items.adapter as OrdersAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }

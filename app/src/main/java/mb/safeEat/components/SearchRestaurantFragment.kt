@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
@@ -29,6 +30,7 @@ class SearchRestaurantFragment(
     private val params: SearchRestaurantParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,6 +38,7 @@ class SearchRestaurantFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
         loadInitialData()
         initScreenEvents(view)
@@ -62,12 +65,15 @@ class SearchRestaurantFragment(
     }
 
     private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData {
             api.restaurants.findAllByCategory(params.categoryId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurants ->
+                dataStateIndicator.toggle(restaurants.isNotEmpty())
                 updateInitialData(restaurants)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -86,10 +92,13 @@ class SearchRestaurantFragment(
     }
 
     private fun searchAgain(input: String) {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.restaurants.findAllByName(input) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurants ->
+                dataStateIndicator.toggle(restaurants.isNotEmpty())
                 updateInitialData(restaurants)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }

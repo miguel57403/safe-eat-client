@@ -7,6 +7,7 @@
     android:padding="16dp">
 
     <include layout="@layout/component_header" />
+    <include layout="@layout/component_data_state_indicator" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/product_details_content_card"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,10 +17,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.dialogs.ProductAddedDialog
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -32,6 +33,7 @@ class ProductDetailsFragment(
     private val params: ProductDetailsParams,
 ) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,6 +41,7 @@ class ProductDetailsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initHeader(view, navigation, R.string.t_product_details)
         initAdapter(view)
         initScreenEvents(view)
@@ -90,6 +93,7 @@ class ProductDetailsFragment(
     }
 
     private fun loadIngredientsData(view: View) {
+        dataStateIndicator.showLoading()
         suspendToLiveData {
             api.ingredients.findByAllProduct(params.productId)
         }.observe(viewLifecycleOwner) { result ->
@@ -97,9 +101,11 @@ class ProductDetailsFragment(
                 val initData = mapInitialData(ingredients)
                 (items.adapter as ProductDetailAdapter).loadInitialData(initData)
 
-                val alert = view.findViewById<MaterialCardView>(R.id.product_details_content_alert)
+                val alert = view.findViewById<ConstraintLayout>(R.id.product_details_content_alert)
                 alert.isVisible = ingredients.any { it.isRestricted!! }
+                dataStateIndicator.toggle(ingredients.isNotEmpty())
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }

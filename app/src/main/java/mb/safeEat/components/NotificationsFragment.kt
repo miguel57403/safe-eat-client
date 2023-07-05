@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -23,6 +24,7 @@ import mb.safeEat.services.state.state
 
 class NotificationsFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,6 +32,7 @@ class NotificationsFragment(private val navigation: NavigationListener) : Fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
         loadInitialData()
     }
@@ -41,12 +44,15 @@ class NotificationsFragment(private val navigation: NavigationListener) : Fragme
     }
 
     private fun loadInitialData() {
-        val userId = state.user.value!!.id!!
+        dataStateIndicator.showLoading()
+        val userId = state.user.value!!.id
         suspendToLiveData { api.notifications.findAllByUser(userId) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { notifications ->
+                dataStateIndicator.toggle(notifications.isNotEmpty())
                 val initialData = mapInitialData(notifications)
                 (items.adapter as NotificationAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }

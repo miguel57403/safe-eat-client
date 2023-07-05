@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:paddingTop="16dp">
 
+    <include layout="@layout/component_data_state_indicator" />
+
     <!-- Search -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_category_name_input"

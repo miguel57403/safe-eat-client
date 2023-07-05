@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <include layout="@layout/component_header" />
+    <include layout="@layout/component_data_state_indicator" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/payment_select_items"
