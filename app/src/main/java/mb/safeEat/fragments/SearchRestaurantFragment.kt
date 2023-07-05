@@ -24,7 +24,7 @@ import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-data class SearchRestaurantParams(val categoryId: String)
+data class SearchRestaurantParams(val categoryId: String?, val search: String?)
 
 class SearchRestaurantFragment(
     private val navigation: NavigationListener,
@@ -56,23 +56,38 @@ class SearchRestaurantFragment(
         val searchLayout = view.findViewById<TextInputLayout>(R.id.header_search_search_layout)
         val searchInput = view.findViewById<TextInputEditText>(R.id.header_search_search_input)
 
-        searchLayout.setEndIconOnClickListener { searchAgain(searchInput.text.toString()) }
+        searchLayout.setEndIconOnClickListener { doSearch(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
-            if (enterClicked) searchAgain(searchInput.text.toString())
+            if (enterClicked) doSearch(searchInput.text.toString())
             enterClicked
         }
         backButton.setOnClickListener { navigation.onBackPressed() }
     }
 
     private fun loadInitialData() {
+        doSearch(params.search ?: "")
+    }
+
+    private fun doSearch(input: String) {
         dataStateIndicator.showLoading()
         suspendToLiveData {
-            api.restaurants.findAllByCategory(params.categoryId)
+            if (input.isEmpty() && params.categoryId != null) {
+                api.restaurants.findAllByCategory(params.categoryId)
+            } else if (input.isNotEmpty() && params.categoryId != null) {
+                api.restaurants.findAllByName(input)
+            } else if (input.isNotEmpty() && params.categoryId == null) {
+                api.restaurants.findAllByName(input)
+            } else if (input.isEmpty() && params.categoryId == null) {
+                api.restaurants.findAll()
+            } else {
+                throw UnknownError("Unreachable")
+            }
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { restaurants ->
                 dataStateIndicator.toggle(restaurants.isNotEmpty())
-                updateInitialData(restaurants)
+                val initialData = getItemList(restaurants)
+                (items.adapter as SearchRestaurantAdapter).loadInitialData(initialData)
             }, onFailure = {
                 dataStateIndicator.showError()
                 alertThrowable(it)
@@ -90,24 +105,6 @@ class SearchRestaurantFragment(
                 time = restaurant.formattedDeliveryInterval()
             )
         }.toCollection(ArrayList())
-    }
-
-    private fun searchAgain(input: String) {
-        dataStateIndicator.showLoading()
-        suspendToLiveData { api.restaurants.findAllByName(input) }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { restaurants ->
-                dataStateIndicator.toggle(restaurants.isNotEmpty())
-                updateInitialData(restaurants)
-            }, onFailure = {
-                dataStateIndicator.showError()
-                alertThrowable(it)
-            })
-        }
-    }
-
-    private fun updateInitialData(restaurants: List<mb.safeEat.services.api.models.Restaurant>) {
-        val initialData = getItemList(restaurants)
-        (items.adapter as SearchRestaurantAdapter).loadInitialData(initialData)
     }
 
     @Suppress("unused")

@@ -24,8 +24,7 @@ import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 
-class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment(),
-    Alertable {
+class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
     private lateinit var dataStateIndicator: DataStateIndicator
 
@@ -64,9 +63,8 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
 
     private fun doSearch(input: String) {
         if (input.isBlank()) return
-        // TODO: Implement doSearch
-//        val params = SearchRestaurantParams(search = input)
-//        navigation.navigateTo(SearchRestaurantFragment(navigation, params))
+        val params = SearchRestaurantParams(categoryId = null, search = input)
+        navigation.navigateTo(SearchRestaurantFragment(navigation, params))
     }
 
     private fun loadInitialData() {
@@ -94,8 +92,8 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
     }
 
     private fun validateCart() {
-        suspendToLiveData { api.carts.isEmpty() }.observe(viewLifecycleOwner) {result ->
-            result.fold(onSuccess = {data ->
+        suspendToLiveData { api.carts.isEmpty() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { data ->
                 if (!data.isEmpty) {
                     val params = RestaurantParams(data.restaurantId!!)
                     navigation.navigateTo(RestaurantFragment(navigation, params))
@@ -143,7 +141,7 @@ class SearchCategoryAdapter(
                 .into(image)
 
             container.setOnClickListener {
-                val params = SearchRestaurantParams(categoryId = category.id)
+                val params = SearchRestaurantParams(categoryId = category.id, search = null)
                 navigation.navigateTo(SearchRestaurantFragment(navigation, params))
             }
         }
