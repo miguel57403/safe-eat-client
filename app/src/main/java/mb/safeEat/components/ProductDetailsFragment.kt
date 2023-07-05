@@ -21,6 +21,7 @@ import mb.safeEat.R
 import mb.safeEat.dialogs.ProductAddedDialog
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -84,8 +85,7 @@ class ProductDetailsFragment(
                 val price = view.findViewById<TextView>(R.id.product_details_content_card_price)
 
                 name.text = product.name!!
-                price.text = product.price.toString()
-
+                price.text = formatPrice("€", product.price)
             }, onFailure = {
                 alertThrowable(it)
             })
