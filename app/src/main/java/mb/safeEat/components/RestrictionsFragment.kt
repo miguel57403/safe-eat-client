@@ -20,7 +20,8 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.UserUpdateDto
 
-class RestrictionsFragment(private val navigation: NavigationListener) : AllergyListener, Fragment(),
+class RestrictionsFragment(private val navigation: NavigationListener) : AllergyListener,
+    Fragment(),
     Alertable {
     // TODO: Create a fragment for allergies buttons
     private lateinit var items: RecyclerView
@@ -63,7 +64,13 @@ class RestrictionsFragment(private val navigation: NavigationListener) : Allergy
     }
 
     private fun mapInitialData(restrictions: List<mb.safeEat.services.api.models.Restriction>): ArrayList<Allergy> {
-        return restrictions.map { Allergy(it.id!!, it.name!!, false) }.toCollection(ArrayList())
+        return restrictions.map {
+            Allergy(
+                id = it.id,
+                value = it.name!!,
+                selected = it.isRestricted!!
+            )
+        }.toCollection(ArrayList())
     }
 
     private fun initScreenEvents(view: View) {
