@@ -26,6 +26,7 @@ import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
+import mb.safeEat.services.api.dto.ItemDto
 import mb.safeEat.services.api.models.Ingredient
 
 data class ProductDetailsParams(val productId: String)
@@ -58,18 +59,31 @@ class ProductDetailsFragment(
 
     private fun initScreenEvents(view: View) {
         val addToCartButton = view.findViewById<Button>(R.id.product_detail_button)
-        addToCartButton.setOnClickListener {
-            val dialog = ProductAddedDialog()
-            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-            dialog.lifecycle.addObserver(object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    // TODO: Try remove this observer
-                    if (event == Lifecycle.Event.ON_DESTROY) {
-                        navigation.navigateTo(CartFragment(navigation))
-                    }
-                }
+        addToCartButton.setOnClickListener { doAddToCart() }
+    }
+
+    private fun doAddToCart() {
+        val body = ItemDto(productId = params.productId, quantity = 1)
+        suspendToLiveData { api.items.create(body) }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = {
+                showSuccessDialog()
+            }, onFailure = {
+                alertThrowable(it)
             })
         }
+    }
+
+    private fun showSuccessDialog() {
+        val dialog = ProductAddedDialog()
+        dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+        dialog.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                // TODO: Try remove this observer
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    navigation.navigateTo(CartFragment(navigation))
+                }
+            }
+        })
     }
 
     private fun loadInitialData(view: View) {
