@@ -35,14 +35,7 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
     }
 
     private fun loadInitialData(view: View) {
-        suspendToLiveData {
-            val isEmpty = api.carts.isEmpty()
-            if (isEmpty) {
-                null
-            } else {
-                api.orders.findDraft()
-            }
-        }.observe(viewLifecycleOwner) { result ->
+        suspendToLiveData { api.orders.findDraft() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { orderDraft ->
                 this.orderDraft = orderDraft
                 if (orderDraft == null) {

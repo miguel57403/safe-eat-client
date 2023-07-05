@@ -13,7 +13,7 @@ sealed interface OrderEndpoint {
     suspend fun findById(@Path("id") id: String): Order
 
     @GET("/orders/draft")
-    suspend fun findDraft(): OrderDraftDto
+    suspend fun findDraft(): OrderDraftDto?
 
     @GET("/orders/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Order>

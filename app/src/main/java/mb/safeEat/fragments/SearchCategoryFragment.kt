@@ -39,7 +39,7 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
         initAdapter(view)
         initScreenEvents(view)
         loadInitialData()
-        // TODO: Redirect to restaurant if cart is not empty
+        validateCart()
     }
 
     private fun initAdapter(view: View) {
@@ -91,6 +91,19 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
                 imageUrl = category.image ?: "",
             )
         }.toCollection(ArrayList())
+    }
+
+    private fun validateCart() {
+        suspendToLiveData { api.carts.isEmpty() }.observe(viewLifecycleOwner) {result ->
+            result.fold(onSuccess = {data ->
+                if (!data.isEmpty) {
+                    val params = RestaurantParams(data.restaurantId!!)
+                    navigation.navigateTo(RestaurantFragment(navigation, params))
+                }
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
     }
 }
 
