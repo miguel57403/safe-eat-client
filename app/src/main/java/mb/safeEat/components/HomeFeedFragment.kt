@@ -17,8 +17,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.formatScore
-import mb.safeEat.functions.hideNoData
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.models.Home
@@ -27,6 +27,7 @@ import kotlin.collections.ArrayList
 
 class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,8 +35,9 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
-        loadInitialData(view)
+        loadInitialData()
     }
 
     private fun initAdapter(view: View) {
@@ -44,17 +46,17 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
         items.adapter = HomeAdapter(navigation)
     }
 
-    private fun loadInitialData(view: View) {
+    private fun loadInitialData() {
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.homes.getOne() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { home ->
                 if (home.content != null) {
+                    dataStateIndicator.toggle(home.content.isNotEmpty())
                     val initialData = mapResponseToHomeItemList(home)
                     (items.adapter as HomeAdapter).loadInitialData(initialData)
-                    if (home.content.isNotEmpty()) {
-                        hideNoData(view)
-                    }
                 }
             }, onFailure = {
+                dataStateIndicator.showError()
                 alertThrowable(it)
             })
         }
@@ -75,7 +77,7 @@ class HomeFeedFragment(private val navigation: NavigationListener) : Fragment(),
                         HomeRestaurantList(it.restaurantSection.name ?: "#ERROR#",
                             it.restaurantSection.restaurants!!.map { restaurant ->
                                 Restaurant(
-                                    id = restaurant.id!!,
+                                    id = restaurant.id,
                                     name = restaurant.name!!,
                                     imageUrl = restaurant.logo ?: "",
                                     // TODO: Remove score

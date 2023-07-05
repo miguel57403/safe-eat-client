@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.formatPrice
-import mb.safeEat.functions.hideNoData
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.api.dto.ItemDto
@@ -24,6 +24,7 @@ import kotlin.collections.ArrayList
 class CartFragment(private val navigation: NavigationListener) : Fragment(), Alertable,
     CartListener {
     private lateinit var items: RecyclerView
+    private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,6 +32,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
         initScreenEvents(view)
         loadInitialData(view)
@@ -52,17 +54,17 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
         val products = view.findViewById<TextView>(R.id.cart_products_value)
         val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
 
+        dataStateIndicator.showLoading()
         suspendToLiveData { api.carts.findMe() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { cart ->
                 products.text = cart.quantity.toString()
                 subtotal.text = formatPrice("€", cart.subtotal)
 
-                if (cart.quantity!! > 0) {
-                    hideNoData(view)
-                    val initialData = mapInitialData(cart.items ?: listOf())
-                    (items.adapter as CartAdapter).loadInitialData(initialData)
-                }
+                dataStateIndicator.toggle(cart.quantity!! > 0)
+                val initialData = mapInitialData(cart.items ?: listOf())
+                (items.adapter as CartAdapter).loadInitialData(initialData)
             }, onFailure = {
+                dataStateIndicator.showError()
                 products.text = "0"
                 subtotal.text = formatPrice("€", 0.0)
                 alertThrowable(it)
@@ -73,9 +75,9 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     private fun mapInitialData(items: List<mb.safeEat.services.api.models.Item>): ArrayList<Product> {
         return items.map {
             Product(
-                id = it.id!!,
+                id = it.id,
                 amount = it.quantity!!,
-                productId = it.product!!.id!!,
+                productId = it.product!!.id,
                 product = it.product.name!!,
                 price = it.product.price!!,
                 warn = it.product.isRestricted!!
