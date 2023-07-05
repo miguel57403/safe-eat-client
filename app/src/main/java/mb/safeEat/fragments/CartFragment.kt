@@ -52,6 +52,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     }
 
     private fun loadInitialData(view: View) {
+        val submitButton = view.findViewById<TextView>(R.id.cart_button_submit)
         val products = view.findViewById<TextView>(R.id.cart_products_value)
         val subtotal = view.findViewById<TextView>(R.id.cart_products_subtotal_value)
 
@@ -61,7 +62,9 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
                 products.text = cart.quantity.toString()
                 subtotal.text = formatPrice("€", cart.subtotal)
 
-                dataStateIndicator.toggle(cart.quantity!! > 0)
+                val hasData = cart.quantity!! > 0
+                dataStateIndicator.toggle(hasData)
+                submitButton.isEnabled = hasData
                 val initialData = mapInitialData(cart.items ?: listOf())
                 (items.adapter as CartAdapter).loadInitialData(initialData)
             }, onFailure = {
