@@ -8,17 +8,8 @@ class ApiAuthorization : Interceptor {
     private var authorization: String? = null
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        return if (authorization == null) {
-            Log.d("ApiAuthorization", "No authorization ${chain.request().url()}")
-            chain.proceed(chain.request())
-        } else {
-            Log.d("ApiAuthorization", "Authorization ${chain.request().url()}: $authorization")
-            chain.proceed(
-                chain.request().newBuilder()
-                    .header("Authorization", authorization!!)
-                    .build()
-            )
-        }
+        interceptAndLog(chain)
+        return interceptAndAuthorize(chain)
     }
 
     fun setAuthorization(authorization: String?) {
@@ -27,6 +18,26 @@ class ApiAuthorization : Interceptor {
 
     fun clearAuthorization() {
         this.authorization = null
+    }
+
+    private fun interceptAndLog(chain: Interceptor.Chain) {
+        when (config.logLevel) {
+            ApiLogLevel.None -> return
+            ApiLogLevel.Basic -> Log.d("Api", "${chain.request().method()} ${chain.request().url()}")
+            ApiLogLevel.Full -> Log.d("Api", "${chain.request().method()} ${chain.request().url()} authorization=[$authorization]")
+        }
+    }
+
+    private fun interceptAndAuthorize(chain: Interceptor.Chain): Response {
+        return if (authorization == null) {
+            chain.proceed(chain.request())
+        } else {
+            chain.proceed(
+                chain.request().newBuilder()
+                    .header("Authorization", authorization!!)
+                    .build()
+            )
+        }
     }
 }
 
