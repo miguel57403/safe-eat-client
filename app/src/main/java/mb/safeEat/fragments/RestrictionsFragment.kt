@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,10 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import mb.safeEat.R
+import mb.safeEat.activities.Allergy
+import mb.safeEat.activities.AllergyAdapter
+import mb.safeEat.activities.AllergyListener
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader

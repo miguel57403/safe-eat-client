@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.app.Activity
 import android.content.Context
@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData

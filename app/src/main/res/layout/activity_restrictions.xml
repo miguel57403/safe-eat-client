@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/initial_pages_px"
-    tools:context=".components.RestrictionsActivity">
+    tools:context=".activities.RestrictionsActivity">
 
     <TextView
         android:id="@+id/allergy_title"

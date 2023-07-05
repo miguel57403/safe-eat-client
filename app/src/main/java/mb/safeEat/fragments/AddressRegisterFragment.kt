@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData

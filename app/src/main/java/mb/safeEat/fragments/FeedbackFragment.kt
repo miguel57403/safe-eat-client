@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.textfield.TextInputEditText
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData

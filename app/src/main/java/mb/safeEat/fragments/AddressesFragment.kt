@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.initHeader

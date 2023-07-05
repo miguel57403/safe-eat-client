@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -74,7 +74,7 @@ class RestrictionsActivity : AllergyListener, AppCompatActivity(), Alertable {
     }
 
     private fun mapInitialData(restrictions: List<mb.safeEat.services.api.models.Restriction>): ArrayList<Allergy> {
-        return restrictions.map { Allergy(it.id!!, it.name!!, false) }.toCollection(ArrayList())
+        return restrictions.map { Allergy(it.id, it.name!!, false) }.toCollection(ArrayList())
     }
 
     private fun initScreenEvents() {

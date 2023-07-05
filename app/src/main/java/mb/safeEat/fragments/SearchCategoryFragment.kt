@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -18,25 +18,20 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
-import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
-import mb.safeEat.services.api.models.Product
 
-data class SearchProductParams(val restaurantId: String)
-
-class SearchProductFragment(
-    private val navigation: NavigationListener,
-    private val params: SearchProductParams,
-) : Fragment(), Alertable {
+class SearchCategoryFragment(private val navigation: NavigationListener) : Fragment(),
+    Alertable {
     private lateinit var items: RecyclerView
     private lateinit var dataStateIndicator: DataStateIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_search_product, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_search_category, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,12 +39,13 @@ class SearchProductFragment(
         initAdapter(view)
         initScreenEvents(view)
         loadInitialData()
+        // TODO: Redirect to restaurant if cart is not empty
     }
 
     private fun initAdapter(view: View) {
-        items = view.findViewById(R.id.search_product_list)
-        items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = SearchProductAdapter(navigation)
+        items = view.findViewById(R.id.search_categories_items)
+        items.layoutManager = GridLayoutManager(view.context, 2)
+        items.adapter = SearchCategoryAdapter(navigation)
     }
 
     private fun initScreenEvents(view: View) {
@@ -63,23 +59,23 @@ class SearchProductFragment(
             if (enterClicked) doSearch(searchInput.text.toString())
             enterClicked
         }
-        backButton.setOnClickListener { navigation.onBackPressed() }
-    }
-
-    private fun loadInitialData() {
-        doSearch("")
+        backButton.visibility = View.GONE
     }
 
     private fun doSearch(input: String) {
+        if (input.isBlank()) return
+        // TODO: Implement doSearch
+//        val params = SearchRestaurantParams(search = input)
+//        navigation.navigateTo(SearchRestaurantFragment(navigation, params))
+    }
+
+    private fun loadInitialData() {
         dataStateIndicator.showLoading()
-        suspendToLiveData {
-            if (input.isEmpty()) api.products.findAllByRestaurant(params.restaurantId)
-            else api.products.findAllByRestaurantAndName(params.restaurantId, input)
-        }.observe(viewLifecycleOwner) { result ->
-            result.fold(onSuccess = { products ->
-                dataStateIndicator.toggle(products.isNotEmpty())
-                val initialData = mapInitialData(products)
-                (items.adapter as SearchProductAdapter).loadInitialData(initialData)
+        suspendToLiveData { api.categories.findAll() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { categories ->
+                dataStateIndicator.toggle(categories.isNotEmpty())
+                val initialData = mapInitialData(categories)
+                (items.adapter as SearchCategoryAdapter).loadInitialData(initialData)
             }, onFailure = {
                 dataStateIndicator.showError()
                 alertThrowable(it)
@@ -87,40 +83,31 @@ class SearchProductFragment(
         }
     }
 
-    private fun mapInitialData(products: List<Product>): ArrayList<SearchProduct> {
-        return products.map {
-            SearchProduct(
-                id = it.id,
-                imageUrl = it.image ?: "",
-                name = it.name!!,
-                price = formatPrice("€", it.price),
+    private fun mapInitialData(categories: List<mb.safeEat.services.api.models.Category>): ArrayList<Category> {
+        return categories.map { category ->
+            Category(
+                id = category.id,
+                name = category.name!!,
+                imageUrl = category.image ?: "",
             )
         }.toCollection(ArrayList())
     }
-
-    @Suppress("unused")
-    private fun createMockData(): ArrayList<SearchProduct> {
-        return arrayListOf(
-            SearchProduct("", "", "Product Name 2", "€2,99"),
-            SearchProduct("", "", "Product Name 1", "€2,99"),
-            SearchProduct("", "", "Product Name 3", "€2,99")
-        )
-    }
 }
 
-class SearchProductAdapter(private val navigation: NavigationListener) :
-    RecyclerView.Adapter<SearchProductAdapter.ViewHolder>() {
-    private var data = ArrayList<SearchProduct>()
+class SearchCategoryAdapter(
+    private val navigation: NavigationListener,
+) : RecyclerView.Adapter<SearchCategoryAdapter.ViewHolder>() {
+    private var data = ArrayList<Category>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun loadInitialData(newData: ArrayList<SearchProduct>) {
+    fun loadInitialData(newData: ArrayList<Category>) {
         data = newData
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         navigation,
-        LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_search_category, parent, false)
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
@@ -129,30 +116,29 @@ class SearchProductAdapter(private val navigation: NavigationListener) :
 
     class ViewHolder(private val navigation: NavigationListener, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        private val container = itemView.findViewById<MaterialCardView>(R.id.item_product_container)
-        private val image = itemView.findViewById<ImageView>(R.id.search_product_item_image)
-        private val name = itemView.findViewById<TextView>(R.id.search_product_item_product)
-        private val price = itemView.findViewById<TextView>(R.id.search_product_item_price)
+        private val container =
+            itemView.findViewById<MaterialCardView>(R.id.item_search_category_container)
+        private val category: TextView = itemView.findViewById(R.id.search_category_name)
+        private val image: ImageView = itemView.findViewById(R.id.search_category_image)
 
-        fun bind(item: SearchProduct) {
-            name.text = item.name
-            price.text = item.price
+        fun bind(category: Category) {
+            this.category.text = category.name
             Glide.with(itemView) //
-                .load(item.imageUrl) //
+                .load(category.imageUrl) //
                 .apply(RequestOptions().centerCrop()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
+
             container.setOnClickListener {
-                val params = ProductDetailsParams(item.id)
-                navigation.navigateTo(ProductDetailsFragment(navigation, params))
+                val params = SearchRestaurantParams(categoryId = category.id)
+                navigation.navigateTo(SearchRestaurantFragment(navigation, params))
             }
         }
     }
 }
 
-data class SearchProduct(
+data class Category(
     val id: String,
-    val imageUrl: String,
     val name: String,
-    val price: String,
+    val imageUrl: String,
 )

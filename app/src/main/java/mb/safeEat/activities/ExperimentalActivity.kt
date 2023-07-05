@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package mb.safeEat.components
+package mb.safeEat.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

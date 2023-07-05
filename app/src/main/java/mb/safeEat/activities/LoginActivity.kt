@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.activities
 
 import android.content.Context
 import android.content.Intent

@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
-import mb.safeEat.components.NavigationListener
+import mb.safeEat.activities.NavigationListener
 
 // Used with component_header.xml
 fun initHeader(view: View, navigation: NavigationListener, @StringRes titleId: Int) {

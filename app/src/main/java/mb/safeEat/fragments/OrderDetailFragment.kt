@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
+import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.TimeAgo
 import mb.safeEat.functions.formatPrice
@@ -87,7 +88,7 @@ class OrderDetailFragment(
         progressBar.progress = orderStatus.toProgress()
         if (orderStatus == OrderStatus.DELIVERED) {
             buttonFeedback.setOnClickListener {
-                val params = FeedbackParams(orderId = order.id!!)
+                val params = FeedbackParams(orderId = order.id)
                 navigation.navigateTo(FeedbackFragment(navigation, params))
             }
             buttonFeedback.visibility = View.VISIBLE

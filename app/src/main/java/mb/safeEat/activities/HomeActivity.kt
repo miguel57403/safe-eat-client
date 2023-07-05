@@ -1,4 +1,4 @@
-package mb.safeEat.components
+package mb.safeEat.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import mb.safeEat.R
+import mb.safeEat.fragments.CartFragment
+import mb.safeEat.fragments.HomeFeedFragment
+import mb.safeEat.fragments.NotificationsFragment
+import mb.safeEat.fragments.ProfileFragment
+import mb.safeEat.fragments.SearchCategoryFragment
 import mb.safeEat.functions.cleanIntentStack
 import mb.safeEat.services.api.authorization
 import mb.safeEat.services.state.state
