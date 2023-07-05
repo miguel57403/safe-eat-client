@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import mb.safeEat.R
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
@@ -33,6 +36,7 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
         super.onViewCreated(view, savedInstanceState)
         dataStateIndicator = DataStateIndicator(view)
         initAdapter(view)
+        initScreenEvents(view)
         loadInitialData()
         // TODO: Redirect to restaurant if cart is not empty
     }
@@ -41,6 +45,27 @@ class SearchCategoryFragment(private val navigation: NavigationListener) : Fragm
         items = view.findViewById(R.id.search_categories_items)
         items.layoutManager = GridLayoutManager(view.context, 2)
         items.adapter = SearchCategoryAdapter(navigation)
+    }
+
+    private fun initScreenEvents(view: View) {
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_search_back_button)
+        val searchLayout = view.findViewById<TextInputLayout>(R.id.header_search_search_layout)
+        val searchInput = view.findViewById<TextInputEditText>(R.id.header_search_search_input)
+
+        searchLayout.setEndIconOnClickListener { doSearch(searchInput.text.toString()) }
+        searchInput.setOnEditorActionListener { _, actionId, _ ->
+            val enterClicked = actionId == EditorInfo.IME_ACTION_DONE
+            if (enterClicked) doSearch(searchInput.text.toString())
+            enterClicked
+        }
+        backButton.visibility = View.GONE
+    }
+
+    private fun doSearch(input: String) {
+        if (input.isBlank()) return
+        // TODO: Implement doSearch
+//        val params = SearchRestaurantParams(search = input)
+//        navigation.navigateTo(SearchRestaurantFragment(navigation, params))
     }
 
     private fun loadInitialData() {

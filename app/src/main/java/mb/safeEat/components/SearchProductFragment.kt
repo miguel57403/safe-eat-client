@@ -53,9 +53,9 @@ class SearchProductFragment(
     }
 
     private fun initScreenEvents(view: View) {
-        val backButton = view.findViewById<ImageView>(R.id.search_product_back_button)
-        val searchLayout = view.findViewById<TextInputLayout>(R.id.search_product_search_layout)
-        val searchInput = view.findViewById<TextInputEditText>(R.id.search_product_search_input)
+        val backButton = view.findViewById<MaterialCardView>(R.id.header_search_back_button)
+        val searchLayout = view.findViewById<TextInputLayout>(R.id.header_search_search_layout)
+        val searchInput = view.findViewById<TextInputEditText>(R.id.header_search_search_input)
 
         searchLayout.setEndIconOnClickListener { doSearch(searchInput.text.toString()) }
         searchInput.setOnEditorActionListener { _, actionId, _ ->
