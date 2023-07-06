@@ -235,7 +235,8 @@ class RestaurantProductAdapter(
 
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerCropTransform()) //
+                .apply(RequestOptions().centerCrop()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
         }
     }

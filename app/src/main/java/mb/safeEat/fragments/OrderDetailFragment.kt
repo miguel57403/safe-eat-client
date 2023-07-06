@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
@@ -95,8 +98,12 @@ class OrderDetailFragment(
         } else {
             buttonFeedback.visibility = View.GONE
         }
-        // TODO: Use Glide to load image
-        image.setImageResource(R.drawable.restaurant)
+
+        Glide.with(view) //
+            .load(order.restaurant?.logo) //
+            .apply(RequestOptions().centerCrop()) //
+            .transition(DrawableTransitionOptions.withCrossFade()) //
+            .into(image)
     }
 
     private fun mapInitialData(listOrderItem: List<Item>): ArrayList<OrderItem> {
