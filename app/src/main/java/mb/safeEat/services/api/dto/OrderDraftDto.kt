@@ -6,10 +6,10 @@ import mb.safeEat.services.api.models.Item
 import mb.safeEat.services.api.models.Payment
 
 data class OrderDraftDto(
-    val addresses: List<Address>? = null,
-    val deliveries: List<Delivery>? = null,
-    val payments: List<Payment>? = null,
-    val items: List<Item>? = null,
-    val subtotal: Double? = null,
-    val quantity: Int? = null,
+    val addresses: List<Address>,
+    val deliveries: List<Delivery>,
+    val payments: List<Payment>,
+    val items: List<Item>,
+    val subtotal: Double,
+    val quantity: Int,
 )
