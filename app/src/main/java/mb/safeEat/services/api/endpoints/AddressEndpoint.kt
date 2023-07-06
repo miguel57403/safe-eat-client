@@ -14,11 +14,17 @@ sealed interface AddressEndpoint {
     @GET("/addresses/user/{userId}")
     suspend fun findAllByUser(@Path("userId") userId: String): List<Address>
 
+    @GET("/addresses/user/me")
+    suspend fun findMe(): List<Address>
+
     @POST("/addresses")
     suspend fun create(@Body address: AddressDto): Address
 
     @PUT("/addresses")
     suspend fun update(@Body address: AddressDto): Address
+
+    @PUT("/addresses/select/{id}")
+    suspend fun select(@Path("id") id: String): Address
 
     @DELETE("/addresses/{id}")
     suspend fun delete(@Path("id") id: String)

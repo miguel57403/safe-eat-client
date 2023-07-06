@@ -7,7 +7,7 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp">
 
-    <include layout="@layout/fragment_header" />
+    <include layout="@layout/component_header" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/address_postal_code_left"
@@ -21,17 +21,17 @@
         app:layout_constraintTop_toBottomOf="@+id/header_container">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/profile_edit_photo"
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:contentDescription="@string/d_image_profile"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/photo" />
+            tools:src="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/profile_edit_photo_change"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
             android:text="@string/t_change_photo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/profile_edit_photo"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,19 +14,19 @@
         android:theme="@style/Theme.SafeEat"
         tools:targetApi="31">
         <activity
-            android:name=".components.AllergyActivity"
+            android:name=".activities.ExperimentalActivity"
             android:exported="false" />
         <activity
-            android:name=".components.ExperimentalActivity"
+            android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".components.HomeActivity"
+            android:name=".activities.RestrictionsActivity"
             android:exported="false" />
         <activity
-            android:name=".components.RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".components.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

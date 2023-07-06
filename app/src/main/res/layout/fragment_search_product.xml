@@ -4,57 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="40dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/search_product_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/search_product_back_button"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/d_button_back"
-            android:src="@drawable/arrow_back_48px"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/orange_500" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_product_search_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="0dp"
-            android:hint="@string/t_search"
-            app:boxBackgroundColor="@color/white"
-            app:endIconContentDescription="@string/d_search_input"
-            app:endIconDrawable="@drawable/baseline_search_24"
-            app:endIconTint="@color/orange_500"
-            app:endIconMode="custom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/search_product_back_button"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_product_search_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="none"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:lines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/component_data_state_indicator" />
+    <include layout="@layout/component_header_search" />
 
     <TextView
         android:id="@+id/search_product_title"
@@ -66,7 +20,7 @@
         android:textSize="@dimen/text_lg"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_product_header" />
+        app:layout_constraintTop_toBottomOf="@+id/header_search_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_product_list"

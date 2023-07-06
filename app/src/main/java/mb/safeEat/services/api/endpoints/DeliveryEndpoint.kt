@@ -23,6 +23,9 @@ sealed interface DeliveryEndpoint {
     @PUT("/deliveries")
     suspend fun update(@Body delivery: DeliveryDto): Delivery
 
+    @PUT("/deliveries/select/{id}")
+    suspend fun select(@Path("id") id: String): Delivery
+
     @DELETE("/deliveries/{id}")
     suspend fun delete(@Path("id") id: String)
 }

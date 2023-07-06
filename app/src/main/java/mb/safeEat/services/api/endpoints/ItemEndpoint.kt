@@ -21,5 +21,5 @@ sealed interface ItemEndpoint {
     suspend fun update(@Body item: ItemDto): Item
 
     @DELETE("/items/{id}")
-    suspend fun delete(@Path("id") id: String): Item
+    suspend fun delete(@Path("id") id: String)
 }

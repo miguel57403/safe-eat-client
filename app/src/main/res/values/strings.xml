@@ -85,6 +85,7 @@
     <string name="t_advertisement">Advertisement</string>
     <string name="t_cancel">Cancel</string>
     <string name="t_cart">Cart</string>
+    <string name="t_cart_is_empty">Your cart is empty</string>
     <string name="t_categories">Categories</string>
     <string name="t_cellphone">Cellphone</string>
     <string name="t_change_photo">Change Photo</string>
@@ -106,7 +107,8 @@
     <string name="t_ingredients">Ingredients</string>
     <string name="t_login">Login</string>
     <string name="t_name">Name</string>
-    <string name="t_new_address">New address</string>
+    <string name="m_address_new">New address</string>
+    <string name="m_address_edit">Edit address</string>
     <string name="t_new_payment">New Payment</string>
     <string name="t_new_delivery_option">New delivery option</string>
     <string name="t_no">No</string>
@@ -139,5 +141,7 @@
     <string name="t_user">User</string>
     <string name="t_yes">Yes</string>
     <string name="t_city">City</string>
+    <string name="t_no_data">No data</string>
+    <string name="t_error">Error</string>
     <string name="t_cvv">cvv</string>
 </resources>

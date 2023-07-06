@@ -1,7 +1,7 @@
 package mb.safeEat.services.api.models
 
 data class Order(
-    val id: String? = null,
+    val id: String,
     val status: String? = null,
     val time: String? = null,
     val subtotal: Double? = null,
@@ -11,8 +11,7 @@ data class Order(
     val payment: Payment? = null,
     val delivery: Delivery? = null,
     val items: List<Item>? = null,
-
+    val feedbackId: String? = null,
     val restaurant: Restaurant? = null,
-    val feedback: Feedback? = null,
     val client: User? = null,
 )
