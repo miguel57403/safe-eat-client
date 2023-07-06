@@ -136,7 +136,7 @@ class SearchCategoryAdapter(
             this.category.text = item.name
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerInsideTransform()) //
+                .apply(RequestOptions.centerCropTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
 
