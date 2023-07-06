@@ -105,9 +105,9 @@ class FeedbackFragment(
 
         feedBackText.text = "How to as the ${order.restaurant?.name}"
 
-        Glide.with(this) //
+        Glide.with(view) //
             .load(order.restaurant?.logo) //
-            .apply(RequestOptions().centerCrop()) //
+            .apply(RequestOptions.centerInsideTransform()) //
             .transition(DrawableTransitionOptions.withCrossFade()) //
             .into(imageFeedBack)
     }

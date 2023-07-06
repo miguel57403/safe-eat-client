@@ -132,16 +132,16 @@ class SearchCategoryAdapter(
         private val category: TextView = itemView.findViewById(R.id.search_category_name)
         private val image: ImageView = itemView.findViewById(R.id.search_category_image)
 
-        fun bind(category: Category) {
-            this.category.text = category.name
+        fun bind(item: Category) {
+            this.category.text = item.name
             Glide.with(itemView) //
-                .load(category.imageUrl) //
-                .apply(RequestOptions().centerCrop()) //
+                .load(item.imageUrl) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
 
             container.setOnClickListener {
-                val params = SearchRestaurantParams(categoryId = category.id, search = null)
+                val params = SearchRestaurantParams(categoryId = item.id, search = null)
                 navigation.navigateTo(SearchRestaurantFragment(navigation, params))
             }
         }

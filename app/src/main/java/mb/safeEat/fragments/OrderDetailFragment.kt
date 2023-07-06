@@ -101,7 +101,7 @@ class OrderDetailFragment(
 
         Glide.with(view) //
             .load(order.restaurant?.logo) //
-            .apply(RequestOptions().centerCrop()) //
+            .apply(RequestOptions.centerInsideTransform()) //
             .transition(DrawableTransitionOptions.withCrossFade()) //
             .into(image)
     }

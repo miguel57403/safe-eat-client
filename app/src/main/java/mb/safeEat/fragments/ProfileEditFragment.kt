@@ -76,7 +76,7 @@ class ProfileEditFragment(private val navigation: NavigationListener) : Fragment
             binding.cellphone.text = user.cellphone
             Glide.with(view) //
                 .load(user.image) //
-                .apply(RequestOptions().centerCrop()) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(binding.image)
         }

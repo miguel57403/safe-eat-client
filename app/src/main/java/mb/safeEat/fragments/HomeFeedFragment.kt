@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
@@ -188,7 +189,8 @@ class HomeAdapter(
             advertisementTitle.text = item.title
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerCropTransform()) //
+                .apply(RequestOptions.centerInsideTransform()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(advertisementImage)
         }
 
@@ -233,7 +235,8 @@ class HomeRestaurantAdapter(
         fun bind(item: Restaurant) {
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerCropTransform()) //
+                .apply(RequestOptions.centerInsideTransform()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
             restaurant.text = item.name
             score.text = formatScore(item.score)

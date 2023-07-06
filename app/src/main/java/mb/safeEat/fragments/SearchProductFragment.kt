@@ -140,7 +140,7 @@ class SearchProductAdapter(private val navigation: NavigationListener) :
             price.text = item.price
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions().centerCrop()) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
             container.setOnClickListener {

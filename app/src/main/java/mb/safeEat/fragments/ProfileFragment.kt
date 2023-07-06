@@ -65,9 +65,9 @@ class ProfileFragment(private val navigation: NavigationListener) : Fragment(), 
         state.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 if (user.image != null) {
-                    Glide.with(this) //
+                    Glide.with(view) //
                         .load(user.image) //
-                        .apply(RequestOptions.centerCropTransform()) //
+                        .apply(RequestOptions.centerInsideTransform()) //
                         .transition(DrawableTransitionOptions.withCrossFade()) //
                         .into(profileImage)
                 }

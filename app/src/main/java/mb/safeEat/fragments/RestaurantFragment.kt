@@ -71,15 +71,15 @@ class RestaurantFragment(
                 restaurantName.text = restaurant.name
                 deliveryInterval.text = restaurant.formattedDeliveryInterval()
                 deliveryPrice.text = restaurant.formattedDeliveryPrice("€")
-                Glide.with(this) //
+                Glide.with(view) //
                     .load(restaurant.logo) //
-                    .apply(RequestOptions().centerCrop()) //
+                    .apply(RequestOptions.centerInsideTransform()) //
                     .transition(DrawableTransitionOptions.withCrossFade()) //
                     .into(restaurantImage)
 
-                Glide.with(this) //
+                Glide.with(view) //
                     .load(restaurant.cover) //
-                    .apply(RequestOptions().centerCrop()) //
+                    .apply(RequestOptions.centerInsideTransform()) //
                     .transition(DrawableTransitionOptions.withCrossFade()) //
                     .into(posterImage)
             }, onFailure = {
@@ -235,7 +235,7 @@ class RestaurantProductAdapter(
 
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions().centerCrop()) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
         }

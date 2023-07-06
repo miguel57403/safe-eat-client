@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
@@ -120,7 +121,8 @@ class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
             )
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerCropTransform()) //
+                .apply(RequestOptions.centerInsideTransform()) //
+                .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
         }
     }

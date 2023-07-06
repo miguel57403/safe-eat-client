@@ -152,7 +152,7 @@ class SearchRestaurantAdapter(
             time.text = item.time
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions().centerCrop()) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
             container.setOnClickListener {

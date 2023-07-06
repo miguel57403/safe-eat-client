@@ -125,7 +125,7 @@ class NotificationAdapter(
 
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions().centerCrop()) //
+                .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
         }
