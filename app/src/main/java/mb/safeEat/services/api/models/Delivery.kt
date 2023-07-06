@@ -14,15 +14,11 @@ data class Delivery(
         return if (minimumTime != null && maximumTime != null) {
             "$minimumTime - $maximumTime"
         } else {
-            "[N/A]"
+            "N/A"
         }
     }
 
     fun formattedPrice(unit: String): String {
-        return if (price != null) {
-            formatPrice(unit, price)
-        } else {
-            "[N/A]"
-        }
+        return formatPrice(unit, price)
     }
 }
