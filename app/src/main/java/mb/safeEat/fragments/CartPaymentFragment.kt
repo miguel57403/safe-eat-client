@@ -129,7 +129,7 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
                 dialog.setOnDismissListener {
                     loading = false
                     button.isEnabled = true
-                    navigation.navigateTo(NotificationsFragment(navigation))
+                    navigation.navigateTo(OrdersFragment(navigation))
                 }
                 dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
             }, onFailure = {
