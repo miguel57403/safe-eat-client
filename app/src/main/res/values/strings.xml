@@ -144,5 +144,8 @@
     <string name="t_city">City</string>
     <string name="t_no_data">No data</string>
     <string name="t_error">Error</string>
-    <string name="t_cvv">cvv</string>
+    <string name="t_cvv">CVV</string>
+    <string name="t_expiration_date">Expiration Date</string>
+    <string name="h_expiration_date">MM/AAAA</string>
+    <string name="t_payment_type">Payment Type</string>
 </resources>
