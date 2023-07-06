@@ -77,11 +77,18 @@ class RestaurantFragment(
                     .transition(DrawableTransitionOptions.withCrossFade()) //
                     .into(restaurantImage)
 
-                Glide.with(view) //
-                    .load(restaurant.cover) //
-                    .apply(RequestOptions.centerInsideTransform()) //
-                    .transition(DrawableTransitionOptions.withCrossFade()) //
-                    .into(posterImage)
+                // TODO: Remove development flag
+                val development = false
+                if (development) {
+                    Glide.with(view) //
+                        .load(restaurant.cover) //
+                        .apply(RequestOptions.centerInsideTransform()) //
+                        .transition(DrawableTransitionOptions.withCrossFade()) //
+                        .into(posterImage)
+
+                } else {
+                    posterImage.setBackgroundResource(R.drawable.restaurant_cover)
+                }
             }, onFailure = {
                 alertThrowable(it)
             })
@@ -233,11 +240,17 @@ class RestaurantProductAdapter(
                 navigation.navigateTo(ProductDetailsFragment(navigation, params))
             }
 
-            Glide.with(itemView) //
-                .load(item.imageUrl) //
-                .apply(RequestOptions.centerInsideTransform()) //
-                .transition(DrawableTransitionOptions.withCrossFade()) //
-                .into(image)
+            // TODO: Remove development flag
+            val development = false
+            if (development) {
+                Glide.with(itemView) //
+                    .load(item.imageUrl) //
+                    .apply(RequestOptions.centerInsideTransform()) //
+                    .transition(DrawableTransitionOptions.withCrossFade()) //
+                    .into(image)
+            } else {
+                image.setBackgroundResource(R.drawable.detail_product_pizza)
+            }
         }
     }
 }

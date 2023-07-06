@@ -96,11 +96,14 @@ class ProductDetailsFragment(
             api.products.findById(params.productId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { product ->
+                val image = view.findViewById<ImageView>(R.id.product_details_content_card_image)
                 val name = view.findViewById<TextView>(R.id.product_details_content_card_title)
                 val price = view.findViewById<TextView>(R.id.product_details_content_card_price)
 
                 name.text = product.name!!
                 price.text = formatPrice("€", product.price)
+                // TODO: Use product.image
+                image.setBackgroundResource(R.drawable.restaurant_cover)
             }, onFailure = {
                 alertThrowable(it)
             })

@@ -172,6 +172,7 @@ class CartAdapter(private val listener: CartListener) :
     class ViewHolder(private val listener: CartListener, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val container = itemView.findViewById<ConstraintLayout>(R.id.cart_item_container)
+        private val image = itemView.findViewById<ImageView>(R.id.cart_item_image)
         private val product = itemView.findViewById<TextView>(R.id.cart_item_name)
         private val quantity = itemView.findViewById<TextView>(R.id.cart_item_quantity)
         private val price = itemView.findViewById<TextView>(R.id.cart_item_price)
@@ -186,6 +187,8 @@ class CartAdapter(private val listener: CartListener) :
                 icon.visibility = View.VISIBLE
                 icon.imageTintList = itemView.context.getColorStateList(R.color.red_500)
             }
+            // TODO: Use item.product.image
+            image.setBackgroundResource(R.drawable.item_cart)
             product.text = item.product
             quantity.text = item.amount.toString()
             price.text = formatPrice("€", item.price)
