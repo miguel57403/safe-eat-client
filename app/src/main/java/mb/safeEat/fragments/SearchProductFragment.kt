@@ -138,11 +138,16 @@ class SearchProductAdapter(private val navigation: NavigationListener) :
         fun bind(item: SearchProduct) {
             name.text = item.name
             price.text = item.price
-            Glide.with(itemView) //
-                .load(item.imageUrl) //
-                .apply(RequestOptions.centerInsideTransform()) //
-                .transition(DrawableTransitionOptions.withCrossFade()) //
-                .into(image)
+            val development = false
+            if (development) {
+                Glide.with(itemView) //
+                    .load(item.imageUrl) //
+                    .apply(RequestOptions.centerInsideTransform()) //
+                    .transition(DrawableTransitionOptions.withCrossFade()) //
+                    .into(image)
+            } else {
+                image.setBackgroundResource(R.drawable.detail_product_pizza)
+            }
             container.setOnClickListener {
                 val params = ProductDetailsParams(item.id)
                 navigation.navigateTo(ProductDetailsFragment(navigation, params))
