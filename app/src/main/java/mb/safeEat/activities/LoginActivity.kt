@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity(), Alertable {
         val emailInput = findViewById<TextInputEditText>(R.id.login_material_email_input)
         val passwordInput = findViewById<TextInputEditText>(R.id.login_material_password_input)
         // TODO: Remove this when the app is ready
-        val development = true
+        val development = false
         val body = if (development) {
             LoginDto("afonso@safeeat.com", "123")
         } else {
