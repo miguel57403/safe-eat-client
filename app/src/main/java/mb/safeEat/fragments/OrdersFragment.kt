@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,8 @@ import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
 import mb.safeEat.services.state.state
 
-class OrdersFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+class OrdersFragment(private val navigation: NavigationListener) : Fragment(), OrdersListener,
+    Alertable {
     private lateinit var items: RecyclerView
     private lateinit var dataStateIndicator: DataStateIndicator
 
@@ -43,7 +45,7 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
     private fun initAdapter(view: View) {
         items = view.findViewById(R.id.orders_items)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = OrdersAdapter()
+        items.adapter = OrdersAdapter(this)
     }
 
     private fun loadInitialData() {
@@ -64,6 +66,7 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
     private fun mapInitialData(order: List<mb.safeEat.services.api.models.Order>): ArrayList<Order> {
         return order.map {
             Order(
+                id = it.id,
                 imageUrl = it.restaurant?.logo ?: "",
                 restaurant = it.restaurant?.name ?: "",
                 date = TimeAgo.parse(it.time!!).toString(),
@@ -76,16 +79,26 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
     @Suppress("unused")
     private fun createMockData(): ArrayList<Order> {
         return arrayListOf(
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.REGISTERED, 10),
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.PREPARING, 10),
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.TRANSPORTING, 10),
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.DELIVERED, 10),
-            Order("", "Sabor Brasileiro", "20-12-2023", OrderStatus.CANCELED, 10)
+            Order("", "", "Sabor Brasileiro", "20-12-2023", OrderStatus.REGISTERED, 10),
+            Order("", "", "Sabor Brasileiro", "20-12-2023", OrderStatus.PREPARING, 10),
+            Order("", "", "Sabor Brasileiro", "20-12-2023", OrderStatus.TRANSPORTING, 10),
+            Order("", "", "Sabor Brasileiro", "20-12-2023", OrderStatus.DELIVERED, 10),
+            Order("", "", "Sabor Brasileiro", "20-12-2023", OrderStatus.CANCELED, 10)
         )
+    }
+
+    override fun onOrderClicked(order: Order) {
+        val params = OrderDetailParams(orderId = order.id)
+        navigation.navigateTo(OrderDetailFragment(navigation, params))
     }
 }
 
-class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
+interface OrdersListener {
+    fun onOrderClicked(order: Order)
+}
+
+class OrdersAdapter(private val listener: OrdersListener) :
+    RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
     private var data = ArrayList<Order>()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -95,6 +108,7 @@ class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        listener,
         LayoutInflater.from(parent.context).inflate(R.layout.item_order, parent, false)
     )
 
@@ -102,7 +116,9 @@ class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val listener: OrdersListener, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        private val container = itemView.findViewById<ConstraintLayout>(R.id.order_item_container)
         private val image = itemView.findViewById<ImageView>(R.id.order_item_image)
         private val restaurant = itemView.findViewById<TextView>(R.id.order_item_restaurant)
         private val date = itemView.findViewById<TextView>(R.id.order_item_date)
@@ -124,11 +140,13 @@ class OrdersAdapter : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
                 .apply(RequestOptions.centerInsideTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
+            container.setOnClickListener { listener.onOrderClicked(item) }
         }
     }
 }
 
 data class Order(
+    val id: String,
     val imageUrl: String,
     val restaurant: String,
     val date: String,
