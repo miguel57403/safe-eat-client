@@ -23,7 +23,7 @@
         android:id="@+id/payment_select_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:paddingVertical="8dp"
         android:text="@string/t_add_payment"
         app:layout_constraintBottom_toBottomOf="parent"

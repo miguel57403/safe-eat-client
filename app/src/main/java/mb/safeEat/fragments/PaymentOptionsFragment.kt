@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -80,16 +81,10 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
         // TODO: Implement onPaymentSelected
         Log.d("Click", "Payment Clicked Selected")
     }
-
-    override fun onPaymentEdit(payment: Payment) {
-        // TODO: Implement onPaymentEdit
-        Log.d("Click", "Payment Clicked Edit")
-    }
 }
 
 interface PaymentListener {
     fun onPaymentSelected(payment: Payment)
-    fun onPaymentEdit(payment: Payment)
 }
 
 class PaymentAdapter(private val listener: PaymentListener) :
@@ -115,18 +110,13 @@ class PaymentAdapter(private val listener: PaymentListener) :
         private val container = itemView.findViewById<MaterialCardView>(R.id.item_payment_container)
         private val text = itemView.findViewById<TextView>(R.id.item_payment_text)
         private val icon = itemView.findViewById<ImageView>(R.id.item_payment_icon1)
-        private val editIcon = itemView.findViewById<MaterialCardView>(R.id.item_payment_icon2)
 
         fun bind(item: Payment) {
             text.text = item.name
-            // TODO: Use check icon
-            if (item.isSelected) {
-                icon.setImageResource(R.drawable.baseline_home_24)
-            } else {
-                icon.setImageResource(R.drawable.baseline_business_24)
+            if (!item.isSelected) {
+                icon.imageTintList = ContextCompat.getColorStateList(itemView.context, android.R.color.transparent)
             }
             container.setOnClickListener { listener.onPaymentSelected(item) }
-            editIcon.setOnClickListener { listener.onPaymentEdit(item) }
         }
     }
 }

@@ -19,8 +19,8 @@
             android:id="@+id/item_payment_icon1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="@string/d_icon_for_payment"
-            android:src="@drawable/baseline_home_24"
+            android:contentDescription="@string/d_icon_check"
+            android:src="@drawable/baseline_check_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,27 +36,9 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_payment_icon2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/item_payment_icon1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/item_payment_icon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkable="true"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:contentDescription="@string/d_icon_edit"
-                android:src="@drawable/baseline_edit_24"
-                app:tint="@color/orange_500" />
-        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
