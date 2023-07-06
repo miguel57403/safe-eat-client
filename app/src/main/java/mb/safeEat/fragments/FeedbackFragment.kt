@@ -9,10 +9,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
 import mb.safeEat.extensions.Alertable
@@ -29,6 +32,7 @@ class FeedbackFragment(
     private val params: FeedbackParams
 ) : Fragment(), Alertable {
     private var score = 0
+    private var loading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,7 +75,7 @@ class FeedbackFragment(
 
     private fun initScreenEvents(view: View) {
         val submitButton = view.findViewById<Button>(R.id.feedback_submit)
-        submitButton.setOnClickListener { doFeedback(view, params.orderId) }
+        submitButton.setOnClickListener { doFeedback(submitButton, view, params.orderId) }
     }
 
     private fun loadInitialData(view: View) {
@@ -84,15 +88,27 @@ class FeedbackFragment(
         }
     }
 
-    private fun doFeedback(view: View, orderId: String) {
+    private fun doFeedback(button: Button , view: View, orderId: String) {
+        if (loading) return
+        loading = true
+        button.isEnabled = false
         val comment = view.findViewById<TextInputEditText>(R.id.feedback_comment_input)
         val body = FeedbackDto(rating = score, comment = comment.text.toString())
         suspendToLiveData {
             api.feedbacks.create(body, orderId)
         }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = {
+                alertSuccess("Feedback sent!")
+                lifecycleScope.launch {
+                    delay(1500)
+                    button.isEnabled = true
+                    loading = false
+                    navigation.onBackPressed()
+                }
                 navigation.onBackPressed()
             }, onFailure = {
+                loading = false
+                button.isEnabled = true
                 alertThrowable(it)
             })
         }
