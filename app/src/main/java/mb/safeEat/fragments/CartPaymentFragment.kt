@@ -11,7 +11,6 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
 import mb.safeEat.dialogs.OrderCompletedDialog
-import mb.safeEat.dialogs.RestrictionAlertDialog
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
@@ -91,19 +90,6 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
         if (orderDraft == null) return
         if (loading) return
 
-        val hasWarnings = true // TODO: Check if there are warnings
-        if (hasWarnings) {
-            val dialog = RestrictionAlertDialog()
-            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-            dialog.setOnConfirmListener { confirm ->
-                if (confirm) confirmCart(button)
-            }
-        } else {
-            confirmCart(button)
-        }
-    }
-
-    private fun confirmCart(button: Button) {
         val payment = orderDraft!!.payments?.first { it.isSelected!! }!!
         val delivery = orderDraft!!.deliveries?.first { it.isSelected!! }!!
         val address = orderDraft!!.addresses?.first { it.isSelected!! }!!

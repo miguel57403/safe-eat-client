@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
+import mb.safeEat.dialogs.RestrictionAlertDialog
 import mb.safeEat.extensions.Alertable
 import mb.safeEat.extensions.DataStateIndicator
 import mb.safeEat.functions.formatPrice
@@ -26,6 +28,7 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     CartListener {
     private lateinit var items: RecyclerView
     private lateinit var dataStateIndicator: DataStateIndicator
+    private var hasWarnings = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -47,8 +50,19 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
 
     @SuppressLint("SetTextI18n")
     private fun initScreenEvents(view: View) {
-        val button = view.findViewById<Button>(R.id.cart_button_submit)
-        button.setOnClickListener { navigateToPayment() }
+        val submitButton = view.findViewById<Button>(R.id.cart_button_submit)
+        submitButton.setOnClickListener {
+            // TODO: Move this to CartPayment?
+            if (hasWarnings) {
+                val dialog = RestrictionAlertDialog()
+                dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
+                dialog.setOnConfirmListener { confirm ->
+                    if (confirm) navigateToPayment()
+                }
+            } else {
+                navigateToPayment()
+            }
+         }
     }
 
     private fun loadInitialData(view: View) {
@@ -62,10 +76,11 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
                 products.text = cart.quantity.toString()
                 subtotal.text = formatPrice("€", cart.subtotal)
 
-                val hasData = cart.quantity!! > 0
+                hasWarnings = cart.items.any { it.product!!.isRestricted!! }
+                val hasData = cart.quantity > 0
                 dataStateIndicator.toggle(hasData)
                 submitButton.isEnabled = hasData
-                val initialData = mapInitialData(cart.items ?: listOf())
+                val initialData = mapInitialData(cart.items)
                 (items.adapter as CartAdapter).loadInitialData(initialData)
             }, onFailure = {
                 dataStateIndicator.showError()
@@ -113,10 +128,11 @@ class CartFragment(private val navigation: NavigationListener) : Fragment(), Ale
     }
 
     override fun onItemQuantityChange(item: Product) {
+        // TODO: Update state in memory and send to server when screen is closed
         val body = ItemDto(id = item.id, productId = item.productId, quantity = item.amount)
         suspendToLiveData { api.items.update(body) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = {
-                loadInitialData(requireView())
+                (items.adapter as CartAdapter).updateItem(item)
             }, onFailure = {
                 alertThrowable(it)
             })
@@ -139,6 +155,12 @@ class CartAdapter(private val listener: CartListener) :
         notifyDataSetChanged()
     }
 
+    fun updateItem(item: Product) {
+        val index = data.indexOfFirst { it.id == item.id }
+        data[index] = item
+        notifyItemChanged(index)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         listener, LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
     )
@@ -155,6 +177,8 @@ class CartAdapter(private val listener: CartListener) :
         private val price = itemView.findViewById<TextView>(R.id.cart_item_price)
         private val icon = itemView.findViewById<ImageView>(R.id.cart_item_alert)
         private val delete = itemView.findViewById<ImageView>(R.id.cart_item_button_delete)
+        private val minus = itemView.findViewById<LinearLayoutCompat>(R.id.cart_item_button_minus)
+        private val plus = itemView.findViewById<LinearLayoutCompat>(R.id.cart_item_button_plus)
 
         fun bind(item: Product) {
             if (item.warn) {
@@ -166,7 +190,13 @@ class CartAdapter(private val listener: CartListener) :
             quantity.text = item.amount.toString()
             price.text = formatPrice("€", item.price)
             delete.setOnClickListener { listener.onItemDelete(item) }
-            // TODO: Call listener.onItemQuantityChange()
+            if (item.amount - 1 > 0)
+                minus.setOnClickListener {
+                    listener.onItemQuantityChange(item.copy(amount = item.amount - 1))
+                }
+            plus.setOnClickListener {
+                listener.onItemQuantityChange(item.copy(amount = item.amount + 1))
+            }
         }
     }
 }
