@@ -66,7 +66,7 @@ class OrdersFragment(private val navigation: NavigationListener) : Fragment(), A
                 imageUrl = it.restaurant?.logo ?: "",
                 restaurant = it.restaurant?.name ?: "",
                 date = TimeAgo.parse(it.time!!).toString(),
-                status = OrderStatus.DELIVERED, // TODO: Set correct status
+                status = OrderStatus.fromApi(it.status),
                 products_number = it.quantity!!
             )
         }.toCollection(ArrayList())
