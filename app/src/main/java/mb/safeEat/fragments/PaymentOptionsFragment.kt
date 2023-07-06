@@ -2,7 +2,6 @@ package mb.safeEat.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,14 +71,19 @@ class PaymentOptionsFragment(private val navigation: NavigationListener) : Fragm
             Payment(
                 id = it.id,
                 name = it.name!!,
-                isSelected = false,
+                isSelected = it.isSelected!!,
             )
         }.toCollection(ArrayList())
     }
 
     override fun onPaymentSelected(payment: Payment) {
-        // TODO: Implement onPaymentSelected
-        Log.d("Click", "Payment Clicked Selected")
+        suspendToLiveData { api.payments }.observe(viewLifecycleOwner) {result ->
+            result.fold(onSuccess = {
+                navigation.onBackPressed()
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
     }
 }
 

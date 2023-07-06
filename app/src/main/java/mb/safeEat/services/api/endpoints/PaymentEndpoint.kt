@@ -23,6 +23,9 @@ sealed interface PaymentEndpoint {
     @PUT("/payments")
     suspend fun update(@Body payment: PaymentDto): Payment
 
+    @PUT("/payments/select/{id}")
+    suspend fun select(@Path("id") id: String): Payment
+
     @DELETE("/payments/{id}")
     suspend fun delete(@Path("id") id: String): Payment
 }
