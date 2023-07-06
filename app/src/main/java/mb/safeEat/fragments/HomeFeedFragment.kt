@@ -189,7 +189,7 @@ class HomeAdapter(
             advertisementTitle.text = item.title
             Glide.with(itemView) //
                 .load(item.imageUrl) //
-                .apply(RequestOptions.centerInsideTransform()) //
+                .apply(RequestOptions.fitCenterTransform()) //
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(advertisementImage)
         }
