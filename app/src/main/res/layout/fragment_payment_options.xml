@@ -6,13 +6,14 @@
     android:padding="16dp">
 
     <include layout="@layout/component_header" />
+
     <include layout="@layout/component_data_state_indicator" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/payment_select_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginVertical="16dp"
         app:layout_constraintBottom_toTopOf="@+id/payment_select_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +23,7 @@
         android:id="@+id/payment_select_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:paddingVertical="8dp"
         android:text="@string/t_add_payment"
         app:layout_constraintBottom_toBottomOf="parent"

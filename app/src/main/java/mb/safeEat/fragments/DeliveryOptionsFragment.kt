@@ -51,7 +51,7 @@ class DeliveryOptionsFragment(
     }
 
     override fun onDeliveryOptionSelected(item: DeliveryOption) {
-        suspendToLiveData { api.deliveries.select(item.id) }.observe(viewLifecycleOwner) {result ->
+        suspendToLiveData { api.deliveries.select(item.id) }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = {
                 navigation.onBackPressed()
             }, onFailure = {

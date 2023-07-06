@@ -10,7 +10,7 @@ data class Delivery(
     val maximumTime: String? = null,
     val isSelected: Boolean? = null,
 ) {
-    fun formattedDeliveryInterval(): String {
+    fun formattedInterval(): String {
         return if (minimumTime != null && maximumTime != null) {
             "$minimumTime - $maximumTime"
         } else {
@@ -18,7 +18,7 @@ data class Delivery(
         }
     }
 
-    fun formattedDeliveryPrice(unit: String): String {
+    fun formattedPrice(unit: String): String {
         return if (price != null) {
             formatPrice(unit, price)
         } else {

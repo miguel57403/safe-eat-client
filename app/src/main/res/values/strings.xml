@@ -8,6 +8,7 @@
     <string name="d_feedback_star">Feedback star</string>
     <string name="d_icon_business">Icon business</string>
     <string name="d_icon_cart">Icon cart</string>
+    <string name="d_icon_check">Icon check</string>
     <string name="d_icon_confirmation_handshake">Icon confirmation handshake</string>
     <string name="d_icon_credit_card">Icon credit card</string>
     <string name="d_icon_delete">Icon delete</string>

@@ -39,15 +39,20 @@
 
         <TextView
             android:id="@+id/home_item_advertisement_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@string/k_restaurant"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/home_item_advertisement_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/home_item_advertisement_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -74,7 +79,6 @@
                 android:id="@+id/home_item_advertisement_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:contentDescription="@string/d_product_image"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />

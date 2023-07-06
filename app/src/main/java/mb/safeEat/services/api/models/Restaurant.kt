@@ -7,7 +7,7 @@ data class Restaurant(
     val cover: String? = null,
     val deliveries: List<Delivery>? = null,
 ) {
-    fun formattedDeliveryPrice(unit: String) = deliveries?.get(0)?.formattedDeliveryPrice(unit)!!
+    fun formattedDeliveryPrice(unit: String) = deliveries?.get(0)?.formattedPrice(unit)!!
 
-    fun formattedDeliveryInterval() = deliveries?.get(0)?.formattedDeliveryInterval()!!
+    fun formattedDeliveryInterval() = deliveries?.get(0)?.formattedInterval()!!
 }

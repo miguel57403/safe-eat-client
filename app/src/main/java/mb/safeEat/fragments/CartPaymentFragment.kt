@@ -11,8 +11,8 @@ import com.google.android.material.card.MaterialCardView
 import mb.safeEat.R
 import mb.safeEat.activities.NavigationListener
 import mb.safeEat.dialogs.OrderCompletedDialog
-import mb.safeEat.dialogs.RestrictionAlertDialog
 import mb.safeEat.extensions.Alertable
+import mb.safeEat.functions.formatPrice
 import mb.safeEat.functions.initHeader
 import mb.safeEat.functions.suspendToLiveData
 import mb.safeEat.services.api.api
@@ -20,8 +20,12 @@ import mb.safeEat.services.api.dto.OrderDraftDto
 import mb.safeEat.services.api.dto.OrderDto
 
 class CartPaymentFragment(private val navigation: NavigationListener) : Fragment(), Alertable {
+    private lateinit var binding: CartPaymentBinding
     private var orderDraft: OrderDraftDto? = null
     private var loading = false
+    private var payment: mb.safeEat.services.api.models.Payment? = null
+    private var delivery: mb.safeEat.services.api.models.Delivery? = null
+    private var address: mb.safeEat.services.api.models.Address? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,34 +33,59 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = CartPaymentBinding.fromView(view)
         initHeader(view, navigation, R.string.t_payment)
-        initScreenEvents(view)
-        loadInitialData(view)
+        initScreenEvents()
+        loadInitialData()
     }
 
-    private fun loadInitialData(view: View) {
+    private fun loadInitialData() {
         suspendToLiveData { api.orders.findDraft() }.observe(viewLifecycleOwner) { result ->
             result.fold(onSuccess = { orderDraft ->
                 this.orderDraft = orderDraft
                 if (orderDraft == null) {
                     alertInfo(resources.getString(R.string.t_cart_is_empty))
                 } else {
-                    val address = view.findViewById<TextView>(R.id.payment_address_name)
-                    val addressValue = view.findViewById<TextView>(R.id.payment_address_value)
-                    val delivery = view.findViewById<TextView>(R.id.payment_delivery_option_name)
-                    val deliveryValue =
-                        view.findViewById<TextView>(R.id.payment_delivery_option_value)
-                    val payment = view.findViewById<TextView>(R.id.payment_kind_name)
+                    payment = orderDraft.payments.firstOrNull { it.isSelected!! }
+                    delivery = orderDraft.deliveries.firstOrNull { it.isSelected!! }
+                    address = orderDraft.addresses.firstOrNull { it.isSelected!! }
 
-                    val selectedPayment = orderDraft.payments?.first { it.isSelected!! }!!
-                    val selectedDelivery = orderDraft.deliveries?.first { it.isSelected!! }!!
-                    val selectedAddress = orderDraft.addresses?.first { it.isSelected!! }!!
+                    var alert = true
+                    var invalid = false
+                    if (address != null) {
+                        binding.address.text = address!!.name
+                        binding.addressValue.text = address!!.fullAddress()
+                    } else {
+                        binding.address.text = resources.getString(R.string.t_no_data)
+                        binding.addressValue.text = "-"
+                        invalid = true
+                    }
+                    if (delivery != null) {
+                        binding.delivery.text = delivery!!.name
+                        binding.deliveryValue.text = delivery!!.formattedInterval()
+                        binding.deliveryPrice.text = delivery!!.formattedPrice("€")
+                    } else {
+                        binding.delivery.text = resources.getString(R.string.t_no_data)
+                        binding.deliveryValue.text = "-"
+                        invalid = true
+                    }
+                    if (payment != null) {
+                        binding.payment.text = payment!!.name
+                    } else {
+                        binding.payment.text = resources.getString(R.string.t_no_data)
+                        alertInfo("You don't have payment methods")
+                        invalid = true
+                        alert = false
+                    }
 
-                    address.text = selectedAddress.name
-                    addressValue.text = selectedAddress.fullAddress()
-                    delivery.text = selectedDelivery.name
-                    deliveryValue.text = selectedDelivery.formattedDeliveryInterval()
-                    payment.text = selectedPayment.name
+                    if (alert && invalid) {
+                        alertInfo("You have missing values")
+                    }
+                    binding.submitButton.isEnabled = !invalid
+
+                    binding.subtotal.text = formatPrice("€", orderDraft.subtotal)
+                    binding.total.text =
+                        formatPrice("€", orderDraft.subtotal + (delivery?.price ?: 0.0))
                 }
             }, onFailure = {
                 alertThrowable(it)
@@ -64,51 +93,32 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
         }
     }
 
-    private fun initScreenEvents(view: View) {
-        val addressButton = view.findViewById<MaterialCardView>(R.id.payment_address_button)
-        val deliveryOptionButton =
-            view.findViewById<MaterialCardView>(R.id.payment_delivery_option_button)
-        val paymentKindButton = view.findViewById<MaterialCardView>(R.id.payment_kind_button)
-        val submitButton = view.findViewById<Button>(R.id.payment_button_submit)
-
-        addressButton.setOnClickListener {
+    private fun initScreenEvents() {
+        binding.addressButton.setOnClickListener {
             navigation.navigateTo(AddressesFragment(navigation, AddressAction.DO_SELECT))
         }
-        deliveryOptionButton.setOnClickListener {
+        binding.deliveryOptionButton.setOnClickListener {
             if (orderDraft != null) {
                 // TODO: Pass restaurantId to params only
                 val params = DeliveryOptionsParams(getDeliveryOptions())
                 navigation.navigateTo(DeliveryOptionsFragment(navigation, params))
             }
         }
-        paymentKindButton.setOnClickListener {
+        binding.paymentKindButton.setOnClickListener {
             navigation.navigateTo(PaymentOptionsFragment(navigation))
         }
-        submitButton.setOnClickListener { submit(submitButton) }
+        binding.submitButton.setOnClickListener { submit(binding.submitButton) }
     }
 
     private fun submit(button: Button) {
         if (orderDraft == null) return
         if (loading) return
 
-        val hasWarnings = true // TODO: Check if there are warnings
-        if (hasWarnings) {
-            val dialog = RestrictionAlertDialog()
-            dialog.show(navigation.getSupportFragmentManager(), dialog.tag)
-            dialog.setOnConfirmListener { confirm ->
-                if (confirm) confirmCart(button)
-            }
-        } else {
-            confirmCart(button)
-        }
-    }
-
-    private fun confirmCart(button: Button) {
-        val payment = orderDraft!!.payments?.first { it.isSelected!! }!!
-        val delivery = orderDraft!!.deliveries?.first { it.isSelected!! }!!
-        val address = orderDraft!!.addresses?.first { it.isSelected!! }!!
-        val body =
-            OrderDto(addressId = address.id, paymentId = payment.id, deliveryId = delivery.id)
+        val body = OrderDto(
+            addressId = address!!.id,
+            paymentId = payment!!.id,
+            deliveryId = payment!!.id
+        )
 
         loading = true
         button.isEnabled = false
@@ -131,7 +141,7 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
     }
 
     private fun getDeliveryOptions(): ArrayList<DeliveryOption> {
-        return orderDraft!!.deliveries!!.map {
+        return orderDraft!!.deliveries.map {
             DeliveryOption(
                 id = it.id,
                 name = it.name!!,
@@ -147,5 +157,39 @@ class CartPaymentFragment(private val navigation: NavigationListener) : Fragment
             DeliveryOption("e", "Economy", false),
             DeliveryOption("x", "Express", false),
         )
+    }
+}
+
+data class CartPaymentBinding(
+    val address: TextView,
+    val addressValue: TextView,
+    val delivery: TextView,
+    val deliveryValue: TextView,
+    val deliveryPrice: TextView,
+    val payment: TextView,
+    val subtotal: TextView,
+    val total: TextView,
+    val submitButton: Button,
+    val addressButton: MaterialCardView,
+    val deliveryOptionButton: MaterialCardView,
+    val paymentKindButton: MaterialCardView,
+) {
+    companion object {
+        fun fromView(view: View): CartPaymentBinding {
+            return CartPaymentBinding(
+                address = view.findViewById(R.id.payment_address_name),
+                addressValue = view.findViewById(R.id.payment_address_value),
+                delivery = view.findViewById(R.id.payment_delivery_option_name),
+                deliveryValue = view.findViewById(R.id.payment_delivery_option_value),
+                deliveryPrice = view.findViewById(R.id.payment_delivery_option_price),
+                payment = view.findViewById(R.id.payment_kind_name),
+                subtotal = view.findViewById(R.id.payment_products_subtotal_value),
+                total = view.findViewById(R.id.payment_products_price),
+                submitButton = view.findViewById(R.id.payment_button_submit),
+                addressButton = view.findViewById(R.id.payment_address_button),
+                deliveryOptionButton = view.findViewById(R.id.payment_delivery_option_button),
+                paymentKindButton = view.findViewById(R.id.payment_kind_button),
+            )
+        }
     }
 }

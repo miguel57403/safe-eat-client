@@ -268,7 +268,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/payment_products_count"
+            android:id="@+id/payment_products_subtotal_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/k_price"
@@ -314,8 +314,8 @@
 
     <Button
         android:id="@+id/payment_button_submit"
-        android:layout_width="279dp"
-        android:layout_height="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/t_confirm"
         app:layout_constraintBottom_toBottomOf="parent"
