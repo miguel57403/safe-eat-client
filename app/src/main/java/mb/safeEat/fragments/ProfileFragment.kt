@@ -62,12 +62,13 @@ class ProfileFragment(private val navigation: NavigationListener) : Fragment(), 
         }
         exitButton.setOnClickListener { state.logout() }
 
+        // TODO: Create loadInitialData()
         state.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 if (user.image != null) {
                     Glide.with(view) //
                         .load(user.image) //
-                        .apply(RequestOptions.centerInsideTransform()) //
+                        .apply(RequestOptions.centerCropTransform()) //
                         .transition(DrawableTransitionOptions.withCrossFade()) //
                         .into(profileImage)
                 }
