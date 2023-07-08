@@ -62,7 +62,6 @@ class RestaurantFragment(
             val params = SearchProductParams(restaurantId = params.restaurantId)
             navigation.navigateTo(SearchProductFragment(navigation, params))
         }
-        backButton.setOnClickListener { navigation.onBackPressed() }
 
         suspendToLiveData {
             api.restaurants.findById(params.restaurantId)
@@ -88,6 +87,19 @@ class RestaurantFragment(
 
                 } else {
                     posterImage.setBackgroundResource(R.drawable.restaurant_cover)
+                }
+            }, onFailure = {
+                alertThrowable(it)
+            })
+        }
+
+        // TODO: Save cart in state
+        // OBS: This do a flick
+        suspendToLiveData { api.carts.isEmpty() }.observe(viewLifecycleOwner) { result ->
+            result.fold(onSuccess = { data ->
+                if (data.isEmpty) {
+                    backButton.visibility = View.VISIBLE
+                    backButton.setOnClickListener { navigation.onBackPressed() }
                 }
             }, onFailure = {
                 alertThrowable(it)

@@ -29,7 +29,7 @@ data class SearchRestaurantParams(val categoryId: String?, val search: String?)
 class SearchRestaurantFragment(
     private val navigation: NavigationListener,
     private val params: SearchRestaurantParams,
-) : Fragment(), Alertable {
+) : Fragment(), SearchRestaurantListener, Alertable {
     private lateinit var items: RecyclerView
     private lateinit var dataStateIndicator: DataStateIndicator
 
@@ -48,7 +48,7 @@ class SearchRestaurantFragment(
     private fun initAdapter(view: View) {
         items = view.findViewById(R.id.search_restaurant_list)
         items.layoutManager = LinearLayoutManager(view.context)
-        items.adapter = SearchRestaurantAdapter(navigation)
+        items.adapter = SearchRestaurantAdapter(this)
     }
 
     private fun initScreenEvents(view: View) {
@@ -115,10 +115,19 @@ class SearchRestaurantFragment(
             SearchRestaurant("", "", "Galinha da vizinha", "€2,99", "10 - 20 min"),
         )
     }
+
+    override fun onSearchRestaurantClicked(restaurant: SearchRestaurant) {
+        val params = RestaurantParams(restaurant.id)
+        navigation.navigateTo(RestaurantFragment(navigation, params))
+    }
+}
+
+interface SearchRestaurantListener {
+    fun onSearchRestaurantClicked(restaurant: SearchRestaurant)
 }
 
 class SearchRestaurantAdapter(
-    private val navigation: NavigationListener,
+    private val listener: SearchRestaurantListener,
 ) : RecyclerView.Adapter<SearchRestaurantAdapter.ViewHolder>() {
     private var data = ArrayList<SearchRestaurant>()
 
@@ -129,7 +138,7 @@ class SearchRestaurantAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        navigation,
+        listener,
         LayoutInflater.from(parent.context).inflate(R.layout.item_restaurant_alone, parent, false)
     )
 
@@ -137,7 +146,7 @@ class SearchRestaurantAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    class ViewHolder(private val navigation: NavigationListener, itemView: View) :
+    class ViewHolder(private val listener: SearchRestaurantListener, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val container =
             itemView.findViewById<MaterialCardView>(R.id.payment_address_container)
@@ -156,8 +165,7 @@ class SearchRestaurantAdapter(
                 .transition(DrawableTransitionOptions.withCrossFade()) //
                 .into(image)
             container.setOnClickListener {
-                val params = RestaurantParams(item.id)
-                navigation.navigateTo(RestaurantFragment(navigation, params))
+                listener.onSearchRestaurantClicked(item)
             }
         }
     }
